@@ -1,0 +1,22 @@
+{
+  "name": "taylor-made-accessories",
+  "version": "1.0.0",
+  "description": "Premium Handcrafted Accessories E-Commerce Website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build && node -e \"const fs = require('fs'); fs.copyFileSync('products.js', 'dist/products.js'); fs.copyFileSync('app.js', 'dist/app.js'); try { fs.cpSync('assets', 'dist/assets', { recursive: true }); } catch(e) { console.error(e); }\"",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "ecommerce",
+    "accessories",
+    "handmade"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

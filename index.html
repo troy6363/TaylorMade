@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taylor Made Accessories — Handcrafted Jewelry, Blankets & T-Shirts</title>
+  <meta name="description" content="Discover unique handcrafted jewelry, cozy blankets, custom t-shirts, and beautiful coaster sets made with love by Taylor Made Accessories.">
+  <meta name="author" content="Taylor Made Accessories">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="index.css">
+  
+  <!-- Lucide Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <span>Fast Affordable Shipping</span>
+  </div>
+
+  <!-- Main Header Navigation -->
+  <header class="main-header">
+    <div class="header-container">
+      <!-- Mobile menu toggle -->
+      <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle Menu">
+        <i data-lucide="menu"></i>
+      </button>
+
+      <!-- Logo block -->
+      <a href="#" class="brand-logo" id="logoHomeLink">
+        <img src="assets/logo.svg" alt="Taylor Made Accessories Logo" class="brand-logo-img">
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="desktop-nav">
+        <a href="#" class="nav-link" data-target="shop" data-category="jewelry">Jewelry</a>
+        <a href="#" class="nav-link" data-target="shop" data-category="blankets">Blankets</a>
+        <a href="#" class="nav-link" data-target="shop" data-category="tshirts">T-Shirts</a>
+        <a href="#" class="nav-link" data-target="shop" data-category="coasters">Coasters</a>
+        <a href="#" class="nav-link" data-target="shop" data-category="pajamas">Pajamas</a>
+        <a href="#" class="nav-link" data-target="shop" data-category="accessories">Accessories</a>
+        <a href="#" class="nav-link" data-target="about">Our Story</a>
+      </nav>
+
+      <!-- Header actions -->
+      <div class="header-actions">
+        <!-- Search icon toggle -->
+        <button class="action-btn" id="searchToggleBtn" aria-label="Search">
+          <i data-lucide="search" stroke-width="1.5"></i>
+        </button>
+        <!-- User icon -->
+        <button class="action-btn" aria-label="Account">
+          <i data-lucide="user" stroke-width="1.5"></i>
+        </button>
+        <!-- Cart button drawer trigger -->
+        <button class="action-btn" id="cartToggleBtn" aria-label="Cart">
+          <i data-lucide="shopping-bag" stroke-width="1.5"></i>
+          <span class="cart-badge-count" id="cartCountBadge">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Search Bar Toggle Overlay -->
+    <div class="search-overlay-bar" id="searchOverlayBar">
+      <div class="search-form-wrap">
+        <i data-lucide="search" class="search-icon-inside"></i>
+        <input type="text" placeholder="SEARCH PRODUCTS..." id="searchInput">
+        <button id="closeSearchBtn" aria-label="Close search">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <aside class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div class="mobile-drawer-header">
+      <img src="assets/logo.svg" alt="Taylor Made Accessories Logo" class="brand-logo-img-small">
+      <button id="closeMobileDrawerBtn" aria-label="Close Menu">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="#" class="mobile-nav-link" data-target="shop" data-category="jewelry">Jewelry</a>
+      <a href="#" class="mobile-nav-link" data-target="shop" data-category="blankets">Blankets</a>
+      <a href="#" class="mobile-nav-link" data-target="shop" data-category="tshirts">T-Shirts</a>
+      <a href="#" class="mobile-nav-link" data-target="shop" data-category="coasters">Coasters</a>
+      <a href="#" class="mobile-nav-link" data-target="shop" data-category="pajamas">Pajamas</a>
+      <a href="#" class="mobile-nav-link" data-target="shop" data-category="accessories">Accessories</a>
+      <a href="#" class="mobile-nav-link" data-target="about">Our Story</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Layout -->
+  <main class="main-content">
+
+    <!-- HOME VIEW -->
+    <section class="content-view" id="view-home">
+      <!-- Hero section with scrolling carousel background -->
+      <section class="hero-section">
+        <div class="hero-image-overlay"></div>
+        <div class="hero-carousel-container" id="heroCarousel"></div>
+        <div class="hero-text-block">
+          <h1 class="hero-title">Taylor Made</h1>
+          <p class="hero-subtitle">Handcrafted Accessories & Apparel</p>
+          <a href="#" class="hero-shop-btn" onclick="navigateToView('shop')">Shop Now</a>
+        </div>
+      </section>
+
+      <!-- Horizontal Categories boxes -->
+      <section class="home-categories-section">
+        <div class="home-categories-container">
+          <a href="#" class="home-cat-box" onclick="filterByCategory('jewelry')">Jewelry</a>
+          <a href="#" class="home-cat-box" onclick="filterByCategory('blankets')">Blankets</a>
+          <a href="#" class="home-cat-box" onclick="filterByCategory('tshirts')">T-Shirts</a>
+          <a href="#" class="home-cat-box" onclick="filterByCategory('coasters')">Coasters</a>
+          <a href="#" class="home-cat-box" onclick="filterByCategory('pajamas')">Pajamas</a>
+          <a href="#" class="home-cat-box" onclick="filterByCategory('accessories')">Accessories</a>
+        </div>
+      </section>
+
+      <!-- Collections rectangular grid -->
+      <section class="home-collections-section">
+        <div class="collections-header">
+          <h2 class="section-heading-spaced">Collections</h2>
+        </div>
+        <div class="collections-grid">
+          <!-- Card 1 -->
+          <a href="#" class="collection-card group" onclick="filterByCategory('jewelry')">
+            <img src="assets/bracelets/ChatGPT Image Jun 8, 2026, 09_16_07 PM.png" alt="Jewelry Collection" class="collection-img">
+            <div class="collection-overlay">
+              <h3 class="collection-title">Jewelry</h3>
+            </div>
+          </a>
+          <!-- Card 2 -->
+          <a href="#" class="collection-card group" onclick="filterByCategory('blankets')">
+            <img src="assets/blankets/ChatGPT Image Jun 8, 2026, 05_47_40 PM.png" alt="Blankets Collection" class="collection-img">
+            <div class="collection-overlay">
+              <h3 class="collection-title">Blankets</h3>
+            </div>
+          </a>
+          <!-- Card 3 -->
+          <a href="#" class="collection-card group" onclick="filterByCategory('tshirts')">
+            <img src="assets/clothing/ChatGPT Image Jun 8, 2026, 06_02_59 PM.png" alt="T-Shirts Collection" class="collection-img">
+            <div class="collection-overlay">
+              <h3 class="collection-title">T-Shirts</h3>
+            </div>
+          </a>
+          <!-- Card 4 -->
+          <a href="#" class="collection-card group" onclick="filterByCategory('coasters')">
+            <img src="assets/coasters/ChatGPT Image Jun 8, 2026, 07_29_40 PM.png" alt="Coasters Collection" class="collection-img">
+            <div class="collection-overlay">
+              <h3 class="collection-title">Coasters</h3>
+            </div>
+          </a>
+          <!-- Card 5 -->
+          <a href="#" class="collection-card group" onclick="filterByCategory('pajamas')">
+            <img src="assets/pajamas/ChatGPT Image Jun 8, 2026, 07_47_54 PM.png" alt="Pajamas Collection" class="collection-img">
+            <div class="collection-overlay">
+              <h3 class="collection-title">Pajamas</h3>
+            </div>
+          </a>
+          <!-- Card 6 -->
+          <a href="#" class="collection-card group" onclick="filterByCategory('accessories')">
+            <img src="assets/accessories/ChatGPT Image Jun 8, 2026, 07_39_52 PM.png" alt="Accessories Collection" class="collection-img">
+            <div class="collection-overlay">
+              <h3 class="collection-title">Accessories</h3>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Best Sellers grid -->
+      <section class="home-bestsellers-section">
+        <div class="collections-header">
+          <h2 class="section-heading-spaced">Best Sellers</h2>
+        </div>
+        <div class="bestsellers-grid" id="homeBestsellersGrid">
+          <!-- Dynamic loaded in app.js -->
+        </div>
+      </section>
+
+      <!-- Featured categories grid -->
+      <section class="home-featured-section">
+        <div class="collections-header">
+          <h2 class="section-heading-spaced">Featured</h2>
+        </div>
+        <div class="featured-grid">
+          <!-- Item 1 -->
+          <a href="#" class="featured-card group" onclick="filterByCategory('tshirts')">
+            <img src="assets/clothing/ChatGPT Image Jun 8, 2026, 07_18_20 PM.png" alt="Custom Apparel" class="featured-img">
+            <div class="featured-overlay">
+              <h3 class="featured-title">Custom Apparel</h3>
+            </div>
+          </a>
+          <!-- Item 2 -->
+          <a href="#" class="featured-card group" onclick="filterByCategory('jewelry')">
+            <img src="assets/bracelets/ChatGPT Image Jun 8, 2026, 09_24_17 PM.png" alt="Handmade Jewelry" class="featured-img">
+            <div class="featured-overlay">
+              <h3 class="featured-title">Handmade Jewelry</h3>
+            </div>
+          </a>
+          <!-- Item 3 -->
+          <a href="#" class="featured-card group" onclick="filterByCategory('blankets')">
+            <img src="assets/blankets/ChatGPT Image Jun 8, 2026, 05_49_52 PM.png" alt="Home Goods" class="featured-img">
+            <div class="featured-overlay">
+              <h3 class="featured-title">Home Goods</h3>
+            </div>
+          </a>
+        </div>
+      </section>
+    </section>
+
+    <!-- SHOP VIEW -->
+    <section class="content-view" id="view-shop">
+      <div class="shop-container">
+        <!-- Sidebar filters -->
+        <aside class="shop-sidebar">
+          <div class="sidebar-sticky">
+            <div class="sidebar-header">
+              <i data-lucide="sliders-horizontal" class="filter-icon"></i>
+              <h3>Categories</h3>
+            </div>
+            <div class="sidebar-categories-list">
+              <button class="side-cat-btn active" data-category="all" onclick="selectShopCategory('all')">All Products</button>
+              <button class="side-cat-btn" data-category="jewelry" onclick="selectShopCategory('jewelry')">Jewelry</button>
+              <button class="side-cat-btn" data-category="blankets" onclick="selectShopCategory('blankets')">Blankets</button>
+              <button class="side-cat-btn" data-category="tshirts" onclick="selectShopCategory('tshirts')">T-Shirts</button>
+              <button class="side-cat-btn" data-category="coasters" onclick="selectShopCategory('coasters')">Coasters</button>
+              <button class="side-cat-btn" data-category="pajamas" onclick="selectShopCategory('pajamas')">Pajamas</button>
+              <button class="side-cat-btn" data-category="accessories" onclick="selectShopCategory('accessories')">Accessories</button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Product panel -->
+        <div class="shop-products-panel">
+          <div class="shop-toolbar-header">
+            <h1 class="shop-active-category-title" id="shopCategoryTitle">All Products</h1>
+            <div class="results-count-wrap">
+              <i data-lucide="grid" class="toolbar-icon"></i>
+              <span id="shopResultsCount">0 results</span>
+            </div>
+          </div>
+
+          <!-- Products grid -->
+          <div class="shop-products-grid" id="shopCatalogGrid">
+            <!-- Loaded dynamically in app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT DETAILS VIEW -->
+    <section class="content-view" id="view-product-detail">
+      <div class="product-details-container">
+        <!-- Back navigation link -->
+        <a href="#" class="back-link-btn" onclick="navigateToView('shop')">
+          <i data-lucide="arrow-left" class="back-arrow-icon"></i>
+          <span>Back to Shop</span>
+        </a>
+
+        <!-- Product layout grid -->
+        <div class="details-grid-layout" id="productDetailsContent">
+          <!-- Loaded dynamically in app.js based on selected product -->
+        </div>
+      </div>
+    </section>
+
+    <!-- OUR STORY / ABOUT VIEW -->
+    <section class="content-view" id="view-about">
+      <!-- Banner image -->
+      <section class="about-banner-header">
+        <div class="banner-overlay"></div>
+        <picture class="banner-bg-img">
+          <source media="(max-width: 768px)" srcset="assets/hf_20260610_214600_67be2fc0-7fda-47b6-ac83-8793415cc522.jpeg">
+          <img src="assets/hf_20260610_214027_0aabf116-7e48-4314-9224-163066728b90.png" alt="Handcrafted Products Table">
+        </picture>
+      </section>
+
+      <div class="about-intro-text">
+        <h1>Our Story</h1>
+        <p>Passion for crafting, straight from the heart.</p>
+      </div>
+
+      <!-- Main narrative story section -->
+      <section class="about-narrative-section">
+        <div class="narrative-grid">
+          <div class="narrative-text-panel">
+            <h2>How It All Started</h2>
+            <div class="narrative-p-stack">
+              <p class="narrative-lead-quote">"As a kid, I loved to make different things."</p>
+              <p>That simple joy of creating something from nothing has been the driving force behind Taylor Made Accessories. What started as a childhood hobby of piecing together materials to make small crafts eventually blossomed into a lifelong passion.</p>
+              <p>Every piece of jewelry, every hand-knit blanket, and every custom coaster set is made with that same childlike wonder and dedication to quality. I believe that the best accessories aren't just worn or used—they're experienced.</p>
+              <p>Our goal is to bring a little bit of that handmade magic into your everyday life. Whether you're looking for a statement necklace, a cozy blanket for movie nights, or a unique gift for a friend, you'll find something made with love right here.</p>
+            </div>
+            <a href="#" class="narrative-shop-btn" onclick="navigateToView('shop')">Shop Our Collection</a>
+          </div>
+          <div class="narrative-image-panel">
+            <div class="narrative-img-wrapper">
+              <img src="assets/bracelets/ChatGPT Image Jun 8, 2026, 10_02_04 PM.png" alt="Beaded Craft Details">
+            </div>
+            <div class="floating-img-quote">
+              <p>"Creating beautiful things is more than a business; it's a way of sharing joy with the world."</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Values icons section -->
+      <section class="about-values-section">
+        <div class="values-header">
+          <h2>Our Values</h2>
+        </div>
+        <div class="values-marquee-container">
+          <div class="values-marquee-track">
+            <!-- Set 1 -->
+            <div class="value-card">
+              <h3>Handcrafted Quality</h3>
+              <p>Every item is carefully made by hand with attention to detail and quality materials.</p>
+            </div>
+            <div class="value-card">
+              <h3>Made with Love</h3>
+              <p>Passion is poured into every creation, ensuring you receive something truly special.</p>
+            </div>
+            <div class="value-card">
+              <h3>Unique Designs</h3>
+              <p>We pride ourselves on offering unique pieces that you won't find in big box stores.</p>
+            </div>
+            <!-- Set 2 -->
+            <div class="value-card">
+              <h3>Handcrafted Quality</h3>
+              <p>Every item is carefully made by hand with attention to detail and quality materials.</p>
+            </div>
+            <div class="value-card">
+              <h3>Made with Love</h3>
+              <p>Passion is poured into every creation, ensuring you receive something truly special.</p>
+            </div>
+            <div class="value-card">
+              <h3>Unique Designs</h3>
+              <p>We pride ourselves on offering unique pieces that you won't find in big box stores.</p>
+            </div>
+            <!-- Set 3 -->
+            <div class="value-card">
+              <h3>Handcrafted Quality</h3>
+              <p>Every item is carefully made by hand with attention to detail and quality materials.</p>
+            </div>
+            <div class="value-card">
+              <h3>Made with Love</h3>
+              <p>Passion is poured into every creation, ensuring you receive something truly special.</p>
+            </div>
+            <div class="value-card">
+              <h3>Unique Designs</h3>
+              <p>We pride ourselves on offering unique pieces that you won't find in big box stores.</p>
+            </div>
+            <!-- Set 4 -->
+            <div class="value-card">
+              <h3>Handcrafted Quality</h3>
+              <p>Every item is carefully made by hand with attention to detail and quality materials.</p>
+            </div>
+            <div class="value-card">
+              <h3>Made with Love</h3>
+              <p>Passion is poured into every creation, ensuring you receive something truly special.</p>
+            </div>
+            <div class="value-card">
+              <h3>Unique Designs</h3>
+              <p>We pride ourselves on offering unique pieces that you won't find in big box stores.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- CONTACT VIEW -->
+    <section class="content-view" id="view-contact">
+      <div class="contact-container">
+        <h1>Contact Us</h1>
+        <p class="contact-desc">Have questions about our custom blankets, jewelry requests, or bulk ordering? Fill out the form below!</p>
+        
+        <div class="contact-grid-layout">
+          <!-- Contact Info Panel -->
+          <div class="contact-info-panel">
+            <div class="info-card">
+              <h3>Get In Touch</h3>
+              <p class="info-intro">We are based in Memphis, TN, and proudly service customers worldwide.</p>
+              
+              <div class="info-items-list">
+                <div class="info-item">
+                  <i data-lucide="map-pin" class="info-icon"></i>
+                  <div class="info-text">
+                    <h4>Location</h4>
+                    <p>Memphis, TN, USA</p>
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <i data-lucide="globe" class="info-icon"></i>
+                  <div class="info-text">
+                    <h4>Service Area</h4>
+                    <p>Servicing Customers Worldwide</p>
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <i data-lucide="phone" class="info-icon"></i>
+                  <div class="info-text">
+                    <h4>Phone</h4>
+                    <p><a href="tel:901-341-6200">901-341-6200</a></p>
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <i data-lucide="mail" class="info-icon"></i>
+                  <div class="info-text">
+                    <h4>Email</h4>
+                    <p><a href="mailto:info@taylormade-accessories.com">info@taylormade-accessories.com</a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Panel -->
+          <div class="contact-form-panel">
+            <form class="simple-contact-form" id="contactForm" onsubmit="handleContactSubmit(event)">
+              <div class="contact-form-group">
+                <label for="contactName">Name</label>
+                <input type="text" id="contactName" required placeholder="Your Name">
+              </div>
+              <div class="contact-form-group">
+                <label for="contactEmail">Email</label>
+                <input type="email" id="contactEmail" required placeholder="Your Email">
+              </div>
+              <div class="contact-form-group">
+                <label for="contactMsg">Message</label>
+                <textarea id="contactMsg" rows="5" required placeholder="Your Message..."></textarea>
+              </div>
+              <button type="submit" class="contact-submit-btn" id="contactSubmitBtn">Submit</button>
+            </form>
+
+            <div class="contact-success-screen" id="contactSuccessScreen">
+              <div class="contact-success-icon">✓</div>
+              <h2>Thank You!</h2>
+              <p>We have received your message and will get back to you shortly.</p>
+              <button class="reset-contact-btn" onclick="resetContactForm()">Send Another Message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TERMS OF SERVICE VIEW -->
+    <section class="content-view" id="view-terms">
+      <div class="legal-page-container">
+        <h1>Terms of Service</h1>
+        <p class="last-updated">Last Updated: June 10, 2026</p>
+        
+        <div class="legal-content">
+          <section>
+            <h2>1. Agreement to Terms</h2>
+            <p>Welcome to Taylor Made Accessories. By accessing our website and purchasing our handcrafted jewelry, custom t-shirts, cozy blankets, or coaster sets, you agree to be bound by these Terms of Service. Please read them carefully before using our services.</p>
+          </section>
+
+          <section>
+            <h2>2. Handcrafted & Custom Nature of Products</h2>
+            <p>At Taylor Made Accessories, we pride ourselves on the unique, handcrafted nature of our products. Please note that because every item is individually handmade, there may be minor variations in color, layout, pattern alignment, and details compared to the pictures shown on our website. These small variations are a natural hallmark of artisanal quality and are not considered defects.</p>
+          </section>
+
+          <section>
+            <h2>3. Ordering, Pricing, and Payments</h2>
+            <p>By placing an order, you agree that all information you provide is accurate and complete. We reserve the right to refuse or cancel any orders, including those with custom size selections or custom team options, at our sole discretion. Prices for all products are subject to change without notice.</p>
+          </section>
+
+          <section>
+            <h2>4. Shipping & Delivery</h2>
+            <p>We aim to process and ship all orders within 1–2 business days. While we work hard to meet this target, shipping and delivery times are estimates and cannot be guaranteed. Taylor Made Accessories is not responsible for postal carrier delays once the package has left our facility.</p>
+          </section>
+
+          <section>
+            <h2>5. Return and Refund Policy</h2>
+            <p>Because many of our products are handcrafted or made-to-order (including team-specific accessories), we handle refunds and returns on a case-by-case basis. If you receive a damaged item or have any concerns with your purchase, please contact us via our Contact Page within 14 days of delivery. We will work with you to find a fair solution.</p>
+          </section>
+
+          <section>
+            <h2>6. Limitation of Liability</h2>
+            <p>To the maximum extent permitted by law, Taylor Made Accessories shall not be liable for any indirect, incidental, special, or consequential damages resulting from the purchase or use of our products, or the inability to use this site.</p>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVACY POLICY VIEW -->
+    <section class="content-view" id="view-privacy">
+      <div class="legal-page-container">
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last Updated: June 10, 2026</p>
+        
+        <div class="legal-content">
+          <section>
+            <h2>1. Information We Collect</h2>
+            <p>We collect personal information that you provide to us directly, including your name, email address, shipping address, and payment card details when you place an order or contact us. This data is collected solely to process and ship your orders.</p>
+          </section>
+
+          <section>
+            <h2>2. Payment Processing Security</h2>
+            <p>All payments made on our site are processed securely through encrypted third-party payment gateways. We do not store or have direct access to your full credit or debit card numbers on our servers.</p>
+          </section>
+
+          <section>
+            <h2>3. How We Use Your Information</h2>
+            <p>We use the information we collect to fulfill your orders, provide customer support, communicate updates about your shipment, and—if you opt-in—send you newsletter updates about new drops and sales.</p>
+          </section>
+
+          <section>
+            <h2>4. Information Sharing and Disclosure</h2>
+            <p>We value your privacy and do not sell, rent, or trade your personal information to third parties. We only share information with trusted third-party service providers (such as shipping carriers and payment processors) strictly to the extent necessary to process and deliver your order.</p>
+          </section>
+
+          <section>
+            <h2>5. Cookies and Analytics</h2>
+            <p>Our website may use cookies to remember items in your shopping cart, preserve your local application state, and analyze site traffic to improve your overall shopping experience.</p>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ VIEW -->
+    <section class="content-view" id="view-faq">
+      <div class="faq-page-container">
+        <h1>Frequently Asked Questions</h1>
+        <p class="faq-subtitle">Everything you need to know about Taylor Made Accessories</p>
+        
+        <div class="faq-accordion-list">
+          <div class="faq-item">
+            <button class="faq-question-btn" onclick="toggleFaqItem(this)">
+              <span>What makes Taylor Made Accessories unique?</span>
+              <i data-lucide="chevron-down" class="faq-chevron"></i>
+            </button>
+            <div class="faq-answer-panel">
+              <p>Everything in our catalog is handcrafted with a deep passion for creation. From customized blankets and NFL-themed coaster sets to hand-beaded bracelets and apparel, we offer unique items made with precision and love that you won't find in big box stores.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question-btn" onclick="toggleFaqItem(this)">
+              <span>Are there variations in handcrafted products?</span>
+              <i data-lucide="chevron-down" class="faq-chevron"></i>
+            </button>
+            <div class="faq-answer-panel">
+              <p>Yes, absolutely! Because our accessories are 100% handmade, each piece is uniquely yours. Minor variations in bead color alignment, pattern layouts, and wood styling are natural characteristics of handcrafted items and represent their individual beauty rather than a flaw.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question-btn" onclick="toggleFaqItem(this)">
+              <span>How fast is shipping?</span>
+              <i data-lucide="chevron-down" class="faq-chevron"></i>
+            </button>
+            <div class="faq-answer-panel">
+              <p>We pride ourselves on offering <strong>fast and affordable shipping</strong>. We aim to process and hand off all packages to the carrier within 1 to 2 business days of your order.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question-btn" onclick="toggleFaqItem(this)">
+              <span>How do custom sizes and team options work?</span>
+              <i data-lucide="chevron-down" class="faq-chevron"></i>
+            </button>
+            <div class="faq-answer-panel">
+              <p>For custom apparel (like our pajamas and t-shirts), you can choose your desired size directly on the details page. For items featuring team options, you can select your favorite NFL team from the dropdown before clicking "Add to Cart".</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question-btn" onclick="toggleFaqItem(this)">
+              <span>What is your return and refund policy?</span>
+              <i data-lucide="chevron-down" class="faq-chevron"></i>
+            </button>
+            <div class="faq-answer-panel">
+              <p>We handle refunds and returns on a case-by-case basis due to the custom and handcrafted nature of our products. Please submit a request on our Contact Page within 14 days of delivery if your purchase does not meet your expectations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CART SIDE DRAWER (Slides from Right) -->
+  <div class="cart-drawer-overlay" id="cartOverlay"></div>
+  <aside class="cart-side-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <h2>Shopping Cart</h2>
+      <button id="closeCartDrawerBtn" aria-label="Close Cart">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    
+    <!-- Drawer Items Panel -->
+    <div class="cart-drawer-items" id="cartDrawerItems">
+      <!-- Loaded dynamically via JS -->
+    </div>
+
+    <!-- Empty cart view -->
+    <div class="cart-empty-panel" id="cartEmptyView">
+      <i data-lucide="shopping-bag" class="cart-empty-icon"></i>
+      <p>Your cart is empty.</p>
+      <button class="cart-empty-shop-btn" onclick="closeCartAndShop()">Go to Shop</button>
+    </div>
+
+    <!-- Drawer subtotal footer -->
+    <div class="cart-drawer-footer" id="cartDrawerFooter">
+      <div class="cart-subtotal-row">
+        <span>Subtotal</span>
+        <span id="cartDrawerSubtotal">$0.00</span>
+      </div>
+      <p class="cart-shipping-note">Shipping & taxes calculated at checkout.</p>
+      <button class="cart-checkout-btn" id="cartCheckoutBtn">Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <!-- CHECKOUT FLOW DIALOG MODAL -->
+  <div class="checkout-modal-backdrop" id="checkoutBackdrop">
+    <div class="checkout-modal-dialog">
+      <button class="close-checkout-btn" id="closeCheckoutBtn" aria-label="Close Checkout">
+        <i data-lucide="x"></i>
+      </button>
+      
+      <div class="checkout-layout-grid">
+        <!-- Order invoice details -->
+        <div class="checkout-invoice-col">
+          <h3>Order Details</h3>
+          <div class="invoice-items-list" id="checkoutInvoiceItems">
+            <!-- Dynamic loaded items -->
+          </div>
+          <div class="invoice-summary-block">
+            <div class="invoice-row">
+              <span>Subtotal</span>
+              <span id="checkoutSubtotal">$0.00</span>
+            </div>
+            <div class="invoice-row">
+              <span>Shipping</span>
+              <span id="checkoutShipping">FREE</span>
+            </div>
+            <div class="invoice-row grand-total-highlight">
+              <span>Total</span>
+              <span id="checkoutGrandTotal">$0.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shipping & Payment Form -->
+        <div class="checkout-form-col">
+          <h2>Checkout</h2>
+          
+          <form class="checkout-inputs-form" id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+            <h4>Contact Information</h4>
+            <div class="form-row-2">
+              <input type="email" id="checkoutEmail" placeholder="Email Address" required>
+              <input type="tel" id="checkoutPhone" placeholder="Phone Number" required>
+            </div>
+
+            <h4>Delivery Option</h4>
+            <div class="delivery-option-toggle" style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem;">
+              <label class="delivery-radio-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--foreground);">
+                <input type="radio" name="deliveryMethod" value="shipping" checked onchange="updateDeliveryMethod(this.value)" style="accent-color: var(--primary);">
+                <span>Ship to Address</span>
+              </label>
+              <label class="delivery-radio-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--foreground);">
+                <input type="radio" name="deliveryMethod" value="pickup" onchange="updateDeliveryMethod(this.value)" style="accent-color: var(--primary);">
+                <span>Local Pickup (FREE)</span>
+              </label>
+            </div>
+
+            <div id="shippingFieldsGroup">
+              <h4>Shipping Address</h4>
+              <div class="form-row-2">
+                <input type="text" id="checkoutFirst" placeholder="First Name" required>
+                <input type="text" id="checkoutLast" placeholder="Last Name" required>
+              </div>
+              <input type="text" id="checkoutAddress" placeholder="Address" required>
+              <div class="form-row-2">
+                <input type="text" id="checkoutCity" placeholder="City" required>
+                <div style="display: flex; gap: 0.5rem; flex: 1;">
+                  <input type="text" id="checkoutState" placeholder="State" required style="flex: 0.4; min-width: 0;">
+                  <input type="text" id="checkoutZip" placeholder="Zip Code" required oninput="updateShippingRatesOnZipChange()" style="flex: 0.6; min-width: 0;">
+                </div>
+              </div>
+
+              <h4 style="margin-top: 1rem;">Select Shipping Carrier</h4>
+              <div style="position: relative; margin-bottom: 1rem;">
+                <select id="checkoutCarrier" onchange="updateCarrierSelection(this.value)" style="width: 100%; padding: 0.75rem 2.5rem 0.75rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 12px; background-color: var(--gray-light); font-weight: 600; cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237c2ebd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 0.75rem center;">
+                  <option value="usps">USPS (Fast & Affordable)</option>
+                  <option value="ups">UPS (Reliable Ground)</option>
+                  <option value="fedex">FedEx (Express)</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="pickupFieldsGroup" style="display: none;">
+              <h4>Pickup Contact Name</h4>
+              <div class="form-row-2">
+                <input type="text" id="pickupFirst" placeholder="First Name">
+                <input type="text" id="pickupLast" placeholder="Last Name">
+              </div>
+              <p style="font-size: 11px; color: var(--muted-foreground); margin-top: -0.5rem; margin-bottom: 1rem; line-height: 1.4;">
+                Pickup Location: <strong>Memphis, TN</strong>. We will email/call you once your items are ready for pickup.
+              </p>
+            </div>
+
+            <button type="submit" class="checkout-submit-pay-btn" id="payNowBtn">Proceed to Payment</button>
+          </form>
+
+          <!-- Order complete state -->
+          <div class="checkout-success-pane" id="checkoutSuccessPanel">
+            <div class="success-check-badge">✓</div>
+            <h2>Order Placed!</h2>
+            <p>Thank you for shopping with us! Your order reference is <strong id="receiptOrderId">#TM-000000</strong>.</p>
+            <p style="font-size: 13px; color: var(--muted-foreground); margin-top: -0.5rem; margin-bottom: 1.5rem;">
+              Delivery Method: <strong id="receiptCarrier">USPS</strong>
+            </p>
+            <div class="receipt-charged-row">
+              <span>Charged:</span>
+              <span id="receiptGrandTotal">$0.00</span>
+            </div>
+            <button class="checkout-continue-shopping-btn" onclick="finishCheckoutFlow()">Continue Shopping</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Elegant Footer Layout -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <!-- Newsletter block -->
+      <div class="footer-column">
+        <h4>Sign Up Now</h4>
+        <p class="footer-desc-spaced">Stay up to date on the latest drops, sales, and information! Subscribe to our newsletter now.</p>
+        <form class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed!'); this.reset();">
+          <input type="email" placeholder="ENTER YOUR EMAIL" required>
+          <button type="submit" aria-label="Subscribe">
+            <i data-lucide="mail"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- Links block 1 -->
+      <div class="footer-column">
+        <h4>Customer Service</h4>
+        <ul class="footer-links">
+          <li><a href="#" onclick="navigateToView('contact')">Contact</a></li>
+          <li><a href="#" onclick="navigateToView('terms')">Shipment Info</a></li>
+          <li><a href="#" onclick="navigateToView('faq')">FAQ</a></li>
+          <li><a href="#" onclick="navigateToView('terms')">Refund Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- Links block 2 -->
+      <div class="footer-column">
+        <h4>Information</h4>
+        <ul class="footer-links">
+          <li><a href="#" onclick="navigateToView('about')">About Taylor Made</a></li>
+          <li><a href="#" onclick="navigateToView('terms')">Terms of Service</a></li>
+          <li><a href="#" onclick="navigateToView('privacy')">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright bar -->
+    <div class="footer-bottom-bar">
+      <span>&copy; <span id="footerYear">2026</span> Taylor Made Accessories</span>
+    </div>
+  </footer>
+
+  <!-- App scripts module -->
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
