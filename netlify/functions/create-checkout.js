@@ -26,14 +26,18 @@ exports.handler = async (event, context) => {
   try {
     const payload = JSON.parse(event.body);
     const accessToken = process.env.SQUARE_ACCESS_TOKEN;
-    const locationId = process.env.SQUARE_LOCATION_ID;
+    
+    // Fallback directly to your location ID if Netlify doesn't load it from variables
+    const locationId = process.env.SQUARE_LOCATION_ID || "LPXGCP39E4BKG";
 
-    if (!accessToken || !locationId) {
-      console.error("Square credentials missing from environment.");
+    console.log("Debug Square Vars - Access Token Exists:", !!accessToken, "Location ID:", locationId);
+
+    if (!accessToken) {
+      console.error("Square access token missing from environment.");
       return {
         statusCode: 500,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ error: "Checkout configuration error. Square credentials are not set." })
+        body: JSON.stringify({ error: "Checkout configuration error. Square Access Token is not set." })
       };
     }
 
