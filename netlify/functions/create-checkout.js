@@ -52,13 +52,25 @@ exports.handler = async (event, context) => {
       })
     });
 
+    let contactId;
     if (!contactRes.ok) {
       const errText = await contactRes.text();
-      throw new Error(`GHL Contact API returned status ${contactRes.status}: ${errText}`);
-    }
+      let errJson;
+      try {
+        errJson = JSON.parse(errText);
+      } catch (e) {}
 
-    const contactData = await contactRes.json();
-    const contactId = contactData.contact.id;
+      // If GHL blocks duplicate contacts, extract the existing contact ID from the metadata and proceed
+      if (contactRes.status === 400 && errJson && errJson.meta && errJson.meta.contactId) {
+        console.log("Contact already exists. Using existing Contact ID:", errJson.meta.contactId);
+        contactId = errJson.meta.contactId;
+      } else {
+        throw new Error(`GHL Contact API returned status ${contactRes.status}: ${errText}`);
+      }
+    } else {
+      const contactData = await contactRes.json();
+      contactId = contactData.contact.id;
+    }
 
     // 2. Create Invoice in GoHighLevel
     // Map cart items directly to GHL invoice line items
