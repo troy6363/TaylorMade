@@ -133,7 +133,7 @@ exports.handler = async (event, context) => {
           phoneNo: formatE164(payload.phone)
         },
         items: lineItems,
-        status: "draft"
+        status: "sent"
       })
     });
 
