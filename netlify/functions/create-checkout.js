@@ -185,7 +185,7 @@ exports.handler = async (event, context) => {
       console.error("Error calling send invoice endpoint:", e.message);
     }
 
-    const paymentUrl = `https://api.leadconnectorhq.com/widget/invoice/${invoiceId}`;
+    const paymentUrl = `https://pay.leadconnectorhq.com/invoice/${invoiceId}`;
 
     return {
       statusCode: 200,
