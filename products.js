@@ -57,7 +57,7 @@ const PRODUCTS = [
   },
   {
     "id": "p5",
-    "name": "NFL Fleece Tie Blanket",
+    "name": "NFL Fleece Blanket",
     "price": 70,
     "category": "blankets",
     "teamOptions": true,
@@ -73,7 +73,7 @@ const PRODUCTS = [
   },
   {
     "id": "p6",
-    "name": "NFL Fleece Tie Blanket",
+    "name": "NFL Fleece Blanket",
     "price": 70,
     "category": "blankets",
     "teamOptions": true,

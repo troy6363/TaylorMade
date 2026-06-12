@@ -220,6 +220,90 @@
           </a>
         </div>
       </section>
+
+      <!-- Customer Reviews section -->
+      <section class="home-reviews-section">
+        <div class="collections-header">
+          <h2 class="section-heading-spaced">Customer Reviews</h2>
+        </div>
+        <div class="reviews-marquee-container">
+          <div class="reviews-marquee-track">
+            <!-- Review 1 -->
+            <div class="review-card">
+              <div class="review-stars">
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+              </div>
+              <p class="review-text">"Absolutely love my custom NFL fleece blanket! It is so soft, thick, and perfectly hand-tied. Outstanding customer service and fast shipping."</p>
+              <span class="review-author">— Sarah M., Dallas Cowboys Fan</span>
+            </div>
+            <!-- Review 2 -->
+            <div class="review-card">
+              <div class="review-stars">
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+              </div>
+              <p class="review-text">"The beaded waist chains and bracelets are beautiful and durable. I wear them every single day and get so many compliments. Highly recommend Taylor Made!"</p>
+              <span class="review-author">— Jasmine T., Memphis, TN</span>
+            </div>
+            <!-- Review 3 -->
+            <div class="review-card">
+              <div class="review-stars">
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+              </div>
+              <p class="review-text">"I ordered a customized Memorial Plaque and it made my family cry tears of joy. The design was beautiful, and the details were perfect. Simply flawless work!"</p>
+              <span class="review-author">— Marcus G.</span>
+            </div>
+            <!-- Duplicate set for seamless infinite loop -->
+            <!-- Review 1 (Duplicate) -->
+            <div class="review-card">
+              <div class="review-stars">
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+              </div>
+              <p class="review-text">"Absolutely love my custom NFL fleece blanket! It is so soft, thick, and perfectly hand-tied. Outstanding customer service and fast shipping."</p>
+              <span class="review-author">— Sarah M., Dallas Cowboys Fan</span>
+            </div>
+            <!-- Review 2 (Duplicate) -->
+            <div class="review-card">
+              <div class="review-stars">
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+              </div>
+              <p class="review-text">"The beaded waist chains and bracelets are beautiful and durable. I wear them every single day and get so many compliments. Highly recommend Taylor Made!"</p>
+              <span class="review-author">— Jasmine T., Memphis, TN</span>
+            </div>
+            <!-- Review 3 (Duplicate) -->
+            <div class="review-card">
+              <div class="review-stars">
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+                <i data-lucide="star" class="review-star-icon"></i>
+              </div>
+              <p class="review-text">"I ordered a customized Memorial Plaque and it made my family cry tears of joy. The design was beautiful, and the details were perfect. Simply flawless work!"</p>
+              <span class="review-author">— Marcus G.</span>
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
 
     <!-- SHOP VIEW -->
@@ -721,6 +805,13 @@
 
             <button type="submit" class="checkout-submit-pay-btn" id="payNowBtn">Proceed to Payment</button>
           </form>
+
+          <!-- Secure Payment Loading State Overlay -->
+          <div class="checkout-loading-pane" id="checkoutLoadingPanel">
+            <div class="secure-checkout-spinner"></div>
+            <h2>Preparing Secure Checkout</h2>
+            <p>Please wait while we set up your Square checkout session. You will be redirected to the secure payment page shortly.</p>
+          </div>
 
           <!-- Order complete state -->
           <div class="checkout-success-pane" id="checkoutSuccessPanel">

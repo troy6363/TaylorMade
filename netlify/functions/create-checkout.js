@@ -25,167 +25,97 @@ exports.handler = async (event, context) => {
 
   try {
     const payload = JSON.parse(event.body);
-    const accessToken = process.env.GHL_ACCESS_TOKEN;
+    const accessToken = process.env.SQUARE_ACCESS_TOKEN;
+    const locationId = process.env.SQUARE_LOCATION_ID;
 
-    // FALLBACK FOR TESTING:
-    // If no GoHighLevel Access Token environment variable is set up in Netlify,
-    // return a mock payment redirect URL so you can test the transition.
-    if (!accessToken) {
-      console.log("GHL_ACCESS_TOKEN not found. Returning mock Square Sandbox payment link.");
+    if (!accessToken || !locationId) {
+      console.error("Square credentials missing from environment.");
       return {
-        statusCode: 200,
+        statusCode: 500,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          paymentUrl: "https://checkout.squareupsandbox.com/mock-ghl-payment-link"
-        })
+        body: JSON.stringify({ error: "Checkout configuration error. Square credentials are not set." })
       };
     }
 
-    // 1. Create or Update Contact in GoHighLevel (API v2)
-    const contactRes = await fetch('https://services.leadconnectorhq.com/contacts/', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Version': '2021-04-15',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: payload.firstName,
-        lastName: payload.lastName,
-        email: payload.email,
-        phone: formatE164(payload.phone),
-        locationId: process.env.GHL_LOCATION_ID,
-        address1: payload.shippingAddress.address || "",
-        city: payload.shippingAddress.city || "",
-        state: payload.shippingAddress.state || "",
-        postalCode: payload.shippingAddress.zip || "",
-        country: "US",
-        customFields: [
-          { key: "shipping_carrier", value: payload.shippingCarrier },
-          { key: "shipping_cost", value: payload.shippingCost }
-        ]
-      })
+    // Prepare Square Line Items from payload cart items
+    const lineItems = payload.items.map(item => {
+      // Apply $20 surcharge for 2XL and 3XL sizes on any clothing item
+      const sizeUpper = (item.size || '').toUpperCase();
+      const surcharge = (sizeUpper === '2XL' || sizeUpper === '3XL') ? 2000 : 0; // Square uses cents
+      
+      const basePriceInCents = Math.round(Number(item.price) * 100);
+      const unitPriceInCents = basePriceInCents + surcharge;
+      
+      const itemName = item.name + (item.size ? ` (${item.size})` : '') + (item.team ? ` - ${item.team}` : '');
+
+      return {
+        name: itemName,
+        quantity: String(item.quantity),
+        basePriceMoney: {
+          amount: unitPriceInCents,
+          currency: "USD"
+        }
+      };
     });
 
-    let contactId;
-    if (!contactRes.ok) {
-      const errText = await contactRes.text();
-      let errJson;
-      try {
-        errJson = JSON.parse(errText);
-      } catch (e) {}
-
-      // If GHL blocks duplicate contacts, extract the existing contact ID from the metadata and proceed
-      if (contactRes.status === 400 && errJson && errJson.meta && errJson.meta.contactId) {
-        console.log("Contact already exists. Using existing Contact ID:", errJson.meta.contactId);
-        contactId = errJson.meta.contactId;
-      } else {
-        throw new Error(`GHL Contact API returned status ${contactRes.status}: ${errText}`);
-      }
-    } else {
-      const contactData = await contactRes.json();
-      contactId = contactData.contact.id;
-    }
-
-    // 2. Create Invoice in GoHighLevel
-    // Map cart items directly to GHL invoice line items
-    const lineItems = payload.items.map(item => ({
-      name: item.name + (item.size ? ` (${item.size})` : ''),
-      qty: item.quantity,
-      amount: item.price,
-      currency: "USD"
-    }));
-
-    // Add shipping fee as a custom line item
+    // Add shipping cost if applicable
     if (payload.shippingCost > 0) {
       lineItems.push({
-        name: `Shipping Fee (${payload.shippingCarrier})`,
-        qty: 1,
-        amount: payload.shippingCost,
-        currency: "USD"
+        name: `Shipping Fee (${payload.shippingCarrier.toUpperCase()})`,
+        quantity: "1",
+        basePriceMoney: {
+          amount: Math.round(payload.shippingCost * 100), // cents
+          currency: "USD"
+        }
       });
     }
 
-    const todayStr = new Date().toISOString().split('T')[0];
-    const tomorrowStr = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-
-    const invoiceRes = await fetch('https://services.leadconnectorhq.com/invoices/', {
+    // Call Square Checkout API (v2) to generate a payment link
+    const squareResponse = await fetch('https://connect.squareup.com/v2/online-checkout/payment-links', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${accessToken}`,
-        'Version': '2021-04-15',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Square-Version': '2023-12-13'
       },
       body: JSON.stringify({
-        altId: process.env.GHL_LOCATION_ID,
-        altType: "location",
-        name: `Website Order - ${payload.firstName} ${payload.lastName}`,
-        currency: "USD",
-        issueDate: todayStr,
-        dueDate: tomorrowStr,
-        businessDetails: {
-          name: "Taylor Made Accessories"
+        idempotencyKey: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2),
+        checkoutOptions: {
+          allowTipping: false,
+          redirectUrl: `https://${event.headers.host || 'taylormade-accessories.com'}/#home`,
+          merchantSupportEmail: "info@taylormade-accessories.com",
+          askForShippingAddress: false // We collected it already
         },
-        contactDetails: {
-          id: contactId,
-          name: `${payload.firstName} ${payload.lastName}`,
-          email: payload.email,
-          phoneNo: formatE164(payload.phone)
+        order: {
+          locationId: locationId,
+          lineItems: lineItems,
+          customerReferenceId: payload.email || ""
         },
-        items: lineItems,
-        status: "sent"
+        prePopulatedData: {
+          buyerEmail: payload.email,
+          buyerPhoneNumber: payload.phone || "",
+          buyerAddress: {
+            addressLine1: payload.shippingAddress?.address || "",
+            locality: payload.shippingAddress?.city || "",
+            administrativeDistrictLevel1: payload.shippingAddress?.state || "",
+            postalCode: payload.shippingAddress?.zip || "",
+            country: "US"
+          }
+        }
       })
     });
 
-    if (!invoiceRes.ok) {
-      const errText = await invoiceRes.text();
-      throw new Error(`GHL Invoice API returned status ${invoiceRes.status}: ${errText}`);
+    if (!squareResponse.ok) {
+      const errText = await squareResponse.text();
+      throw new Error(`Square API returned status ${squareResponse.status}: ${errText}`);
     }
 
-    const invoiceData = await invoiceRes.json();
-    console.log("Full Invoice API Response:", JSON.stringify(invoiceData));
+    const squareData = await squareResponse.json();
+    const paymentUrl = squareData.paymentLink?.url || squareData.payment_link?.url;
 
-    // The GoHighLevel API doesn't return the payment URL directly for invoices.
-    // However, all hosted invoices are available at a predictable URL using the invoice _id.
-    const invoiceId = invoiceData.invoice?._id || invoiceData._id;
-    
-    if (!invoiceId) {
-      throw new Error(`Invoice created but no ID found in response. Response: ${JSON.stringify(invoiceData)}`);
+    if (!paymentUrl) {
+      throw new Error(`Square response did not contain a checkout URL. Response: ${JSON.stringify(squareData)}`);
     }
-
-    // Because GoHighLevel forces new invoices to be created as "draft", the public link will return a 404
-    // until the invoice is formally "sent". We trigger the send endpoint here to finalize it.
-    try {
-      const sendRes = await fetch(`https://services.leadconnectorhq.com/invoices/${invoiceId}/send`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Version': '2021-04-15',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          altId: process.env.GHL_LOCATION_ID,
-          altType: "location",
-          action: "email",
-          liveMode: true,
-          sentFrom: {
-            fromName: "Taylor Made Accessories",
-            fromEmail: "info@taylormade-accessories.com"
-          }
-        })
-      });
-      
-      if (!sendRes.ok) {
-        const errText = await sendRes.text();
-        console.error(`Failed to send/finalize invoice ${invoiceId}. Link may 404. Status ${sendRes.status}: ${errText}`);
-      } else {
-        console.log(`Successfully finalized invoice ${invoiceId}`);
-      }
-    } catch (e) {
-      console.error("Error calling send invoice endpoint:", e.message);
-    }
-
-    const paymentUrl = `https://api.smartwebmemphis.com/invoice/${invoiceId}`;
 
     return {
       statusCode: 200,
@@ -194,12 +124,12 @@ exports.handler = async (event, context) => {
     };
 
   } catch (error) {
-    console.error("GHL redirect bridging error:", error.message);
+    console.error("Square checkout generation error:", error.message);
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 
-        error: "Failed to generate GHL checkout link", 
+        error: "Failed to generate Square checkout link", 
         details: error.message 
       })
     };

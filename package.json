@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "netlify-cli": "^26.1.0",
     "vite": "^5.0.0"
   }
 }

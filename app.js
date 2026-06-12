@@ -1032,11 +1032,17 @@ function handleCheckoutSubmit(e) {
 
   const payBtn = document.getElementById("payNowBtn");
   const successPane = document.getElementById("checkoutSuccessPanel");
+  const loadingPane = document.getElementById("checkoutLoadingPanel");
   const form = document.getElementById("checkoutForm");
 
   if (payBtn) {
     payBtn.disabled = true;
     payBtn.textContent = "Redirecting to secure payment...";
+  }
+
+  // Show the loader overlay
+  if (loadingPane) {
+    loadingPane.classList.add("active");
   }
 
   const subtotal = getCartSubtotal();
@@ -1125,9 +1131,8 @@ function handleCheckoutSubmit(e) {
   .then(data => {
     if (data.paymentUrl) {
       console.log("Redirecting customer to secure payment link:", data.paymentUrl);
-      setTimeout(() => {
-        window.location.href = data.paymentUrl;
-      }, 1500);
+      // Clean redirect immediately once Square link is generated
+      window.location.href = data.paymentUrl;
     } else {
       throw new Error("No paymentUrl returned from Netlify function");
     }
@@ -1135,8 +1140,11 @@ function handleCheckoutSubmit(e) {
   .catch(err => {
     console.warn("Netlify function check failed (expected in local dev/pre-deploy). Falling back to mock complete screen.", err);
     
-    // Fallback: show local complete modal after delay (default offline testing behavior)
+    // Fallback: hide loader, show local complete modal after delay (default offline testing behavior)
     setTimeout(() => {
+      if (loadingPane) {
+        loadingPane.classList.remove("active");
+      }
       form.style.display = "none";
       successPane.classList.add("active");
 
