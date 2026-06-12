@@ -1,3 +1,18 @@
+function formatE164(phone) {
+  if (!phone) return "";
+  const cleaned = phone.replace(/\D/g, "");
+  if (cleaned.length === 10) {
+    return `+1${cleaned}`;
+  }
+  if (cleaned.length === 11 && cleaned.startsWith("1")) {
+    return `+${cleaned}`;
+  }
+  if (cleaned.length > 0) {
+    return `+${cleaned}`;
+  }
+  return "";
+}
+
 exports.handler = async (event, context) => {
   // Only allow POST requests
   if (event.httpMethod !== 'POST') {
@@ -38,7 +53,7 @@ exports.handler = async (event, context) => {
         firstName: payload.firstName,
         lastName: payload.lastName,
         email: payload.email,
-        phone: payload.phone,
+        phone: formatE164(payload.phone),
         locationId: process.env.GHL_LOCATION_ID,
         address1: payload.shippingAddress.address || "",
         city: payload.shippingAddress.city || "",
@@ -77,7 +92,8 @@ exports.handler = async (event, context) => {
     const lineItems = payload.items.map(item => ({
       name: item.name + (item.size ? ` (${item.size})` : ''),
       qty: item.quantity,
-      amount: item.price
+      amount: item.price,
+      currency: "USD"
     }));
 
     // Add shipping fee as a custom line item
@@ -85,7 +101,8 @@ exports.handler = async (event, context) => {
       lineItems.push({
         name: `Shipping Fee (${payload.shippingCarrier})`,
         qty: 1,
-        amount: payload.shippingCost
+        amount: payload.shippingCost,
+        currency: "USD"
       });
     }
 
@@ -113,7 +130,7 @@ exports.handler = async (event, context) => {
           id: contactId,
           name: `${payload.firstName} ${payload.lastName}`,
           email: payload.email,
-          phoneNo: payload.phone || ""
+          phoneNo: formatE164(payload.phone)
         },
         items: lineItems,
         status: "draft"
