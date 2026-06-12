@@ -133,6 +133,7 @@ img {
   width: fit-content;
   display: block;
   position: relative;
+  padding: 0 1.5rem;
   
   /* Purple Glitter Texture fill */
   background-image: url('assets/purple_glitter.png');
