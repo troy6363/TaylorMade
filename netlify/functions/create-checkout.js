@@ -85,7 +85,8 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        locationId: process.env.GHL_LOCATION_ID,
+        altId: process.env.GHL_LOCATION_ID,
+        altType: "location",
         contactId: contactId,
         items: lineItems,
         status: "draft", // Creates a draft invoice to generate the link
