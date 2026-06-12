@@ -170,7 +170,7 @@ exports.handler = async (event, context) => {
           liveMode: true,
           sentFrom: {
             fromName: "Taylor Made Accessories",
-            fromEmail: "orders@taylormade.com"
+            fromEmail: "info@taylormade-accessories.com"
           }
         })
       });
