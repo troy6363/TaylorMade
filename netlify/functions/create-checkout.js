@@ -77,7 +77,8 @@ exports.handler = async (event, context) => {
     const lineItems = payload.items.map(item => ({
       name: item.name + (item.size ? ` (${item.size})` : ''),
       qty: item.quantity,
-      price: item.price
+      amount: item.price,
+      currency: "USD"
     }));
 
     // Add shipping fee as a custom line item
@@ -85,7 +86,8 @@ exports.handler = async (event, context) => {
       lineItems.push({
         name: `Shipping Fee (${payload.shippingCarrier})`,
         qty: 1,
-        price: payload.shippingCost
+        amount: payload.shippingCost,
+        currency: "USD"
       });
     }
 
@@ -100,7 +102,7 @@ exports.handler = async (event, context) => {
         altId: process.env.GHL_LOCATION_ID,
         altType: "location",
         contactId: contactId,
-        items: lineItems,
+        invoiceItems: lineItems,
         status: "draft", // Creates a draft invoice to generate the link
         dueDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0] // Due tomorrow
       })
