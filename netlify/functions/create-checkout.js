@@ -166,7 +166,8 @@ exports.handler = async (event, context) => {
         body: JSON.stringify({
           altId: process.env.GHL_LOCATION_ID,
           altType: "location",
-          action: "email"
+          action: "email",
+          liveMode: true
         })
       });
       
