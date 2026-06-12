@@ -167,7 +167,11 @@ exports.handler = async (event, context) => {
           altId: process.env.GHL_LOCATION_ID,
           altType: "location",
           action: "email",
-          liveMode: true
+          liveMode: true,
+          sentFrom: {
+            fromName: "Taylor Made Accessories",
+            fromEmail: "orders@taylormade.com"
+          }
         })
       });
       
