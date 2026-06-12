@@ -545,8 +545,15 @@ img {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  transition: var(--transition-fast);
-  color: var(--foreground);
+  transition: var(--transition-smooth);
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
 }
 
 @media (min-width: 768px) {
@@ -554,11 +561,33 @@ img {
     width: 128px;
     height: 128px;
     font-size: 11px;
+    border-radius: var(--radius-lg);
   }
 }
 
 .home-cat-box:hover {
-  background-color: #e5e7eb;
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(124, 46, 189, 0.25);
+  color: #ffffff;
+}
+
+.home-cat-box.cat-jewelry {
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/bracelets/ChatGPT%20Image%20Jun%208,%202026,%2009_16_07%20PM.png');
+}
+.home-cat-box.cat-blankets {
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/blankets/ChatGPT%20Image%20Jun%208,%202026,%2005_47_40%20PM.png');
+}
+.home-cat-box.cat-tshirts {
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/clothing/ChatGPT%20Image%20Jun%208,%202026,%2006_02_59%20PM.png');
+}
+.home-cat-box.cat-coasters {
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/coasters/ChatGPT%20Image%20Jun%208,%202026,%2007_29_40%20PM.png');
+}
+.home-cat-box.cat-pajamas {
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/pajamas/ChatGPT%20Image%20Jun%208,%202026,%2007_47_54%20PM.png');
+}
+.home-cat-box.cat-accessories {
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/accessories/ChatGPT%20Image%20Jun%208,%202026,%2007_39_52%20PM.png');
 }
 
 /* Collections Grid */
