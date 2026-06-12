@@ -145,17 +145,15 @@ exports.handler = async (event, context) => {
     const invoiceData = await invoiceRes.json();
     console.log("Full Invoice API Response:", JSON.stringify(invoiceData));
 
-    // Try multiple possible locations for the payment URL
-    const paymentUrl = 
-      (invoiceData.invoice && invoiceData.invoice.paymentUrl) || 
-      invoiceData.paymentUrl || 
-      invoiceData.url || 
-      invoiceData.link ||
-      (invoiceData.data && invoiceData.data.paymentUrl);
-
-    if (!paymentUrl) {
-      throw new Error(`Invoice created but no paymentUrl found in response. Response: ${JSON.stringify(invoiceData)}`);
+    // The GoHighLevel API doesn't return the payment URL directly for invoices.
+    // However, all hosted invoices are available at a predictable URL using the invoice _id.
+    const invoiceId = invoiceData.invoice?._id || invoiceData._id;
+    
+    if (!invoiceId) {
+      throw new Error(`Invoice created but no ID found in response. Response: ${JSON.stringify(invoiceData)}`);
     }
+
+    const paymentUrl = `https://api.leadconnectorhq.com/widget/invoice/${invoiceId}`;
 
     return {
       statusCode: 200,
