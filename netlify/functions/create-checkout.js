@@ -143,7 +143,19 @@ exports.handler = async (event, context) => {
     }
 
     const invoiceData = await invoiceRes.json();
-    const paymentUrl = invoiceData.invoice.paymentUrl;
+    console.log("Full Invoice API Response:", JSON.stringify(invoiceData));
+
+    // Try multiple possible locations for the payment URL
+    const paymentUrl = 
+      (invoiceData.invoice && invoiceData.invoice.paymentUrl) || 
+      invoiceData.paymentUrl || 
+      invoiceData.url || 
+      invoiceData.link ||
+      (invoiceData.data && invoiceData.data.paymentUrl);
+
+    if (!paymentUrl) {
+      throw new Error(`Invoice created but no paymentUrl found in response. Response: ${JSON.stringify(invoiceData)}`);
+    }
 
     return {
       statusCode: 200,
