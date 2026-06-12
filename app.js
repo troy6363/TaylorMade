@@ -1217,19 +1217,21 @@ function initHeroCarousel() {
     [allImages[i], allImages[j]] = [allImages[j], allImages[i]];
   }
 
-  // Load a subset of 18 images for the carousel rotation, prioritizing vertical layout for mobile and model photo for desktop
+  // Load a subset of 18 images for the carousel rotation, prioritizing vertical layout for mobile and model/display photos for desktop
   const newModelImg = "assets/hero_juneteenth_model.jpg";
   const mobileHeroImg = "assets/hero_table_display_mobile.jpg";
+  const desktopHeroImg = "assets/hero_table_display_desktop.jpg";
   const isMobile = window.innerWidth <= 768;
 
-  let slidesToLoad = allImages.slice(0, 17);
+  let slidesToLoad = allImages.slice(0, 16);
   if (isMobile) {
-    slidesToLoad = slidesToLoad.filter(img => img !== mobileHeroImg && img !== newModelImg);
+    slidesToLoad = slidesToLoad.filter(img => img !== mobileHeroImg && img !== newModelImg && img !== desktopHeroImg);
     slidesToLoad.unshift(mobileHeroImg);
     slidesToLoad.push(newModelImg);
   } else {
-    slidesToLoad = slidesToLoad.filter(img => img !== newModelImg && img !== mobileHeroImg);
-    slidesToLoad.unshift(newModelImg);
+    slidesToLoad = slidesToLoad.filter(img => img !== newModelImg && img !== mobileHeroImg && img !== desktopHeroImg);
+    slidesToLoad.unshift(desktopHeroImg);
+    slidesToLoad.push(newModelImg);
   }
   
   slidesToLoad.forEach((imgSrc, index) => {
