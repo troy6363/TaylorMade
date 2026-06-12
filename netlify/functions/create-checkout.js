@@ -77,8 +77,7 @@ exports.handler = async (event, context) => {
     const lineItems = payload.items.map(item => ({
       name: item.name + (item.size ? ` (${item.size})` : ''),
       qty: item.quantity,
-      amount: item.price,
-      currency: "USD"
+      amount: item.price
     }));
 
     // Add shipping fee as a custom line item
@@ -86,10 +85,12 @@ exports.handler = async (event, context) => {
       lineItems.push({
         name: `Shipping Fee (${payload.shippingCarrier})`,
         qty: 1,
-        amount: payload.shippingCost,
-        currency: "USD"
+        amount: payload.shippingCost
       });
     }
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    const tomorrowStr = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
     const invoiceRes = await fetch('https://services.leadconnectorhq.com/invoices/', {
       method: 'POST',
@@ -101,10 +102,21 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({
         altId: process.env.GHL_LOCATION_ID,
         altType: "location",
-        contactId: contactId,
-        invoiceItems: lineItems,
-        status: "draft", // Creates a draft invoice to generate the link
-        dueDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0] // Due tomorrow
+        name: `Website Order - ${payload.firstName} ${payload.lastName}`,
+        currency: "USD",
+        issueDate: todayStr,
+        dueDate: tomorrowStr,
+        businessDetails: {
+          name: "Taylor Made Accessories"
+        },
+        contactDetails: {
+          id: contactId,
+          name: `${payload.firstName} ${payload.lastName}`,
+          email: payload.email,
+          phoneNo: payload.phone || ""
+        },
+        items: lineItems,
+        status: "draft"
       })
     });
 
