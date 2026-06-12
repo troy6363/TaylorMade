@@ -1217,10 +1217,20 @@ function initHeroCarousel() {
     [allImages[i], allImages[j]] = [allImages[j], allImages[i]];
   }
 
-  // Load a subset of 18 images for the carousel rotation, ensuring the new Juneteenth model photo is always the first slide
+  // Load a subset of 18 images for the carousel rotation, prioritizing vertical layout for mobile and model photo for desktop
   const newModelImg = "assets/hero_juneteenth_model.jpg";
-  let slidesToLoad = allImages.slice(0, 17).filter(img => img !== newModelImg);
-  slidesToLoad.unshift(newModelImg);
+  const mobileHeroImg = "assets/hero_table_display_mobile.jpg";
+  const isMobile = window.innerWidth <= 768;
+
+  let slidesToLoad = allImages.slice(0, 17);
+  if (isMobile) {
+    slidesToLoad = slidesToLoad.filter(img => img !== mobileHeroImg && img !== newModelImg);
+    slidesToLoad.unshift(mobileHeroImg);
+    slidesToLoad.push(newModelImg);
+  } else {
+    slidesToLoad = slidesToLoad.filter(img => img !== newModelImg && img !== mobileHeroImg);
+    slidesToLoad.unshift(newModelImg);
+  }
   
   slidesToLoad.forEach((imgSrc, index) => {
     const imgEl = document.createElement("img");
