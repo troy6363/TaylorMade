@@ -122,58 +122,38 @@ img {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Spacing and headings utility */
 .section-heading-spaced {
   text-align: center;
   font-family: 'Great Vibes', cursive;
-  font-size: clamp(2.8rem, 8vw, 4.2rem);
+  font-size: clamp(3rem, 9vw, 4.5rem);
   font-weight: 400;
   letter-spacing: normal;
   text-transform: none;
-  margin: 0 auto 2rem;
-  color: var(--foreground);
-  position: relative;
+  margin: 0 auto 2.5rem;
   width: fit-content;
   display: block;
+  position: relative;
+  
+  /* Purple Glitter Texture fill */
+  background-image: url('assets/purple_glitter.png');
+  background-size: 180px 180px;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  
+  /* Elegant shadow and subtle glow */
+  filter: drop-shadow(0 2px 4px rgba(124, 46, 189, 0.45));
+  animation: glitter-shimmer 12s linear infinite;
 }
 
-.section-heading-spaced::before,
-.section-heading-spaced::after {
-  content: "✨";
-  position: absolute;
-  top: 50%;
-  font-size: 1.6rem;
-  color: #c084fc;
-  animation: sparkle-twinkle 2.5s infinite ease-in-out;
-  pointer-events: none;
-}
-
-.section-heading-spaced::before {
-  left: -2.5rem;
-  animation-delay: 0s;
-  text-shadow: 
-    0 0 10px #7c2ebd, 
-    -12px -8px 0 rgba(192, 132, 252, 0.6), 
-    8px 12px 0 rgba(124, 46, 189, 0.4);
-}
-
-.section-heading-spaced::after {
-  right: -2.5rem;
-  animation-delay: 1.25s;
-  text-shadow: 
-    0 0 10px #7c2ebd, 
-    12px -8px 0 rgba(192, 132, 252, 0.6), 
-    -8px 12px 0 rgba(124, 46, 189, 0.4);
-}
-
-@keyframes sparkle-twinkle {
-  0%, 100% {
-    transform: translateY(-50%) scale(0.8) rotate(0deg);
-    opacity: 0.6;
+@keyframes glitter-shimmer {
+  0% {
+    background-position: 0 0;
   }
-  50% {
-    transform: translateY(-65%) scale(1.25) rotate(20deg);
-    opacity: 1;
+  100% {
+    background-position: 360px 180px;
   }
 }
 
