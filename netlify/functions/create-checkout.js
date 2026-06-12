@@ -153,6 +153,33 @@ exports.handler = async (event, context) => {
       throw new Error(`Invoice created but no ID found in response. Response: ${JSON.stringify(invoiceData)}`);
     }
 
+    // Because GoHighLevel forces new invoices to be created as "draft", the public link will return a 404
+    // until the invoice is formally "sent". We trigger the send endpoint here to finalize it.
+    try {
+      const sendRes = await fetch(`https://services.leadconnectorhq.com/invoices/${invoiceId}/send`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Version': '2021-04-15',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          altId: process.env.GHL_LOCATION_ID,
+          altType: "location",
+          action: "email"
+        })
+      });
+      
+      if (!sendRes.ok) {
+        const errText = await sendRes.text();
+        console.error(`Failed to send/finalize invoice ${invoiceId}. Link may 404. Status ${sendRes.status}: ${errText}`);
+      } else {
+        console.log(`Successfully finalized invoice ${invoiceId}`);
+      }
+    } catch (e) {
+      console.error("Error calling send invoice endpoint:", e.message);
+    }
+
     const paymentUrl = `https://api.leadconnectorhq.com/widget/invoice/${invoiceId}`;
 
     return {
