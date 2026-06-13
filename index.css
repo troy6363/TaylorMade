@@ -195,6 +195,12 @@ img {
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
 }
 
+.main-header.scrolled .brand-logo {
+  background-color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 2px;
+}
+
 .header-container {
   max-width: 1400px;
   margin: 0 auto;
