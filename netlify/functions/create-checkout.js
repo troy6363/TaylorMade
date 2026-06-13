@@ -55,7 +55,7 @@ exports.handler = async (event, context) => {
       return {
         name: itemName,
         quantity: String(item.quantity),
-        basePriceMoney: {
+        base_price_money: {
           amount: unitPriceInCents,
           currency: "USD"
         }
@@ -67,7 +67,7 @@ exports.handler = async (event, context) => {
       lineItems.push({
         name: `Shipping Fee (${payload.shippingCarrier.toUpperCase()})`,
         quantity: "1",
-        basePriceMoney: {
+        base_price_money: {
           amount: Math.round(payload.shippingCost * 100), // cents
           currency: "USD"
         }
@@ -83,26 +83,26 @@ exports.handler = async (event, context) => {
         'Square-Version': '2023-12-13'
       },
       body: JSON.stringify({
-        idempotencyKey: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2),
-        checkoutOptions: {
-          allowTipping: false,
-          redirectUrl: `https://${event.headers.host || 'taylormade-accessories.com'}/#home`,
-          merchantSupportEmail: "info@taylormade-accessories.com",
-          askForShippingAddress: false // We collected it already
+        idempotency_key: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2),
+        checkout_options: {
+          allow_tipping: false,
+          redirect_url: `https://${event.headers.host || 'taylormade-accessories.com'}/#home`,
+          merchant_support_email: "info@taylormade-accessories.com",
+          ask_for_shipping_address: false
         },
         order: {
-          locationId: locationId,
-          lineItems: lineItems,
-          customerReferenceId: payload.email || ""
+          location_id: locationId,
+          line_items: lineItems,
+          customer_reference_id: payload.email || ""
         },
-        prePopulatedData: {
-          buyerEmail: payload.email,
-          buyerPhoneNumber: payload.phone || "",
-          buyerAddress: {
-            addressLine1: payload.shippingAddress?.address || "",
+        pre_populated_data: {
+          buyer_email: payload.email,
+          buyer_phone_number: payload.phone || "",
+          buyer_address: {
+            address_line_1: payload.shippingAddress?.address || "",
             locality: payload.shippingAddress?.city || "",
-            administrativeDistrictLevel1: payload.shippingAddress?.state || "",
-            postalCode: payload.shippingAddress?.zip || "",
+            administrative_district_level_1: payload.shippingAddress?.state || "",
+            postal_code: payload.shippingAddress?.zip || "",
             country: "US"
           }
         }
