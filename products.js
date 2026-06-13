@@ -274,8 +274,7 @@ const PRODUCTS = [
     "category": "coasters",
     "image": "assets/coasters/ChatGPT Image Jun 8, 2026, 07_29_40 PM_result.webp",
     "images": [
-      "assets/coasters/ChatGPT Image Jun 8, 2026, 07_29_40 PM_result.webp",
-      "assets/coasters/ChatGPT Image Jun 8, 2026, 07_37_06 PM_result.webp"
+      "assets/coasters/ChatGPT Image Jun 8, 2026, 07_29_40 PM_result.webp"
     ],
     "description": "Show off your Titans fandom with these premium scalloped coasters. This 4-piece set is hand-cast in glossy red resin with a navy blue backing layer and scalloped edges, featuring the Tennessee Titans sword logo in high detail. Perfect gift for game days.",
     "rating": 4.8,
