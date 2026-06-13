@@ -1272,38 +1272,77 @@ function initHeroCarousel() {
 
   const isMobile = window.innerWidth <= 768;
 
-  // Curated full-width hero images — only large, colorful, scene/lifestyle shots
-  // (small jewelry/bracelet product shots on white backgrounds are excluded)
-  const heroImages = isMobile
-    ? [
-        "assets/hero_table_display_mobile.jpg",
-        "assets/ChatGPT Image Jun 9, 2026, 05_44_10 PM.png",
-        "assets/blankets/ChatGPT Image Jun 8, 2026, 05_47_40 PM.png",
-        "assets/blankets/ChatGPT Image Jun 8, 2026, 05_49_52 PM.png",
-        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_47_54 PM.png",
-        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_50_53 PM.png",
-        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_52_54 PM.png",
-        "assets/clothing/ChatGPT Image Jun 8, 2026, 07_18_20 PM.png",
-        "assets/clothing/ChatGPT Image Jun 8, 2026, 07_54_23 PM.png",
-        "assets/coasters/ChatGPT Image Jun 8, 2026, 07_28_52 PM.png",
-        "assets/coasters/ChatGPT Image Jun 8, 2026, 07_35_31 PM.png",
-        "assets/hero_juneteenth_model.jpg",
-      ]
-    : [
-        "assets/hero_table_display_desktop.jpg",
-        "assets/ChatGPT Image Jun 9, 2026, 05_44_10 PM.png",
-        "assets/blankets/ChatGPT Image Jun 8, 2026, 05_47_40 PM.png",
-        "assets/blankets/ChatGPT Image Jun 8, 2026, 05_49_52 PM.png",
-        "assets/blankets/ChatGPT Image Jun 8, 2026, 07_13_52 PM.png",
-        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_47_54 PM.png",
-        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_50_53 PM.png",
-        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_52_54 PM.png",
-        "assets/clothing/ChatGPT Image Jun 8, 2026, 07_18_20 PM.png",
-        "assets/clothing/ChatGPT Image Jun 8, 2026, 07_54_23 PM.png",
-        "assets/coasters/ChatGPT Image Jun 8, 2026, 07_28_52 PM.png",
-        "assets/coasters/ChatGPT Image Jun 8, 2026, 07_35_31 PM.png",
-        "assets/hero_juneteenth_model.jpg",
-      ];
+  const heroImages = [
+    isMobile ? "assets/hero_table_display_mobile.jpg" : "assets/hero_table_display_desktop.jpg",
+
+    // Accessories
+    "assets/accessories/ChatGPT Image Jun 8, 2026, 07_39_52 PM.png",
+    "assets/accessories/ChatGPT Image Jun 8, 2026, 07_41_01 PM.png",
+    "assets/accessories/ChatGPT Image Jun 8, 2026, 07_59_15 PM.png",
+    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_16_32 PM.png",
+    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_16_38 PM.png",
+    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_42_40 PM.png",
+    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_44_43 PM.png",
+    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_50_13 PM.png",
+    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_50_31 PM.png",
+
+    // Blankets
+    "assets/blankets/ChatGPT Image Jun 8, 2026, 05_47_40 PM.png",
+    "assets/blankets/ChatGPT Image Jun 8, 2026, 05_47_43 PM.png",
+    "assets/blankets/ChatGPT Image Jun 8, 2026, 05_49_52 PM.png",
+    "assets/blankets/ChatGPT Image Jun 8, 2026, 07_13_52 PM.png",
+    "assets/blankets/ChatGPT Image Jun 8, 2026, 07_15_50 PM.png",
+    "assets/blankets/4990dab2-3815-4167-bd75-e7cde62e63ee.png",
+
+    // Bracelets
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_16_07 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_17_42 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_24_17 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_25_24 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_26_22 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_29_08 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_52_54 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_55_43 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_56_57 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_58_23 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_59_50 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_01_03 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_02_04 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_03_01 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_04_25 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_05_41 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_07_44 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_10_05 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 9, 2026, 03_30_08 PM.png",
+    "assets/bracelets/ChatGPT Image Jun 9, 2026, 03_46_21 PM.png",
+    "assets/bracelets/dst_elephant_worn.jpg",
+    "assets/bracelets/sgr_step_dance.jpg",
+    "assets/bracelets/zeta_phi_beta_worn.png",
+
+    // Clothing
+    "assets/clothing/ChatGPT Image Jun 8, 2026, 06_02_59 PM.png",
+    "assets/clothing/ChatGPT Image Jun 8, 2026, 06_03_50 PM.png",
+    "assets/clothing/ChatGPT Image Jun 8, 2026, 07_18_20 PM.png",
+    "assets/clothing/ChatGPT Image Jun 8, 2026, 07_18_33 PM.png",
+    "assets/clothing/ChatGPT Image Jun 8, 2026, 07_54_23 PM.png",
+    "assets/clothing/ChatGPT Image Jun 8, 2026, 07_57_04 PM.png",
+
+    // Coasters
+    "assets/coasters/ChatGPT Image Jun 8, 2026, 07_28_52 PM.png",
+    "assets/coasters/ChatGPT Image Jun 8, 2026, 07_29_40 PM.png",
+    "assets/coasters/ChatGPT Image Jun 8, 2026, 07_32_33 PM.png",
+    "assets/coasters/ChatGPT Image Jun 8, 2026, 07_35_31 PM.png",
+    "assets/coasters/ChatGPT Image Jun 8, 2026, 07_37_06 PM.png",
+    "assets/coasters/tn_titans_backside.jpg",
+
+    // Pajamas
+    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_47_54 PM.png",
+    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_48_03 PM.png",
+    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_48_06 PM.png",
+    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_50_53 PM.png",
+    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_52_00 PM.png",
+    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_52_54 PM.png",
+  ];
 
   let slideIndex = 0;
 
@@ -1313,26 +1352,22 @@ function initHeroCarousel() {
     imgEl.alt = "Taylor Made Background Slide " + (index + 1);
     imgEl.className = "hero-carousel-img";
     if (index === 0) imgEl.classList.add("active");
-    // Skip to next slide if an image fails to load
-    imgEl.onerror = () => {
-      imgEl.style.display = "none";
-    };
+    imgEl.onerror = () => { imgEl.style.display = "none"; };
     container.appendChild(imgEl);
   });
 
-  // Start cross-fade transition every 4.5 seconds
+  // Cross-fade every 4.5 seconds, skipping any slides that failed to load
   const slides = container.getElementsByClassName("hero-carousel-img");
-
   if (slides.length > 1) {
     setInterval(() => {
       slides[slideIndex].classList.remove("active");
-      slideIndex = (slideIndex + 1) % slides.length;
-      // Skip hidden (errored) slides
+      let next = (slideIndex + 1) % slides.length;
       let attempts = 0;
-      while (slides[slideIndex].style.display === "none" && attempts < slides.length) {
-        slideIndex = (slideIndex + 1) % slides.length;
+      while (slides[next].style.display === "none" && attempts < slides.length) {
+        next = (next + 1) % slides.length;
         attempts++;
       }
+      slideIndex = next;
       slides[slideIndex].classList.add("active");
     }, 4500);
   }
