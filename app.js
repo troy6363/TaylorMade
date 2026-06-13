@@ -185,7 +185,7 @@ function renderHomeBestsellers() {
 
     item.innerHTML = `
       <div class="bestseller-img-wrap">
-        <img src="${p.image}" alt="${p.name}" class="${p.category === 'pajamas' || ['p1', 'p18'].includes(p.id) ? 'object-contain' : ''}">
+        <img src="${p.image}" alt="${p.name}" loading="lazy" class="${p.category === 'pajamas' || ['p1', 'p18'].includes(p.id) ? 'object-contain' : ''}">
       </div>
       <h3 class="bestseller-title">${p.name}</h3>
       <p class="bestseller-price">$${p.price.toFixed(2)}</p>
@@ -238,7 +238,7 @@ function renderShopProducts(filterCategory = "all", query = "") {
     
     card.innerHTML = `
       <div class="catalog-img-wrap" onclick="openProductDetails('${p.id}')">
-        <img src="${p.image}" alt="${p.name}" class="catalog-img ${p.category === 'pajamas' || ['p1', 'p13', 'p14', 'p18'].includes(p.id) ? 'object-contain' : ''}">
+        <img src="${p.image}" alt="${p.name}" loading="lazy" class="catalog-img ${p.category === 'pajamas' || ['p1', 'p13', 'p14', 'p18'].includes(p.id) ? 'object-contain' : ''}">
         <div class="catalog-hover-overlay">
           <button class="catalog-view-btn">View Details</button>
         </div>
@@ -358,7 +358,7 @@ function openProductDetails(productId) {
     product.images.forEach((imgSrc, idx) => {
       thumbsHTML += `
         <button type="button" class="thumb-btn ${idx === 0 ? 'selected' : ''}" onclick="swapDetailsImage(this, '${imgSrc}')">
-          <img src="${imgSrc}" alt="${product.name} view ${idx + 1}">
+          <img src="${imgSrc}" alt="${product.name} view ${idx + 1}" loading="lazy">
         </button>
       `;
     });
@@ -686,7 +686,7 @@ function updateCartUI() {
       const teamTag = item.team ? `<span class="drawer-item-meta">Team: ${item.team}</span>` : '';
       row.innerHTML = `
         <div class="drawer-item-img">
-          <img src="${item.product.image}" alt="${item.product.name}">
+          <img src="${item.product.image}" alt="${item.product.name}" loading="lazy">
         </div>
         <div class="drawer-item-info">
           <h4 class="drawer-item-title">${item.product.name}</h4>
@@ -918,7 +918,7 @@ function refreshCheckoutInvoice() {
     const teamText = item.team ? `<span style="font-size: 10px; color: var(--primary); font-weight: 600;">Team: ${item.team}</span>` : '';
     
     row.innerHTML = `
-      <img src="${item.product.image}" style="width: 48px; height: 48px; border-radius: var(--radius-md); object-fit: cover; background-color: var(--muted);">
+      <img src="${item.product.image}" loading="lazy" style="width: 48px; height: 48px; border-radius: var(--radius-md); object-fit: cover; background-color: var(--muted);">
       <div style="flex: 1; display: flex; flex-direction: column; gap: 2px;">
         <span style="font-size: 11px; font-weight: 700; color: var(--foreground); line-height: 1.3;">${item.product.name}</span>
         ${teamText}
@@ -1295,9 +1295,9 @@ function initHeroCarousel() {
   }
 
   // Load a subset of 18 images for the carousel rotation, prioritizing vertical layout for mobile and model/display photos for desktop
-  const newModelImg = "assets/hero_juneteenth_model.jpg";
-  const mobileHeroImg = "assets/hero_table_display_mobile.jpg";
-  const desktopHeroImg = "assets/hero_table_display_desktop.jpg";
+  const newModelImg = "assets/hero_juneteenth_model.webp";
+  const mobileHeroImg = "assets/hero_table_display_mobile.webp";
+  const desktopHeroImg = "assets/hero_table_display_desktop.webp";
   const isMobile = window.innerWidth <= 768;
 
   let slidesToLoad = allImages.slice(0, 16);
