@@ -25,10 +25,10 @@ exports.handler = async (event, context) => {
 
   try {
     const payload = JSON.parse(event.body);
-    const accessToken = process.env.SQUARE_ACCESS_TOKEN;
+    const accessToken = (process.env.SQUARE_ACCESS_TOKEN || '').trim();
     
     // Read strictly from environment variable to satisfy Netlify scanner
-    const locationId = process.env.SQUARE_LOCATION_ID;
+    const locationId = (process.env.SQUARE_LOCATION_ID || '').trim();
 
     console.log("Debug Square Vars - Access Token Exists:", !!accessToken, "Location ID Exists:", !!locationId);
 
