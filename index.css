@@ -155,7 +155,7 @@ img {
   padding: 0 1.5rem;
 
   /* Purple Glitter Texture fill */
-  background-image: url('assets/purple_glitter.png');
+  background-image: url('assets/purple_glitter_result.webp');
   background-size: 180px 180px;
   background-repeat: repeat;
   -webkit-background-clip: text;
@@ -632,27 +632,27 @@ img {
 }
 
 .home-cat-box.cat-jewelry {
-  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/bracelets/ChatGPT%20Image%20Jun%208,%202026,%2009_16_07%20PM.png');
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/bracelets/ChatGPT%20Image%20Jun%208,%202026,%2009_16_07%20PM_result.webp');
 }
 
 .home-cat-box.cat-blankets {
-  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/blankets/ChatGPT%20Image%20Jun%208,%202026,%2005_47_40%20PM.png');
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/blankets/ChatGPT%20Image%20Jun%208,%202026,%2005_47_40%20PM_result.webp');
 }
 
 .home-cat-box.cat-tshirts {
-  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/clothing/ChatGPT%20Image%20Jun%208,%202026,%2007_18_20%20PM.png');
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/clothing/ChatGPT%20Image%20Jun%208,%202026,%2007_18_20%20PM_result.webp');
 }
 
 .home-cat-box.cat-coasters {
-  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/coasters/ChatGPT%20Image%20Jun%208,%202026,%2007_29_40%20PM.png');
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/coasters/ChatGPT%20Image%20Jun%208,%202026,%2007_29_40%20PM_result.webp');
 }
 
 .home-cat-box.cat-pajamas {
-  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/pajamas/ChatGPT%20Image%20Jun%208,%202026,%2007_47_54%20PM.png');
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/pajamas/ChatGPT%20Image%20Jun%208,%202026,%2007_47_54%20PM_result.webp');
 }
 
 .home-cat-box.cat-accessories {
-  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/accessories/ChatGPT%20Image%20Jun%208,%202026,%2007_39_52%20PM.png');
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(124, 46, 189, 0.45) 100%), url('assets/accessories/ChatGPT%20Image%20Jun%208,%202026,%2007_39_52%20PM_result.webp');
 }
 
 /* Collections Grid */
