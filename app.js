@@ -1350,7 +1350,14 @@ function initHeroCarousel() {
 
   heroImages.forEach((imgSrc, index) => {
     const imgEl = document.createElement("img");
-    imgEl.src = imgSrc;
+    
+    // Only load the first two images immediately to prevent freezing the browser
+    if (index === 0 || index === 1) {
+      imgEl.src = imgSrc;
+    } else {
+      imgEl.dataset.src = imgSrc;
+    }
+    
     imgEl.alt = "Taylor Made Background Slide " + (index + 1);
     imgEl.className = "hero-carousel-img";
     if (index === 0) imgEl.classList.add("active");
@@ -1369,6 +1376,14 @@ function initHeroCarousel() {
         next = (next + 1) % slides.length;
         attempts++;
       }
+      
+      // Lazy load the image that comes AFTER the next one, so it has time to load in the background
+      let upcoming = (next + 1) % slides.length;
+      if (slides[upcoming].dataset.src) {
+        slides[upcoming].src = slides[upcoming].dataset.src;
+        slides[upcoming].removeAttribute("data-src");
+      }
+
       slideIndex = next;
       slides[slideIndex].classList.add("active");
     }, 4500);
