@@ -1270,67 +1270,70 @@ function initHeroCarousel() {
   const container = document.getElementById("heroCarousel");
   if (!container) return;
 
-  const allImages = [];
-  const seen = new Set();
-  
-  // Collect all unique image paths from the database
-  PRODUCTS.forEach(product => {
-    if (product.images) {
-      product.images.forEach(img => {
-        if (!seen.has(img)) {
-          seen.add(img);
-          allImages.push(img);
-        }
-      });
-    } else if (product.image && !seen.has(product.image)) {
-      seen.add(product.image);
-      allImages.push(product.image);
-    }
-  });
-
-  // Shuffle images to randomize the slideshow order on page load
-  for (let i = allImages.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [allImages[i], allImages[j]] = [allImages[j], allImages[i]];
-  }
-
-  // Load a subset of 18 images for the carousel rotation, prioritizing vertical layout for mobile and model/display photos for desktop
-  const newModelImg = "assets/hero_juneteenth_model.jpg";
-  const mobileHeroImg = "assets/hero_table_display_mobile.jpg";
-  const desktopHeroImg = "assets/hero_table_display_desktop.jpg";
   const isMobile = window.innerWidth <= 768;
 
-  let slidesToLoad = allImages.slice(0, 16);
-  if (isMobile) {
-    slidesToLoad = slidesToLoad.filter(img => img !== mobileHeroImg && img !== newModelImg && img !== desktopHeroImg);
-    slidesToLoad.unshift(mobileHeroImg);
-    slidesToLoad.push(newModelImg);
-  } else {
-    slidesToLoad = slidesToLoad.filter(img => img !== newModelImg && img !== mobileHeroImg && img !== desktopHeroImg);
-    slidesToLoad.unshift(desktopHeroImg);
-    slidesToLoad.push(newModelImg);
-  }
-  
-  slidesToLoad.forEach((imgSrc, index) => {
+  // Curated full-width hero images — only large, colorful, scene/lifestyle shots
+  // (small jewelry/bracelet product shots on white backgrounds are excluded)
+  const heroImages = isMobile
+    ? [
+        "assets/hero_table_display_mobile.jpg",
+        "assets/ChatGPT Image Jun 9, 2026, 05_44_10 PM.png",
+        "assets/blankets/ChatGPT Image Jun 8, 2026, 05_47_40 PM.png",
+        "assets/blankets/ChatGPT Image Jun 8, 2026, 05_49_52 PM.png",
+        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_47_54 PM.png",
+        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_50_53 PM.png",
+        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_52_54 PM.png",
+        "assets/clothing/ChatGPT Image Jun 8, 2026, 07_18_20 PM.png",
+        "assets/clothing/ChatGPT Image Jun 8, 2026, 07_54_23 PM.png",
+        "assets/coasters/ChatGPT Image Jun 8, 2026, 07_28_52 PM.png",
+        "assets/coasters/ChatGPT Image Jun 8, 2026, 07_35_31 PM.png",
+        "assets/hero_juneteenth_model.jpg",
+      ]
+    : [
+        "assets/hero_table_display_desktop.jpg",
+        "assets/ChatGPT Image Jun 9, 2026, 05_44_10 PM.png",
+        "assets/blankets/ChatGPT Image Jun 8, 2026, 05_47_40 PM.png",
+        "assets/blankets/ChatGPT Image Jun 8, 2026, 05_49_52 PM.png",
+        "assets/blankets/ChatGPT Image Jun 8, 2026, 07_13_52 PM.png",
+        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_47_54 PM.png",
+        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_50_53 PM.png",
+        "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_52_54 PM.png",
+        "assets/clothing/ChatGPT Image Jun 8, 2026, 07_18_20 PM.png",
+        "assets/clothing/ChatGPT Image Jun 8, 2026, 07_54_23 PM.png",
+        "assets/coasters/ChatGPT Image Jun 8, 2026, 07_28_52 PM.png",
+        "assets/coasters/ChatGPT Image Jun 8, 2026, 07_35_31 PM.png",
+        "assets/hero_juneteenth_model.jpg",
+      ];
+
+  let slideIndex = 0;
+
+  heroImages.forEach((imgSrc, index) => {
     const imgEl = document.createElement("img");
     imgEl.src = imgSrc;
     imgEl.alt = "Taylor Made Background Slide " + (index + 1);
     imgEl.className = "hero-carousel-img";
-    if (index === 0) {
-      imgEl.classList.add("active");
-    }
+    if (index === 0) imgEl.classList.add("active");
+    // Skip to next slide if an image fails to load
+    imgEl.onerror = () => {
+      imgEl.style.display = "none";
+    };
     container.appendChild(imgEl);
   });
 
   // Start cross-fade transition every 4.5 seconds
-  let currentIndex = 0;
   const slides = container.getElementsByClassName("hero-carousel-img");
-  
+
   if (slides.length > 1) {
     setInterval(() => {
-      slides[currentIndex].classList.remove("active");
-      currentIndex = (currentIndex + 1) % slides.length;
-      slides[currentIndex].classList.add("active");
+      slides[slideIndex].classList.remove("active");
+      slideIndex = (slideIndex + 1) % slides.length;
+      // Skip hidden (errored) slides
+      let attempts = 0;
+      while (slides[slideIndex].style.display === "none" && attempts < slides.length) {
+        slideIndex = (slideIndex + 1) % slides.length;
+        attempts++;
+      }
+      slides[slideIndex].classList.add("active");
     }, 4500);
   }
 }
