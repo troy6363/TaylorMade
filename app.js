@@ -5,6 +5,7 @@ let cart = [];
 let activeCategory = "all";
 let activeView = "home";
 let currentProductDetailId = null;
+let detailsSlideshowTimer = null;
 
 // GoHighLevel Webhook Integration URL (Paste your GHL Workflow Inbound Webhook URL here)
 const GHL_WEBHOOK_URL = "";
@@ -317,6 +318,11 @@ function openProductDetails(productId) {
   const product = PRODUCTS.find(p => p.id === productId);
   if (!product) return;
 
+  if (detailsSlideshowTimer) {
+    clearInterval(detailsSlideshowTimer);
+    detailsSlideshowTimer = null;
+  }
+
   currentProductDetailId = productId;
   const contentPanel = document.getElementById("productDetailsContent");
   if (!contentPanel) return;
@@ -423,38 +429,35 @@ function openProductDetails(productId) {
   if (product.images && product.images.length > 1) {
     let currentSlideIdx = 0;
 
-    const slideshowInterval = setInterval(() => {
-      // Check if we are still viewing this product details page
-      if (currentProductDetailId !== product.id || window.location.hash !== `#product-${product.id}`) {
-        clearInterval(slideshowInterval);
+    detailsSlideshowTimer = setInterval(() => {
+      const detailView = document.getElementById("view-product-detail");
+      if (currentProductDetailId !== product.id || !detailView || !detailView.classList.contains("active")) {
+        clearInterval(detailsSlideshowTimer);
+        detailsSlideshowTimer = null;
         return;
       }
 
       currentSlideIdx = (currentSlideIdx + 1) % product.images.length;
-      
+
       const currentMainImg = document.getElementById("detailsMainImg");
       const currentThumbButtons = document.querySelectorAll(".thumb-btn");
 
       if (currentMainImg) {
-        // Slide / Fade transition
         currentMainImg.style.opacity = "0";
         currentMainImg.style.transform = "translateX(15px)";
-        
+
         setTimeout(() => {
-          // Re-verify DOM node exists
           const freshMainImg = document.getElementById("detailsMainImg");
           if (!freshMainImg) return;
 
           freshMainImg.src = product.images[currentSlideIdx];
           freshMainImg.style.transform = "translateX(-15px)";
-          
-          // Force layout redraw
+
           freshMainImg.offsetWidth;
-          
+
           freshMainImg.style.opacity = "1";
           freshMainImg.style.transform = "translateX(0)";
 
-          // Update active thumb button styling
           if (currentThumbButtons.length > currentSlideIdx) {
             currentThumbButtons.forEach(btn => btn.classList.remove("selected"));
             currentThumbButtons[currentSlideIdx].classList.add("selected");
@@ -462,9 +465,6 @@ function openProductDetails(productId) {
         }, 500);
       }
     }, 5000);
-
-    // Stop loop if navigating away
-    window.addEventListener("hashchange", () => clearInterval(slideshowInterval), { once: true });
   }
 
   // Call price update immediately to set correct starting price
