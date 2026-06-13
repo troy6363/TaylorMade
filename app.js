@@ -1273,7 +1273,33 @@ function initHeroCarousel() {
   const isMobile = window.innerWidth <= 768;
 
   const heroImages = isMobile ? [
-    "assets/hero_table_display_mobile.jpg"
+    "assets/hero moblie/hero_table_display_mobile.jpg",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 05_47_40 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 06_02_59 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 07_13_52 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 07_18_20 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 07_28_52 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 07_29_40 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 07_35_31 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 07_37_06 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 07_41_01 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 07_47_54 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 07_52_00 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 09_16_07 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 09_16_38 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 09_17_42 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 09_25_24 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 09_29_08 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 09_44_43 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 09_50_31 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 09_52_54 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 09_56_57 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 10_01_03 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 10_02_04 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 10_04_25 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 10_07_44 PM.png",
+    "assets/hero moblie/ChatGPT Image Jun 8, 2026, 10_10_05 PM.png",
+    "assets/hero moblie/dst_elephant_worn.jpg"
   ] : [
     "assets/hero desktop/hero_table_display_desktop.jpg",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 05_47_40 PM.png",
@@ -1310,7 +1336,7 @@ function initHeroCarousel() {
   ];
 
   // Randomize all images except the first one (so we always start with the table display)
-  if (!isMobile && heroImages.length > 1) {
+  if (heroImages.length > 1) {
     const firstImg = heroImages[0];
     const restImgs = heroImages.slice(1);
     for (let i = restImgs.length - 1; i > 0; i--) {
