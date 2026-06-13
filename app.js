@@ -1281,18 +1281,13 @@ function initHeroCarousel() {
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 06_02_59 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_13_52 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_18_20 PM.png",
-    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_18_33 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_28_52 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_29_40 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_35_31 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_37_06 PM.png",
-    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_39_52 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_41_01 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_47_54 PM.png",
-    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_48_06 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_52_00 PM.png",
-    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_52_54 PM.png",
-    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_57_04 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_16_07 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_16_38 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_17_42 PM.png",
@@ -1302,7 +1297,6 @@ function initHeroCarousel() {
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_29_08 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_42_40 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_44_43 PM.png",
-    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_50_13 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_50_31 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_52_54 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_56_57 PM.png",
@@ -1312,10 +1306,19 @@ function initHeroCarousel() {
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 10_04_25 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 10_07_44 PM.png",
     "assets/hero desktop/ChatGPT Image Jun 8, 2026, 10_10_05 PM.png",
-    "assets/hero desktop/dst_elephant_worn.jpg",
-    "assets/hero desktop/tn_titans_backside.jpg",
-    "assets/hero desktop/zeta_phi_beta_worn.png"
+    "assets/hero desktop/dst_elephant_worn.jpg"
   ];
+
+  // Randomize all images except the first one (so we always start with the table display)
+  if (!isMobile && heroImages.length > 1) {
+    const firstImg = heroImages[0];
+    const restImgs = heroImages.slice(1);
+    for (let i = restImgs.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [restImgs[i], restImgs[j]] = [restImgs[j], restImgs[i]];
+    }
+    heroImages.splice(0, heroImages.length, firstImg, ...restImgs);
+  }
 
   let slideIndex = 0;
 
