@@ -75,6 +75,16 @@ exports.handler = async (event, context) => {
     }
 
     // Call Square Checkout API (v2) to generate a payment link
+    // Fire GHL webhook in the background (non-blocking)
+    const ghlWebhookUrl = (process.env.GHL_WEBHOOK_URL || '').trim();
+    if (ghlWebhookUrl) {
+      fetch(ghlWebhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(err => console.error("GHL webhook dispatch error:", err.message));
+    }
+
     const squareResponse = await fetch('https://connect.squareup.com/v2/online-checkout/payment-links', {
       method: 'POST',
       headers: {
@@ -86,7 +96,7 @@ exports.handler = async (event, context) => {
         idempotency_key: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2),
         checkout_options: {
           allow_tipping: false,
-          redirect_url: `https://${event.headers.host || 'taylormade-accessories.com'}/#home`,
+          redirect_url: `https://${event.headers.host || 'taylormade-accessories.com'}/`,
           merchant_support_email: "info@taylormade-accessories.com",
           ask_for_shipping_address: false
         },
