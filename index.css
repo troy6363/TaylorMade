@@ -2402,7 +2402,7 @@ img {
 }
 
 .footer-built-by {
-  color: #ffffff;
+  color: var(--foreground);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.15em;
