@@ -92,9 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================================================
 
 function navigateToView(viewId) {
-  if (activeView === viewId && viewId !== "product-detail") {
-    return;
-  }
   activeView = viewId;
 
   // Clear details slideshow timer immediately when leaving product details view
