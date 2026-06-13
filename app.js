@@ -380,8 +380,8 @@ function openProductDetails(productId) {
   contentPanel.innerHTML = `
     <!-- Product Images -->
     <div class="details-images-panel">
-      <div class="details-main-img-wrap">
-        <img src="${product.image}" alt="${product.name}" id="detailsMainImg">
+      <div class="details-main-img-wrap" style="position: relative; overflow: hidden;">
+        <img src="${product.image}" alt="${product.name}" id="detailsMainImg" style="transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;">
       </div>
     </div>
 
@@ -414,6 +414,49 @@ function openProductDetails(productId) {
       </button>
     </div>
   `;
+
+  // Dynamic Image slideshow loop (every 5 seconds)
+  if (product.images && product.images.length > 1) {
+    let currentSlideIdx = 0;
+    const mainImg = document.getElementById("detailsMainImg");
+    const thumbButtons = document.querySelectorAll(".thumb-btn");
+
+    const slideshowInterval = setInterval(() => {
+      // Check if we are still viewing this product details page
+      if (currentProductDetailId !== product.id || activeView !== "product-detail") {
+        clearInterval(slideshowInterval);
+        return;
+      }
+
+      currentSlideIdx = (currentSlideIdx + 1) % product.images.length;
+      
+      if (mainImg) {
+        // Slide / Fade transition transition
+        mainImg.style.opacity = "0";
+        mainImg.style.transform = "translateX(15px)";
+        
+        setTimeout(() => {
+          mainImg.src = product.images[currentSlideIdx];
+          mainImg.style.transform = "translateX(-15px)";
+          
+          // Force layout redraw
+          mainImg.offsetWidth;
+          
+          mainImg.style.opacity = "1";
+          mainImg.style.transform = "translateX(0)";
+
+          // Update active thumb button styling
+          if (thumbButtons.length > currentSlideIdx) {
+            thumbButtons.forEach(btn => btn.classList.remove("selected"));
+            thumbButtons[currentSlideIdx].classList.add("selected");
+          }
+        }, 500);
+      }
+    }, 5000);
+
+    // Stop loop if navigating away
+    window.addEventListener("hashchange", () => clearInterval(slideshowInterval), { once: true });
+  }
 
   // Navigate to view
   navigateToView("product-detail");
