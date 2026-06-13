@@ -56,6 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
   if (footerYear) {
     footerYear.textContent = new Date().getFullYear();
   }
+
+  // Glass header on scroll
+  const mainHeader = document.querySelector(".main-header");
+  if (mainHeader) {
+    window.addEventListener("scroll", () => {
+      mainHeader.classList.toggle("scrolled", window.scrollY > 10);
+    }, { passive: true });
+  }
 });
 
 // ==========================================================================
