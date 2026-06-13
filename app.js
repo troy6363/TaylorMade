@@ -55,9 +55,14 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("hashchange", () => {
     const h = window.location.hash.replace("#", "");
     if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(h)) {
-      navigateToView(h);
-    } else if (h.startsWith("product-")) {
-      openProductDetails(h.replace("product-", ""));
+      if (activeView !== h) {
+        navigateToView(h);
+      }
+    } else if (h.startsWith("product-") && h !== "product-detail") {
+      const productId = h.replace("product-", "");
+      if (currentProductDetailId !== productId || activeView !== "product-detail") {
+        openProductDetails(productId);
+      }
     }
   });
 
@@ -87,6 +92,9 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================================================
 
 function navigateToView(viewId) {
+  if (activeView === viewId && viewId !== "product-detail") {
+    return;
+  }
   activeView = viewId;
 
   // Clear details slideshow timer immediately when leaving product details view
@@ -105,8 +113,10 @@ function navigateToView(viewId) {
     targetView.classList.add("active");
   }
 
-  // Update URL hash
-  window.location.hash = viewId;
+  // Update URL hash (except for product-detail which has specific product hashes)
+  if (viewId !== "product-detail") {
+    window.location.hash = viewId;
+  }
 
   // Update navigation active states
   const navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link");
@@ -119,8 +129,13 @@ function navigateToView(viewId) {
     }
   });
 
-  // Scroll to top
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  // Scroll to top (disable smooth scroll on mobile to prevent Safari rendering/reflow crashes)
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    window.scrollTo(0, 0);
+  } else {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
   // Close mobile navigation drawer if open
   closeMobileNav();
@@ -261,7 +276,9 @@ function renderShopProducts(filterCategory = "all", query = "") {
   });
 
   if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
+    lucide.createIcons({
+      root: grid
+    });
   }
 }
 
@@ -345,6 +362,9 @@ function setupSearchOverlay() {
 // ==========================================================================
 
 function openProductDetails(productId) {
+  if (currentProductDetailId === productId && activeView === "product-detail") {
+    return;
+  }
   const product = PRODUCTS.find(p => p.id === productId);
   if (!product) return;
 
@@ -504,7 +524,9 @@ function openProductDetails(productId) {
   }
 
   if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
+    lucide.createIcons({
+      root: contentPanel
+    });
   }
 }
 
@@ -531,6 +553,12 @@ function updateProductDetailPrice(productId) {
 
 // Swap active image from thumbnail click
 function swapDetailsImage(btn, imgSrc) {
+  // Clear details slideshow timer if user manually interacts
+  if (detailsSlideshowTimer) {
+    clearInterval(detailsSlideshowTimer);
+    detailsSlideshowTimer = null;
+  }
+
   const main = document.getElementById("detailsMainImg");
   if (main) {
     main.src = imgSrc;
@@ -717,7 +745,9 @@ function updateCartUI() {
   }
 
   if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
+    lucide.createIcons({
+      root: itemsContainer
+    });
   }
 }
 
