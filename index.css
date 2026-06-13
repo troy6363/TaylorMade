@@ -2393,6 +2393,36 @@ img {
   color: var(--muted-foreground);
 }
 
+.footer-powered-by {
+  margin-top: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.footer-built-by {
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.footer-brand-credit {
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  animation: smartweb-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes smartweb-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
 /* ==========================================================================
    LEGAL PAGES STYLING (Terms & Privacy)
    ========================================================================== */

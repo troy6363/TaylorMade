@@ -40,16 +40,22 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSearchOverlay();
   setupCheckoutFlow();
 
-  // Default view routing
-  const hash = window.location.hash.replace("#", "");
-  if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(hash)) {
-    navigateToView(hash);
-  } else if (hash.startsWith("product-")) {
-    const productId = hash.replace("product-", "");
-    openProductDetails(productId);
+  // Default view routing based on URL path
+  const pathname = window.location.pathname.replace(/^\//, '') || 'home';
+  if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(pathname)) {
+    navigateToView(pathname, true);
   } else {
-    navigateToView("home");
+    navigateToView("home", true);
   }
+
+  // Handle browser back/forward
+  window.addEventListener("popstate", (e) => {
+    const view = (e.state && e.state.view) ? e.state.view : 'home';
+    document.querySelectorAll(".content-view").forEach(v => v.classList.remove("active"));
+    const target = document.getElementById(`view-${view}`);
+    if (target) target.classList.add("active");
+    activeView = view;
+  });
 
   // Update footer copyright year dynamically
   const footerYear = document.getElementById("footerYear");
@@ -70,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // SPA ROUTER
 // ==========================================================================
 
-function navigateToView(viewId) {
+function navigateToView(viewId, replace = false) {
   activeView = viewId;
 
   // Hide all views
@@ -83,8 +89,13 @@ function navigateToView(viewId) {
     targetView.classList.add("active");
   }
 
-  // Update URL hash
-  window.location.hash = viewId;
+  // Update URL with clean path (product-detail maps to /shop)
+  const path = viewId === 'home' ? '/' : `/${viewId === 'product-detail' ? 'shop' : viewId}`;
+  if (replace) {
+    history.replaceState({ view: viewId }, '', path);
+  } else {
+    history.pushState({ view: viewId }, '', path);
+  }
 
   // Update navigation active states
   const navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link");
@@ -432,7 +443,6 @@ function openProductDetails(productId) {
 
   // Navigate to view
   navigateToView("product-detail");
-  window.location.hash = `product-${productId}`;
 
   // Dynamic Image slideshow loop (every 5 seconds)
   if (product.images && product.images.length > 1) {
