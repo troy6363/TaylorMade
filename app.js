@@ -415,11 +415,13 @@ function openProductDetails(productId) {
     </div>
   `;
 
+  // Navigate to view
+  navigateToView("product-detail");
+  window.location.hash = `product-${productId}`;
+
   // Dynamic Image slideshow loop (every 5 seconds)
   if (product.images && product.images.length > 1) {
     let currentSlideIdx = 0;
-    const mainImg = document.getElementById("detailsMainImg");
-    const thumbButtons = document.querySelectorAll(".thumb-btn");
 
     const slideshowInterval = setInterval(() => {
       // Check if we are still viewing this product details page
@@ -434,7 +436,7 @@ function openProductDetails(productId) {
       const currentThumbButtons = document.querySelectorAll(".thumb-btn");
 
       if (currentMainImg) {
-        // Slide / Fade transition transition
+        // Slide / Fade transition
         currentMainImg.style.opacity = "0";
         currentMainImg.style.transform = "translateX(15px)";
         
@@ -464,10 +466,6 @@ function openProductDetails(productId) {
     // Stop loop if navigating away
     window.addEventListener("hashchange", () => clearInterval(slideshowInterval), { once: true });
   }
-
-  // Navigate to view
-  navigateToView("product-detail");
-  window.location.hash = `product-${productId}`;
 
   // Call price update immediately to set correct starting price
   if (isClothing) {
