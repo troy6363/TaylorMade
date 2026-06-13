@@ -89,6 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
 function navigateToView(viewId) {
   activeView = viewId;
 
+  // Clear details slideshow timer immediately when leaving product details view
+  if (viewId !== "product-detail" && detailsSlideshowTimer) {
+    clearInterval(detailsSlideshowTimer);
+    detailsSlideshowTimer = null;
+  }
+
   // Hide all views
   const views = document.querySelectorAll(".content-view");
   views.forEach(view => view.classList.remove("active"));
@@ -1348,46 +1354,47 @@ function initHeroCarousel() {
 
   let slideIndex = 0;
 
-  heroImages.forEach((imgSrc, index) => {
-    const imgEl = document.createElement("img");
-    
-    // Only load the first two images immediately to prevent freezing the browser
-    if (index === 0 || index === 1) {
-      imgEl.src = imgSrc;
-    } else {
-      imgEl.dataset.src = imgSrc;
-    }
-    
-    imgEl.alt = "Taylor Made Background Slide " + (index + 1);
-    imgEl.className = "hero-carousel-img";
-    if (index === 0) imgEl.classList.add("active");
-    imgEl.onerror = () => { imgEl.style.display = "none"; };
-    container.appendChild(imgEl);
-  });
+  // Create exactly two image elements for recycling
+  const img1 = document.createElement("img");
+  img1.className = "hero-carousel-img active";
+  img1.src = heroImages[0];
+  img1.alt = "Taylor Made Background Slide";
+  container.appendChild(img1);
+
+  if (heroImages.length <= 1) return;
+
+  const img2 = document.createElement("img");
+  img2.className = "hero-carousel-img";
+  // Pre-load the second image so the first transition is immediate and cached
+  img2.src = heroImages[1] || "";
+  img2.alt = "Taylor Made Background Slide";
+  container.appendChild(img2);
+
+  let currentImgEl = img1;
+  let nextImgEl = img2;
 
   // Cross-fade every 4.5 seconds, skipping any slides that failed to load
-  const slides = container.getElementsByClassName("hero-carousel-img");
-  if (slides.length > 1) {
-    setInterval(() => {
-      slides[slideIndex].classList.remove("active");
-      let next = (slideIndex + 1) % slides.length;
-      let attempts = 0;
-      while (slides[next].style.display === "none" && attempts < slides.length) {
-        next = (next + 1) % slides.length;
-        attempts++;
-      }
-      
-      // Lazy load the image that comes AFTER the next one, so it has time to load in the background
-      let upcoming = (next + 1) % slides.length;
-      if (slides[upcoming].dataset.src) {
-        slides[upcoming].src = slides[upcoming].dataset.src;
-        slides[upcoming].removeAttribute("data-src");
-      }
+  setInterval(() => {
+    // Only run if the user is on the homepage to save mobile memory/CPU/battery
+    if (activeView !== "home") return;
 
-      slideIndex = next;
-      slides[slideIndex].classList.add("active");
-    }, 4500);
-  }
+    slideIndex = (slideIndex + 1) % heroImages.length;
+    const nextSrc = heroImages[slideIndex];
+
+    nextImgEl.onload = () => {
+      nextImgEl.classList.add("active");
+      currentImgEl.classList.remove("active");
+
+      // Swap element roles
+      const temp = currentImgEl;
+      currentImgEl = nextImgEl;
+      nextImgEl = temp;
+    };
+    nextImgEl.onerror = () => {
+      console.warn("Hero image failed to load: " + nextSrc);
+    };
+    nextImgEl.src = nextSrc;
+  }, 4500);
 }
 
 // Interactive FAQ Toggle Accordion helper
