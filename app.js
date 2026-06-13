@@ -423,32 +423,39 @@ function openProductDetails(productId) {
 
     const slideshowInterval = setInterval(() => {
       // Check if we are still viewing this product details page
-      if (currentProductDetailId !== product.id || activeView !== "product-detail") {
+      if (currentProductDetailId !== product.id || window.location.hash !== `#product-${product.id}`) {
         clearInterval(slideshowInterval);
         return;
       }
 
       currentSlideIdx = (currentSlideIdx + 1) % product.images.length;
       
-      if (mainImg) {
+      const currentMainImg = document.getElementById("detailsMainImg");
+      const currentThumbButtons = document.querySelectorAll(".thumb-btn");
+
+      if (currentMainImg) {
         // Slide / Fade transition transition
-        mainImg.style.opacity = "0";
-        mainImg.style.transform = "translateX(15px)";
+        currentMainImg.style.opacity = "0";
+        currentMainImg.style.transform = "translateX(15px)";
         
         setTimeout(() => {
-          mainImg.src = product.images[currentSlideIdx];
-          mainImg.style.transform = "translateX(-15px)";
+          // Re-verify DOM node exists
+          const freshMainImg = document.getElementById("detailsMainImg");
+          if (!freshMainImg) return;
+
+          freshMainImg.src = product.images[currentSlideIdx];
+          freshMainImg.style.transform = "translateX(-15px)";
           
           // Force layout redraw
-          mainImg.offsetWidth;
+          freshMainImg.offsetWidth;
           
-          mainImg.style.opacity = "1";
-          mainImg.style.transform = "translateX(0)";
+          freshMainImg.style.opacity = "1";
+          freshMainImg.style.transform = "translateX(0)";
 
           // Update active thumb button styling
-          if (thumbButtons.length > currentSlideIdx) {
-            thumbButtons.forEach(btn => btn.classList.remove("selected"));
-            thumbButtons[currentSlideIdx].classList.add("selected");
+          if (currentThumbButtons.length > currentSlideIdx) {
+            currentThumbButtons.forEach(btn => btn.classList.remove("selected"));
+            currentThumbButtons[currentSlideIdx].classList.add("selected");
           }
         }, 500);
       }
