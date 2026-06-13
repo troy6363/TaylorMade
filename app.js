@@ -359,7 +359,8 @@ function openProductDetails(productId) {
           <option value="M">Medium (M)</option>
           <option value="L">Large (L)</option>
           <option value="XL">X-Large (XL)</option>
-          <option value="2XL">2X-Large (2XL)</option>
+          <option value="2XL">2X-Large (2XL) (+$20.00)</option>
+          <option value="3XL">3X-Large (3XL) (+$20.00)</option>
         </select>
       </div>
     `;
@@ -497,13 +498,10 @@ function updateProductDetailPrice(productId) {
   const size = select.value;
   let price = product.price;
 
-  // Custom pricing for Juneteenth Tee based on size
-  if (productId === "p17") {
-    if (size === "2XL") {
-      price = 20.00;
-    } else {
-      price = 15.00;
-    }
+  // Add $20 surcharge for 2XL and 3XL sizes on clothing items
+  const isClothing = ["tshirts", "pajamas"].includes(product.category) && product.id !== "p16";
+  if (isClothing && (size === "2XL" || size === "3XL")) {
+    price += 20.00;
   }
 
   priceDisplay.textContent = `$${price.toFixed(2)}`;
@@ -586,10 +584,9 @@ function addToCart(productId, quantity = 1, size = null, team = null) {
 
   // Determine item price based on product and selected size
   let price = product.price;
-  if (productId === "p17" && size === "2XL") {
-    price = 20.00;
-  } else if (productId === "p17" && size && size !== "2XL") {
-    price = 15.00;
+  const isClothing = ["tshirts", "pajamas"].includes(product.category) && product.id !== "p16";
+  if (isClothing && (size === "2XL" || size === "3XL")) {
+    price += 20.00;
   }
 
   // Check if item with same ID, size, and team is already in cart
