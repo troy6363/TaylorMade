@@ -63,6 +63,12 @@ document.addEventListener("DOMContentLoaded", () => {
     footerYear.textContent = new Date().getFullYear();
   }
 
+  // Prevent href="#" from scrolling the page — all navigation is handled by onclick/pushState
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href="#"]');
+    if (link) e.preventDefault();
+  });
+
   // Glass header on scroll
   const mainHeader = document.querySelector(".main-header");
   if (mainHeader) {
