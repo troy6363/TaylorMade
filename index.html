@@ -37,19 +37,19 @@
       </button>
 
       <!-- Logo block -->
-      <a href="#home" class="brand-logo" id="logoHomeLink">
+      <a href="/" class="brand-logo" id="logoHomeLink" data-target="home">
         <img src="assets/logo.svg" alt="Taylor Made Accessories Logo" class="brand-logo-img">
       </a>
 
       <!-- Desktop Navigation Links -->
       <nav class="desktop-nav">
-        <a href="#" class="nav-link" data-target="shop" data-category="jewelry">Jewelry</a>
-        <a href="#" class="nav-link" data-target="shop" data-category="blankets">Blankets</a>
-        <a href="#" class="nav-link" data-target="shop" data-category="tshirts">T-Shirts</a>
-        <a href="#" class="nav-link" data-target="shop" data-category="coasters">Coasters</a>
-        <a href="#" class="nav-link" data-target="shop" data-category="pajamas">Pajamas</a>
-        <a href="#" class="nav-link" data-target="shop" data-category="accessories">Accessories</a>
-        <a href="#" class="nav-link" data-target="about">Our Story</a>
+        <a href="/shop" class="nav-link" data-target="shop" data-category="jewelry">Jewelry</a>
+        <a href="/shop" class="nav-link" data-target="shop" data-category="blankets">Blankets</a>
+        <a href="/shop" class="nav-link" data-target="shop" data-category="tshirts">T-Shirts</a>
+        <a href="/shop" class="nav-link" data-target="shop" data-category="coasters">Coasters</a>
+        <a href="/shop" class="nav-link" data-target="shop" data-category="pajamas">Pajamas</a>
+        <a href="/shop" class="nav-link" data-target="shop" data-category="accessories">Accessories</a>
+        <a href="/about" class="nav-link" data-target="about">Our Story</a>
       </nav>
 
       <!-- Header actions -->
@@ -92,13 +92,13 @@
       </button>
     </div>
     <nav class="mobile-nav-links">
-      <a href="#" class="mobile-nav-link" data-target="shop" data-category="jewelry">Jewelry</a>
-      <a href="#" class="mobile-nav-link" data-target="shop" data-category="blankets">Blankets</a>
-      <a href="#" class="mobile-nav-link" data-target="shop" data-category="tshirts">T-Shirts</a>
-      <a href="#" class="mobile-nav-link" data-target="shop" data-category="coasters">Coasters</a>
-      <a href="#" class="mobile-nav-link" data-target="shop" data-category="pajamas">Pajamas</a>
-      <a href="#" class="mobile-nav-link" data-target="shop" data-category="accessories">Accessories</a>
-      <a href="#" class="mobile-nav-link" data-target="about">Our Story</a>
+      <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="jewelry">Jewelry</a>
+      <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="blankets">Blankets</a>
+      <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="tshirts">T-Shirts</a>
+      <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="coasters">Coasters</a>
+      <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="pajamas">Pajamas</a>
+      <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="accessories">Accessories</a>
+      <a href="/about" class="mobile-nav-link" data-target="about">Our Story</a>
     </nav>
   </aside>
 
@@ -114,19 +114,19 @@
         <div class="hero-text-block">
           <h1 class="hero-title">Taylor Made</h1>
           <p class="hero-subtitle">Handcrafted Accessories & Apparel</p>
-          <a href="#" class="hero-shop-btn" onclick="navigateToView('shop')">Shop Now</a>
+          <a href="/shop" class="hero-shop-btn" onclick="navigateToView('shop'); event.preventDefault();">Shop Now</a>
         </div>
       </section>
 
       <!-- Horizontal Categories boxes -->
       <section class="home-categories-section">
         <div class="home-categories-container">
-          <a href="#" class="home-cat-box cat-jewelry" onclick="filterByCategory('jewelry')">Jewelry</a>
-          <a href="#" class="home-cat-box cat-blankets" onclick="filterByCategory('blankets')">Blankets</a>
-          <a href="#" class="home-cat-box cat-tshirts" onclick="filterByCategory('tshirts')">T-Shirts</a>
-          <a href="#" class="home-cat-box cat-coasters" onclick="filterByCategory('coasters')">Coasters</a>
-          <a href="#" class="home-cat-box cat-pajamas" onclick="filterByCategory('pajamas')">Pajamas</a>
-          <a href="#" class="home-cat-box cat-accessories" onclick="filterByCategory('accessories')">Accessories</a>
+          <a href="/shop" class="home-cat-box cat-jewelry" onclick="filterByCategory('jewelry'); event.preventDefault();">Jewelry</a>
+          <a href="/shop" class="home-cat-box cat-blankets" onclick="filterByCategory('blankets'); event.preventDefault();">Blankets</a>
+          <a href="/shop" class="home-cat-box cat-tshirts" onclick="filterByCategory('tshirts'); event.preventDefault();">T-Shirts</a>
+          <a href="/shop" class="home-cat-box cat-coasters" onclick="filterByCategory('coasters'); event.preventDefault();">Coasters</a>
+          <a href="/shop" class="home-cat-box cat-pajamas" onclick="filterByCategory('pajamas'); event.preventDefault();">Pajamas</a>
+          <a href="/shop" class="home-cat-box cat-accessories" onclick="filterByCategory('accessories'); event.preventDefault();">Accessories</a>
         </div>
       </section>
 
@@ -137,42 +137,42 @@
         </div>
         <div class="collections-grid">
           <!-- Card 1 -->
-          <a href="#" class="collection-card group" onclick="filterByCategory('jewelry')">
+          <a href="/shop" class="collection-card group" onclick="filterByCategory('jewelry'); event.preventDefault();">
             <img src="assets/bracelets/ChatGPT Image Jun 8, 2026, 09_16_07 PM_result.webp" alt="Jewelry Collection" class="collection-img">
             <div class="collection-overlay">
               <h3 class="collection-title">Jewelry</h3>
             </div>
           </a>
           <!-- Card 2 -->
-          <a href="#" class="collection-card group" onclick="filterByCategory('blankets')">
+          <a href="/shop" class="collection-card group" onclick="filterByCategory('blankets'); event.preventDefault();">
             <img src="assets/blankets/ChatGPT Image Jun 8, 2026, 05_47_40 PM_result.webp" alt="Blankets Collection" class="collection-img">
             <div class="collection-overlay">
               <h3 class="collection-title">Blankets</h3>
             </div>
           </a>
           <!-- Card 3 -->
-          <a href="#" class="collection-card group" onclick="filterByCategory('tshirts')">
+          <a href="/shop" class="collection-card group" onclick="filterByCategory('tshirts'); event.preventDefault();">
             <img src="assets/clothing/ChatGPT Image Jun 8, 2026, 07_18_20 PM_result.webp" alt="T-Shirts Collection" class="collection-img">
             <div class="collection-overlay">
               <h3 class="collection-title">T-Shirts</h3>
             </div>
           </a>
           <!-- Card 4 -->
-          <a href="#" class="collection-card group" onclick="filterByCategory('coasters')">
+          <a href="/shop" class="collection-card group" onclick="filterByCategory('coasters'); event.preventDefault();">
             <img src="assets/coasters/ChatGPT Image Jun 8, 2026, 07_29_40 PM_result.webp" alt="Coasters Collection" class="collection-img">
             <div class="collection-overlay">
               <h3 class="collection-title">Coasters</h3>
             </div>
           </a>
           <!-- Card 5 -->
-          <a href="#" class="collection-card group" onclick="filterByCategory('pajamas')">
+          <a href="/shop" class="collection-card group" onclick="filterByCategory('pajamas'); event.preventDefault();">
             <img src="assets/pajamas/ChatGPT Image Jun 8, 2026, 07_47_54 PM_result.webp" alt="Pajamas Collection" class="collection-img">
             <div class="collection-overlay">
               <h3 class="collection-title">Pajamas</h3>
             </div>
           </a>
           <!-- Card 6 -->
-          <a href="#" class="collection-card group" onclick="filterByCategory('accessories')">
+          <a href="/shop" class="collection-card group" onclick="filterByCategory('accessories'); event.preventDefault();">
             <img src="assets/accessories/ChatGPT Image Jun 8, 2026, 07_39_52 PM_result.webp" alt="Accessories Collection" class="collection-img">
             <div class="collection-overlay">
               <h3 class="collection-title">Accessories</h3>
@@ -198,21 +198,21 @@
         </div>
         <div class="featured-grid">
           <!-- Item 1 -->
-          <a href="#" class="featured-card group" onclick="filterByCategory('tshirts')">
+          <a href="/shop" class="featured-card group" onclick="filterByCategory('tshirts'); event.preventDefault();">
             <img src="assets/clothing/ChatGPT Image Jun 8, 2026, 07_18_20 PM_result.webp" alt="Custom Apparel" class="featured-img">
             <div class="featured-overlay">
               <h3 class="featured-title">Custom Apparel</h3>
             </div>
           </a>
           <!-- Item 2 -->
-          <a href="#" class="featured-card group" onclick="filterByCategory('jewelry')">
+          <a href="/shop" class="featured-card group" onclick="filterByCategory('jewelry'); event.preventDefault();">
             <img src="assets/bracelets/ChatGPT Image Jun 8, 2026, 09_24_17 PM_result.webp" alt="Handmade Jewelry" class="featured-img">
             <div class="featured-overlay">
               <h3 class="featured-title">Handmade Jewelry</h3>
             </div>
           </a>
           <!-- Item 3 -->
-          <a href="#" class="featured-card group" onclick="filterByCategory('blankets')">
+          <a href="/shop" class="featured-card group" onclick="filterByCategory('blankets'); event.preventDefault();">
             <img src="assets/blankets/ChatGPT Image Jun 8, 2026, 05_49_52 PM_result.webp" alt="Home Goods" class="featured-img">
             <div class="featured-overlay">
               <h3 class="featured-title">Home Goods</h3>
@@ -382,7 +382,7 @@
     <section class="content-view" id="view-product-detail">
       <div class="product-details-container">
         <!-- Back navigation link -->
-        <a href="#" class="back-link-btn" onclick="navigateToView('shop')">
+        <a href="/shop" class="back-link-btn" onclick="navigateToView('shop'); event.preventDefault();">
           <i data-lucide="arrow-left" class="back-arrow-icon"></i>
           <span>Back to Shop</span>
         </a>
@@ -421,7 +421,7 @@
               <p>Every piece of jewelry, every hand-knit blanket, and every custom coaster set is made with that same childlike wonder and dedication to quality. I believe that the best accessories aren't just worn or used—they're experienced.</p>
               <p>Our goal is to bring a little bit of that handmade magic into your everyday life. Whether you're looking for a statement necklace, a cozy blanket for movie nights, or a unique gift for a friend, you'll find something made with love right here.</p>
             </div>
-            <a href="#" class="narrative-shop-btn" onclick="navigateToView('shop')">Shop Our Collection</a>
+            <a href="/shop" class="narrative-shop-btn" onclick="navigateToView('shop'); event.preventDefault();">Shop Our Collection</a>
           </div>
           <div class="narrative-image-panel">
             <div class="narrative-img-wrapper">
@@ -936,10 +936,10 @@
       <div class="footer-column">
         <h4>Customer Service</h4>
         <ul class="footer-links">
-          <li><a href="#" onclick="navigateToView('contact')">Contact</a></li>
-          <li><a href="#" onclick="navigateToView('terms')">Shipment Info</a></li>
-          <li><a href="#" onclick="navigateToView('faq')">FAQ</a></li>
-          <li><a href="#" onclick="navigateToView('terms')">Refund Policy</a></li>
+          <li><a href="/contact" class="footer-nav-link" data-target="contact">Contact</a></li>
+          <li><a href="/terms" class="footer-nav-link" data-target="terms">Shipment Info</a></li>
+          <li><a href="/faq" class="footer-nav-link" data-target="faq">FAQ</a></li>
+          <li><a href="/terms" class="footer-nav-link" data-target="terms">Refund Policy</a></li>
         </ul>
       </div>
 
@@ -947,9 +947,9 @@
       <div class="footer-column">
         <h4>Information</h4>
         <ul class="footer-links">
-          <li><a href="#" onclick="navigateToView('about')">About Taylor Made</a></li>
-          <li><a href="#" onclick="navigateToView('terms')">Terms of Service</a></li>
-          <li><a href="#" onclick="navigateToView('privacy')">Privacy Policy</a></li>
+          <li><a href="/about" class="footer-nav-link" data-target="about">About Taylor Made</a></li>
+          <li><a href="/terms" class="footer-nav-link" data-target="terms">Terms of Service</a></li>
+          <li><a href="/privacy" class="footer-nav-link" data-target="privacy">Privacy Policy</a></li>
         </ul>
       </div>
     </div>

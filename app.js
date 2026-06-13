@@ -40,29 +40,26 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSearchOverlay();
   setupCheckoutFlow();
 
-  // Default view routing
-  const hash = window.location.hash.replace("#", "");
-  if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(hash)) {
-    navigateToView(hash);
-  } else if (hash.startsWith("product-")) {
-    const productId = hash.replace("product-", "");
-    openProductDetails(productId);
+  // Default view routing based on URL path
+  const pathname = window.location.pathname.replace(/^\//, '');
+  if (pathname.startsWith("product-")) {
+    const productId = pathname.replace("product-", "");
+    openProductDetails(productId, true);
+  } else if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(pathname)) {
+    navigateToView(pathname, true);
   } else {
-    navigateToView("home");
+    navigateToView("home", true);
   }
 
-  // Handle browser back/forward via hashchange
-  window.addEventListener("hashchange", () => {
-    const h = window.location.hash.replace("#", "");
-    if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(h)) {
-      if (activeView !== h) {
-        navigateToView(h);
-      }
-    } else if (h.startsWith("product-") && h !== "product-detail") {
-      const productId = h.replace("product-", "");
-      if (currentProductDetailId !== productId || activeView !== "product-detail") {
-        openProductDetails(productId);
-      }
+  // Handle browser back/forward via popstate
+  window.addEventListener("popstate", (e) => {
+    const view = (e.state && e.state.view) ? e.state.view : 'home';
+    const prodId = (e.state && e.state.productId) ? e.state.productId : null;
+
+    if (view === "product-detail" && prodId) {
+      openProductDetails(prodId, true);
+    } else {
+      navigateToView(view, true);
     }
   });
 
@@ -91,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // SPA ROUTER
 // ==========================================================================
 
-function navigateToView(viewId) {
+function navigateToView(viewId, replace = false, productId = null) {
   activeView = viewId;
 
   // Clear details slideshow timer immediately when leaving product details view
@@ -110,13 +107,24 @@ function navigateToView(viewId) {
     targetView.classList.add("active");
   }
 
-  // Update URL hash (except for product-detail which has specific product hashes)
-  if (viewId !== "product-detail") {
-    window.location.hash = viewId;
+  // Update URL path
+  let path = '/';
+  if (viewId === 'product-detail' && productId) {
+    path = `/product-${productId}`;
+  } else if (viewId !== 'home') {
+    path = `/${viewId}`;
+  }
+
+  if (window.location.pathname !== path) {
+    if (replace) {
+      history.replaceState({ view: viewId, productId: productId }, '', path);
+    } else {
+      history.pushState({ view: viewId, productId: productId }, '', path);
+    }
   }
 
   // Update navigation active states
-  const navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link");
+  const navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link, .footer-nav-link");
   navLinks.forEach(link => {
     const linkTarget = link.getAttribute("data-target");
     if (linkTarget === viewId) {
@@ -140,9 +148,13 @@ function navigateToView(viewId) {
 
 function setupNavigation() {
   // Navigation links click
-  const links = document.querySelectorAll(".nav-link, .mobile-nav-link, #logoHomeLink");
+  const links = document.querySelectorAll(".nav-link, .mobile-nav-link, #logoHomeLink, .footer-nav-link");
   links.forEach(link => {
     link.addEventListener("click", (e) => {
+      // Check if it's a normal left click without modifier keys (so users can still Ctrl+Click to open in new tab!)
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+        return;
+      }
       e.preventDefault();
       const target = link.getAttribute("data-target") || "home";
       const cat = link.getAttribute("data-category");
@@ -358,7 +370,7 @@ function setupSearchOverlay() {
 // DEDICATED PRODUCT DETAILS PAGE
 // ==========================================================================
 
-function openProductDetails(productId) {
+function openProductDetails(productId, replace = false) {
   if (currentProductDetailId === productId && activeView === "product-detail") {
     return;
   }
@@ -469,9 +481,8 @@ function openProductDetails(productId) {
     </div>
   `;
 
-  // Navigate to view
-  navigateToView("product-detail");
-  window.location.hash = `product-${productId}`;
+  // Navigate to view (this will handle updating URL to /product-productId)
+  navigateToView("product-detail", replace, productId);
 
   // Dynamic Image slideshow loop (every 5 seconds)
   if (product.images && product.images.length > 1) {
