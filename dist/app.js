@@ -40,21 +40,25 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSearchOverlay();
   setupCheckoutFlow();
 
-  // Default view routing based on URL path
-  const pathname = window.location.pathname.replace(/^\//, '') || 'home';
-  if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(pathname)) {
-    navigateToView(pathname, true);
+  // Default view routing
+  const hash = window.location.hash.replace("#", "");
+  if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(hash)) {
+    navigateToView(hash);
+  } else if (hash.startsWith("product-")) {
+    const productId = hash.replace("product-", "");
+    openProductDetails(productId);
   } else {
-    navigateToView("home", true);
+    navigateToView("home");
   }
 
-  // Handle browser back/forward
-  window.addEventListener("popstate", (e) => {
-    const view = (e.state && e.state.view) ? e.state.view : 'home';
-    document.querySelectorAll(".content-view").forEach(v => v.classList.remove("active"));
-    const target = document.getElementById(`view-${view}`);
-    if (target) target.classList.add("active");
-    activeView = view;
+  // Handle browser back/forward via hashchange
+  window.addEventListener("hashchange", () => {
+    const h = window.location.hash.replace("#", "");
+    if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(h)) {
+      navigateToView(h);
+    } else if (h.startsWith("product-")) {
+      openProductDetails(h.replace("product-", ""));
+    }
   });
 
   // Update footer copyright year dynamically
@@ -82,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // SPA ROUTER
 // ==========================================================================
 
-function navigateToView(viewId, replace = false) {
+function navigateToView(viewId) {
   activeView = viewId;
 
   // Hide all views
@@ -95,13 +99,8 @@ function navigateToView(viewId, replace = false) {
     targetView.classList.add("active");
   }
 
-  // Update URL with clean path (product-detail maps to /shop)
-  const path = viewId === 'home' ? '/' : `/${viewId === 'product-detail' ? 'shop' : viewId}`;
-  if (replace) {
-    history.replaceState({ view: viewId }, '', path);
-  } else {
-    history.pushState({ view: viewId }, '', path);
-  }
+  // Update URL hash
+  window.location.hash = viewId;
 
   // Update navigation active states
   const navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link");
@@ -449,6 +448,7 @@ function openProductDetails(productId) {
 
   // Navigate to view
   navigateToView("product-detail");
+  window.location.hash = `product-${productId}`;
 
   // Dynamic Image slideshow loop (every 5 seconds)
   if (product.images && product.images.length > 1) {
@@ -1272,76 +1272,49 @@ function initHeroCarousel() {
 
   const isMobile = window.innerWidth <= 768;
 
-  const heroImages = [
-    isMobile ? "assets/hero_table_display_mobile.jpg" : "assets/hero_table_display_desktop.jpg",
-
-    // Accessories
-    "assets/accessories/ChatGPT Image Jun 8, 2026, 07_39_52 PM.png",
-    "assets/accessories/ChatGPT Image Jun 8, 2026, 07_41_01 PM.png",
-    "assets/accessories/ChatGPT Image Jun 8, 2026, 07_59_15 PM.png",
-    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_16_32 PM.png",
-    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_16_38 PM.png",
-    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_42_40 PM.png",
-    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_44_43 PM.png",
-    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_50_13 PM.png",
-    "assets/accessories/ChatGPT Image Jun 8, 2026, 09_50_31 PM.png",
-
-    // Blankets
-    "assets/blankets/ChatGPT Image Jun 8, 2026, 05_47_40 PM.png",
-    "assets/blankets/ChatGPT Image Jun 8, 2026, 05_47_43 PM.png",
-    "assets/blankets/ChatGPT Image Jun 8, 2026, 05_49_52 PM.png",
-    "assets/blankets/ChatGPT Image Jun 8, 2026, 07_13_52 PM.png",
-    "assets/blankets/ChatGPT Image Jun 8, 2026, 07_15_50 PM.png",
-    "assets/blankets/4990dab2-3815-4167-bd75-e7cde62e63ee.png",
-
-    // Bracelets
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_16_07 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_17_42 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_24_17 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_25_24 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_26_22 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_29_08 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_52_54 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_55_43 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_56_57 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_58_23 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_59_50 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_01_03 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_02_04 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_03_01 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_04_25 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_05_41 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_07_44 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_10_05 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 9, 2026, 03_30_08 PM.png",
-    "assets/bracelets/ChatGPT Image Jun 9, 2026, 03_46_21 PM.png",
-    "assets/bracelets/dst_elephant_worn.jpg",
-    "assets/bracelets/sgr_step_dance.jpg",
-    "assets/bracelets/zeta_phi_beta_worn.png",
-
-    // Clothing
-    "assets/clothing/ChatGPT Image Jun 8, 2026, 06_02_59 PM.png",
-    "assets/clothing/ChatGPT Image Jun 8, 2026, 06_03_50 PM.png",
-    "assets/clothing/ChatGPT Image Jun 8, 2026, 07_18_20 PM.png",
-    "assets/clothing/ChatGPT Image Jun 8, 2026, 07_18_33 PM.png",
-    "assets/clothing/ChatGPT Image Jun 8, 2026, 07_54_23 PM.png",
-    "assets/clothing/ChatGPT Image Jun 8, 2026, 07_57_04 PM.png",
-
-    // Coasters
-    "assets/coasters/ChatGPT Image Jun 8, 2026, 07_28_52 PM.png",
-    "assets/coasters/ChatGPT Image Jun 8, 2026, 07_29_40 PM.png",
-    "assets/coasters/ChatGPT Image Jun 8, 2026, 07_32_33 PM.png",
-    "assets/coasters/ChatGPT Image Jun 8, 2026, 07_35_31 PM.png",
-    "assets/coasters/ChatGPT Image Jun 8, 2026, 07_37_06 PM.png",
-    "assets/coasters/tn_titans_backside.jpg",
-
-    // Pajamas
-    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_47_54 PM.png",
-    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_48_03 PM.png",
-    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_48_06 PM.png",
-    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_50_53 PM.png",
-    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_52_00 PM.png",
-    "assets/pajamas/ChatGPT Image Jun 8, 2026, 07_52_54 PM.png",
+  const heroImages = isMobile ? [
+    "assets/hero_table_display_mobile.jpg"
+  ] : [
+    "assets/hero desktop/hero_table_display_desktop.jpg",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 05_47_40 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 05_49_52 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 06_02_59 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_13_52 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_18_20 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_18_33 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_28_52 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_29_40 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_35_31 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_37_06 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_39_52 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_41_01 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_47_54 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_48_06 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_52_00 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_52_54 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 07_57_04 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_16_07 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_16_38 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_17_42 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_24_17 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_25_24 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_26_22 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_29_08 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_42_40 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_44_43 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_50_13 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_50_31 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_52_54 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 09_56_57 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 10_01_03 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 10_02_04 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 10_03_01 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 10_04_25 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 10_07_44 PM.png",
+    "assets/hero desktop/ChatGPT Image Jun 8, 2026, 10_10_05 PM.png",
+    "assets/hero desktop/dst_elephant_worn.jpg",
+    "assets/hero desktop/tn_titans_backside.jpg",
+    "assets/hero desktop/zeta_phi_beta_worn.png"
   ];
 
   let slideIndex = 0;
