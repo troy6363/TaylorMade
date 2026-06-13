@@ -2172,7 +2172,7 @@ img {
   margin-top: 0;
 }
 
-.checkout-inputs-form input {
+.checkout-inputs-form input:not([type="radio"]) {
   width: 100%;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border);
@@ -2182,7 +2182,7 @@ img {
   background-color: var(--gray-light);
 }
 
-.checkout-inputs-form input:focus {
+.checkout-inputs-form input:not([type="radio"]):focus {
   border-color: var(--primary);
   background-color: var(--background);
 }
