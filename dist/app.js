@@ -5,8 +5,9 @@ let cart = [];
 let activeCategory = "all";
 let activeView = "home";
 let currentProductDetailId = null;
+let detailsSlideshowTimer = null;
 
-// GoHighLevel Webhook Integration URL (Paste your GHL Workflow Inbound Webhook URL here)
+// GoHighLevel Webhook URL — set via Netlify environment variable GHL_WEBHOOK_URL, dispatched server-side
 const GHL_WEBHOOK_URL = "";
 
 // Initialize app when DOM loads
@@ -39,21 +40,41 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSearchOverlay();
   setupCheckoutFlow();
 
-  // Default view routing
-  const hash = window.location.hash.replace("#", "");
-  if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(hash)) {
-    navigateToView(hash);
-  } else if (hash.startsWith("product-")) {
-    const productId = hash.replace("product-", "");
-    openProductDetails(productId);
+  // Default view routing based on URL path
+  const pathname = window.location.pathname.replace(/^\//, '') || 'home';
+  if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(pathname)) {
+    navigateToView(pathname, true);
   } else {
-    navigateToView("home");
+    navigateToView("home", true);
   }
+
+  // Handle browser back/forward
+  window.addEventListener("popstate", (e) => {
+    const view = (e.state && e.state.view) ? e.state.view : 'home';
+    document.querySelectorAll(".content-view").forEach(v => v.classList.remove("active"));
+    const target = document.getElementById(`view-${view}`);
+    if (target) target.classList.add("active");
+    activeView = view;
+  });
 
   // Update footer copyright year dynamically
   const footerYear = document.getElementById("footerYear");
   if (footerYear) {
     footerYear.textContent = new Date().getFullYear();
+  }
+
+  // Prevent href="#" from scrolling the page — all navigation is handled by onclick/pushState
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href="#"]');
+    if (link) e.preventDefault();
+  });
+
+  // Glass header on scroll
+  const mainHeader = document.querySelector(".main-header");
+  if (mainHeader) {
+    window.addEventListener("scroll", () => {
+      mainHeader.classList.toggle("scrolled", window.scrollY > 10);
+    }, { passive: true });
   }
 });
 
@@ -61,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // SPA ROUTER
 // ==========================================================================
 
-function navigateToView(viewId) {
+function navigateToView(viewId, replace = false) {
   activeView = viewId;
 
   // Hide all views
@@ -74,8 +95,13 @@ function navigateToView(viewId) {
     targetView.classList.add("active");
   }
 
-  // Update URL hash
-  window.location.hash = viewId;
+  // Update URL with clean path (product-detail maps to /shop)
+  const path = viewId === 'home' ? '/' : `/${viewId === 'product-detail' ? 'shop' : viewId}`;
+  if (replace) {
+    history.replaceState({ view: viewId }, '', path);
+  } else {
+    history.pushState({ view: viewId }, '', path);
+  }
 
   // Update navigation active states
   const navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link");
@@ -317,6 +343,11 @@ function openProductDetails(productId) {
   const product = PRODUCTS.find(p => p.id === productId);
   if (!product) return;
 
+  if (detailsSlideshowTimer) {
+    clearInterval(detailsSlideshowTimer);
+    detailsSlideshowTimer = null;
+  }
+
   currentProductDetailId = productId;
   const contentPanel = document.getElementById("productDetailsContent");
   if (!contentPanel) return;
@@ -345,7 +376,8 @@ function openProductDetails(productId) {
           <option value="M">Medium (M)</option>
           <option value="L">Large (L)</option>
           <option value="XL">X-Large (XL)</option>
-          <option value="2XL">2X-Large (2XL)</option>
+          <option value="2XL">2X-Large (2XL) (+$20.00)</option>
+          <option value="3XL">3X-Large (3XL) (+$20.00)</option>
         </select>
       </div>
     `;
@@ -380,8 +412,8 @@ function openProductDetails(productId) {
   contentPanel.innerHTML = `
     <!-- Product Images -->
     <div class="details-images-panel">
-      <div class="details-main-img-wrap">
-        <img src="${product.image}" alt="${product.name}" id="detailsMainImg">
+      <div class="details-main-img-wrap" style="position: relative; overflow: hidden;">
+        <img src="${product.image}" alt="${product.name}" id="detailsMainImg" style="transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;">
       </div>
     </div>
 
@@ -417,7 +449,48 @@ function openProductDetails(productId) {
 
   // Navigate to view
   navigateToView("product-detail");
-  window.location.hash = `product-${productId}`;
+
+  // Dynamic Image slideshow loop (every 5 seconds)
+  if (product.images && product.images.length > 1) {
+    let currentSlideIdx = 0;
+
+    detailsSlideshowTimer = setInterval(() => {
+      const detailView = document.getElementById("view-product-detail");
+      if (currentProductDetailId !== product.id || !detailView || !detailView.classList.contains("active")) {
+        clearInterval(detailsSlideshowTimer);
+        detailsSlideshowTimer = null;
+        return;
+      }
+
+      currentSlideIdx = (currentSlideIdx + 1) % product.images.length;
+
+      const currentMainImg = document.getElementById("detailsMainImg");
+      const currentThumbButtons = document.querySelectorAll(".thumb-btn");
+
+      if (currentMainImg) {
+        currentMainImg.style.opacity = "0";
+        currentMainImg.style.transform = "translateX(15px)";
+
+        setTimeout(() => {
+          const freshMainImg = document.getElementById("detailsMainImg");
+          if (!freshMainImg) return;
+
+          freshMainImg.src = product.images[currentSlideIdx];
+          freshMainImg.style.transform = "translateX(-15px)";
+
+          freshMainImg.offsetWidth;
+
+          freshMainImg.style.opacity = "1";
+          freshMainImg.style.transform = "translateX(0)";
+
+          if (currentThumbButtons.length > currentSlideIdx) {
+            currentThumbButtons.forEach(btn => btn.classList.remove("selected"));
+            currentThumbButtons[currentSlideIdx].classList.add("selected");
+          }
+        }, 500);
+      }
+    }, 5000);
+  }
 
   // Call price update immediately to set correct starting price
   if (isClothing) {
@@ -441,13 +514,10 @@ function updateProductDetailPrice(productId) {
   const size = select.value;
   let price = product.price;
 
-  // Custom pricing for Juneteenth Tee based on size
-  if (productId === "p17") {
-    if (size === "2XL") {
-      price = 20.00;
-    } else {
-      price = 15.00;
-    }
+  // Add $20 surcharge for 2XL and 3XL sizes on clothing items
+  const isClothing = ["tshirts", "pajamas"].includes(product.category) && product.id !== "p16";
+  if (isClothing && (size === "2XL" || size === "3XL")) {
+    price += 20.00;
   }
 
   priceDisplay.textContent = `$${price.toFixed(2)}`;
@@ -530,10 +600,9 @@ function addToCart(productId, quantity = 1, size = null, team = null) {
 
   // Determine item price based on product and selected size
   let price = product.price;
-  if (productId === "p17" && size === "2XL") {
-    price = 20.00;
-  } else if (productId === "p17" && size && size !== "2XL") {
-    price = 15.00;
+  const isClothing = ["tshirts", "pajamas"].includes(product.category) && product.id !== "p16";
+  if (isClothing && (size === "2XL" || size === "3XL")) {
+    price += 20.00;
   }
 
   // Check if item with same ID, size, and team is already in cart
@@ -1032,11 +1101,17 @@ function handleCheckoutSubmit(e) {
 
   const payBtn = document.getElementById("payNowBtn");
   const successPane = document.getElementById("checkoutSuccessPanel");
+  const loadingPane = document.getElementById("checkoutLoadingPanel");
   const form = document.getElementById("checkoutForm");
 
   if (payBtn) {
     payBtn.disabled = true;
     payBtn.textContent = "Redirecting to secure payment...";
+  }
+
+  // Show the loader overlay
+  if (loadingPane) {
+    loadingPane.classList.add("active");
   }
 
   const subtotal = getCartSubtotal();
@@ -1125,9 +1200,8 @@ function handleCheckoutSubmit(e) {
   .then(data => {
     if (data.paymentUrl) {
       console.log("Redirecting customer to secure payment link:", data.paymentUrl);
-      setTimeout(() => {
-        window.location.href = data.paymentUrl;
-      }, 1500);
+      // Clean redirect immediately once Square link is generated
+      window.location.href = data.paymentUrl;
     } else {
       throw new Error("No paymentUrl returned from Netlify function");
     }
@@ -1135,8 +1209,11 @@ function handleCheckoutSubmit(e) {
   .catch(err => {
     console.warn("Netlify function check failed (expected in local dev/pre-deploy). Falling back to mock complete screen.", err);
     
-    // Fallback: show local complete modal after delay (default offline testing behavior)
+    // Fallback: hide loader, show local complete modal after delay (default offline testing behavior)
     setTimeout(() => {
+      if (loadingPane) {
+        loadingPane.classList.remove("active");
+      }
       form.style.display = "none";
       successPane.classList.add("active");
 
