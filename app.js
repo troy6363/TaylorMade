@@ -8,7 +8,7 @@ let currentProductDetailId = null;
 let detailsSlideshowTimer = null;
 
 // GoHighLevel Webhook Integration URL (Paste your GHL Workflow Inbound Webhook URL here)
-const GHL_WEBHOOK_URL = "";
+const GHL_WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/6HcE0wP5A9SxZvkR87yW/webhook-trigger/2b52f725-ddb8-4d00-83bf-37de6471df78";
 
 // Initialize app when DOM loads
 document.addEventListener("DOMContentLoaded", () => {
