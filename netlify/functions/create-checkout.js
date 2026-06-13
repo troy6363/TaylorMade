@@ -97,7 +97,7 @@ exports.handler = async (event, context) => {
         },
         pre_populated_data: {
           buyer_email: payload.email,
-          buyer_phone_number: payload.phone || "",
+          buyer_phone_number: formatE164(payload.phone),
           buyer_address: {
             address_line_1: payload.shippingAddress?.address || "",
             locality: payload.shippingAddress?.city || "",
