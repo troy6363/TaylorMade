@@ -17,8 +17,6 @@
   
   <!-- CSS Stylesheet -->
   
-  <!-- Lucide Icons Library -->
-  <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-aaroxtz_.css">
 </head>
 <body>
@@ -711,6 +709,23 @@
       </div>
     </section>
 
+    <!-- Inline script to immediately set active route and prevent blank page / FOUC -->
+    <script>
+      (function() {
+        const pathname = window.location.pathname.replace(/^\//, '');
+        let activeId = 'view-home';
+        if (pathname.startsWith('product-')) {
+          activeId = 'view-product-detail';
+        } else if (['home', 'shop', 'about', 'contact', 'terms', 'privacy', 'faq'].includes(pathname)) {
+          activeId = 'view-' + pathname;
+        }
+        const activeEl = document.getElementById(activeId);
+        if (activeEl) {
+          activeEl.classList.add('active');
+        }
+      })();
+    </script>
+
   </main>
 
   <!-- CART SIDE DRAWER (Slides from Right) -->
@@ -965,6 +980,7 @@
   </footer>
 
   <!-- App scripts module -->
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script src="products.js"></script>
   <script src="app.js"></script>
 </body>
