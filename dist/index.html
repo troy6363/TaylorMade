@@ -1004,12 +1004,16 @@
       <div class="footer-column">
         <h4>Sign Up Now</h4>
         <p class="footer-desc-spaced">Stay up to date on the latest drops, sales, and information! Subscribe to our newsletter now.</p>
-        <form class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed!'); this.reset();">
-          <input type="email" placeholder="ENTER YOUR EMAIL" required>
-          <button type="submit" aria-label="Subscribe">
+        <form class="footer-newsletter-form" id="newsletterForm" name="newsletter" data-netlify="true" onsubmit="handleNewsletterSubmit(event)">
+          <input type="hidden" name="form-name" value="newsletter">
+          <input type="email" id="newsletterEmail" name="email" placeholder="ENTER YOUR EMAIL" required>
+          <button type="submit" id="newsletterSubmitBtn" aria-label="Subscribe">
             <i data-lucide="mail"></i>
           </button>
         </form>
+        <div class="newsletter-success-message" id="newsletterSuccess" style="display: none; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-top: 1rem;">
+          ✓ Thank you! You have subscribed.
+        </div>
       </div>
 
       <!-- Links block 1 -->

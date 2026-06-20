@@ -1356,8 +1356,8 @@ function handleCustomOrderSubmit(e) {
     },
     body: JSON.stringify(payload)
   })
-  .then(res => console.log("GHL custom order forward success:", res))
-  .catch(err => console.error("GHL custom order forward error:", err));
+    .then(res => console.log("GHL custom order forward success:", res))
+    .catch(err => console.error("GHL custom order forward error:", err));
 
   // Submit to Netlify forms
   const formData = new FormData(form);
@@ -1543,4 +1543,38 @@ function formatPhoneNumber(value) {
     return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
   }
   return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+}
+
+function handleNewsletterSubmit(e) {
+  e.preventDefault();
+
+  const submit = document.getElementById("newsletterSubmitBtn");
+  const success = document.getElementById("newsletterSuccess");
+  const form = document.getElementById("newsletterForm");
+
+  if (submit) {
+    submit.disabled = true;
+  }
+
+  const formData = new FormData(form);
+
+  // Submit to Netlify Forms only
+  fetch("/", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(formData).toString()
+  })
+  .then(res => {
+    console.log("Netlify newsletter subscription success:", res);
+  })
+  .catch(err => {
+    console.error("Netlify newsletter subscription error:", err);
+  })
+  .finally(() => {
+    if (form) form.style.display = "none";
+    if (success) success.style.display = "block";
+    if (submit) {
+      submit.disabled = false;
+    }
+  });
 }
