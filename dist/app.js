@@ -82,6 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
       mainHeader.classList.toggle("scrolled", window.scrollY > 10);
     }, { passive: true });
   }
+
+  setupPhoneFormatting();
 });
 
 // ==========================================================================
@@ -214,7 +216,7 @@ function renderHomeBestsellers() {
 
     item.innerHTML = `
       <div class="bestseller-img-wrap">
-        <img src="${p.image}" alt="${p.name}" class="${p.category === 'pajamas' || ['p1', 'p18', 'p24', 'p27', 'p28', 'p30', 'p38', 'p40'].includes(p.id) ? 'object-contain' : ''}">
+        <img src="${p.image}" alt="${p.name}" class="${p.category === 'pajamas' || ['p1', 'p18', 'p24', 'p26', 'p27', 'p28', 'p30', 'p38', 'p40'].includes(p.id) ? 'object-contain' : ''}">
       </div>
       <h3 class="bestseller-title">${p.name}</h3>
       <p class="bestseller-price">$${p.price.toFixed(2)}</p>
@@ -267,7 +269,7 @@ function renderShopProducts(filterCategory = "all", query = "") {
     
     card.innerHTML = `
       <div class="catalog-img-wrap" onclick="openProductDetails('${p.id}')">
-        <img src="${p.image}" alt="${p.name}" class="catalog-img ${p.category === 'pajamas' || ['p1', 'p13', 'p14', 'p18', 'p24', 'p27', 'p28', 'p30', 'p38', 'p40'].includes(p.id) ? 'object-contain' : ''}">
+        <img src="${p.image}" alt="${p.name}" class="catalog-img ${p.category === 'pajamas' || ['p1', 'p13', 'p14', 'p18', 'p24', 'p26', 'p27', 'p28', 'p30', 'p38', 'p40'].includes(p.id) ? 'object-contain' : ''}">
         <div class="catalog-hover-overlay">
           <button class="catalog-view-btn">View Details</button>
         </div>
@@ -316,6 +318,8 @@ function selectShopCategory(catId) {
       tshirts: "T-Shirts",
       coasters: "Coasters",
       pajamas: "Pajamas",
+      socks: "Socks",
+      bags: "Bags",
       accessories: "Accessories"
     };
     title.textContent = labels[catId] || "Products";
@@ -1309,6 +1313,58 @@ function resetContactForm() {
   document.getElementById("contactSuccessScreen").classList.remove("active");
 }
 
+function handleCustomOrderSubmit(e) {
+  e.preventDefault();
+
+  const submit = document.getElementById("customSubmitBtn");
+  const successScreen = document.getElementById("customOrderSuccessScreen");
+  const form = document.getElementById("customOrderForm");
+
+  if (submit) {
+    submit.disabled = true;
+    submit.textContent = "Submitting Request...";
+  }
+
+  const payload = {
+    name: document.getElementById("customName") ? document.getElementById("customName").value : "",
+    email: document.getElementById("customEmail") ? document.getElementById("customEmail").value : "",
+    phone: document.getElementById("customPhone") ? document.getElementById("customPhone").value : "",
+    category: document.getElementById("customCategory") ? document.getElementById("customCategory").value : "",
+    description: document.getElementById("customDesc") ? document.getElementById("customDesc").value : ""
+  };
+
+  console.log("🎨 Custom order request submitted payload:", payload);
+
+  // If GHL Webhook is configured, forward custom order request
+  if (typeof GHL_WEBHOOK_URL !== "undefined" && GHL_WEBHOOK_URL) {
+    fetch(GHL_WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        type: "custom_order_request",
+        ...payload
+      })
+    })
+    .then(res => console.log("GHL custom order forward success:", res))
+    .catch(err => console.error("GHL custom order forward error:", err));
+  }
+
+  setTimeout(() => {
+    form.reset();
+    successScreen.classList.add("active");
+    if (submit) {
+      submit.disabled = false;
+      submit.textContent = "Send Custom Request";
+    }
+  }, 1200);
+}
+
+function resetCustomOrderForm() {
+  document.getElementById("customOrderSuccessScreen").classList.remove("active");
+}
+
 // Initialize Hero Background Slideshow Carousel
 function initHeroCarousel() {
   const container = document.getElementById("heroCarousel");
@@ -1441,4 +1497,32 @@ function toggleFaqItem(button) {
   if (item) {
     item.classList.toggle("open");
   }
+}
+
+// Phone number auto-formatting to XXX-XXX-XXXX format
+function setupPhoneFormatting() {
+  const customPhone = document.getElementById("customPhone");
+  if (customPhone) {
+    customPhone.addEventListener("input", (e) => {
+      e.target.value = formatPhoneNumber(e.target.value);
+    });
+  }
+
+  const checkoutPhone = document.getElementById("checkoutPhone");
+  if (checkoutPhone) {
+    checkoutPhone.addEventListener("input", (e) => {
+      e.target.value = formatPhoneNumber(e.target.value);
+    });
+  }
+}
+
+function formatPhoneNumber(value) {
+  if (!value) return value;
+  const phoneNumber = value.replace(/[^\d]/g, '');
+  const len = phoneNumber.length;
+  if (len < 4) return phoneNumber;
+  if (len < 7) {
+    return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
+  }
+  return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
 }

@@ -5,7 +5,7 @@ const PRODUCTS = [
     "id": "p1",
     "name": "Juneteenth Beaded Crossbody",
     "price": 10.00,
-    "category": "accessories",
+    "category": "bags",
     "image": "assets/accessories/ChatGPT Image Jun 8, 2026, 07_39_52 PM_result.webp",
     "images": [
       "assets/accessories/ChatGPT Image Jun 8, 2026, 07_39_52 PM_result.webp",
@@ -33,7 +33,7 @@ const PRODUCTS = [
     "id": "p3",
     "name": "Pink & Black Custom Beaded Waist Chain",
     "price": 15.00,
-    "category": "accessories",
+    "category": "jewelry",
     "image": "assets/accessories/ChatGPT Image Jun 8, 2026, 09_44_43 PM_result.webp",
     "images": [
       "assets/accessories/ChatGPT Image Jun 8, 2026, 09_44_43 PM_result.webp",
@@ -47,7 +47,7 @@ const PRODUCTS = [
     "id": "p4",
     "name": "Dainty Silver Ball Chain Waist Chain",
     "price": 15.00,
-    "category": "accessories",
+    "category": "jewelry",
     "image": "assets/accessories/ChatGPT Image Jun 8, 2026, 09_50_13 PM_result.webp",
     "images": [
       "assets/accessories/ChatGPT Image Jun 8, 2026, 09_50_13 PM_result.webp",
@@ -334,7 +334,7 @@ const PRODUCTS = [
     "id": "p24",
     "name": "Multicolor Fringe Crossbody Bag",
     "price": 10.00,
-    "category": "accessories",
+    "category": "bags",
     "image": "assets/accessories/multicolor_fringe_crossbody_1.webp",
     "images": [
       "assets/accessories/multicolor_fringe_crossbody_1.webp",
@@ -360,15 +360,16 @@ const PRODUCTS = [
   },
   {
     "id": "p26",
-    "name": "San Francisco 49ers Scalloped Resin Coaster Set (4-Piece)",
+    "name": "NFL Scalloped Resin Coaster Set (4-Piece)",
     "price": 10.00,
     "category": "coasters",
+    "teamOptions": true,
     "image": "assets/coasters/49ers_scalloped_coasters_1.webp",
     "images": [
       "assets/coasters/49ers_scalloped_coasters_1.webp",
       "assets/coasters/49ers_scalloped_coasters_2.webp"
     ],
-    "description": "Elevate your game day with this handcrafted 4-piece set of San Francisco 49ers coasters. Cast in glossy gold/orange resin with a rich red backing layer featuring a detailed floral pattern, finished with scalloped borders and the iconic 49ers 'SF' logo centered on each piece.",
+    "description": "Elevate your game day with this handcrafted 4-piece set of NFL coasters. Shown here in San Francisco 49ers colors — cast in glossy gold/orange resin with a rich red backing layer featuring a detailed floral pattern, finished with scalloped borders and the team logo centered on each piece. ✦ Available in ALL 32 NFL teams — select your team above!",
     "rating": 4.9,
     "reviewsCount": 18
   },
@@ -404,7 +405,7 @@ const PRODUCTS = [
     "id": "p29",
     "name": "Breast Cancer Awareness 'Be Strong' Zipper Pouch",
     "price": 5.00,
-    "category": "accessories",
+    "category": "bags",
     "image": "assets/accessories/breast_cancer_zipper_pouch_1.webp",
     "images": [
       "assets/accessories/breast_cancer_zipper_pouch_1.webp",
@@ -432,7 +433,7 @@ const PRODUCTS = [
     "id": "p31",
     "name": "Purple Ribbon 'Hope' Watercolor Zipper Pouch",
     "price": 5.00,
-    "category": "accessories",
+    "category": "bags",
     "image": "assets/accessories/purple_ribbon_hope_pouch_1.webp",
     "images": [
       "assets/accessories/purple_ribbon_hope_pouch_1.webp",
@@ -446,7 +447,7 @@ const PRODUCTS = [
     "id": "p32",
     "name": "Purple Ribbon 'Faith Over Fear' Zipper Pouch",
     "price": 5.00,
-    "category": "accessories",
+    "category": "bags",
     "image": "assets/accessories/purple_ribbon_faith_pouch_1.webp",
     "images": [
       "assets/accessories/purple_ribbon_faith_pouch_1.webp",
@@ -474,7 +475,7 @@ const PRODUCTS = [
     "id": "p34",
     "name": "Pink Flamingo Knit Ankle Socks",
     "price": 3.00,
-    "category": "accessories",
+    "category": "socks",
     "image": "assets/clothing/flamingo_socks_1.webp",
     "images": [
       "assets/clothing/flamingo_socks_1.webp"
@@ -487,7 +488,7 @@ const PRODUCTS = [
     "id": "p35",
     "name": "Pac-Man Retro Arcade Knit Ankle Socks",
     "price": 3.00,
-    "category": "accessories",
+    "category": "socks",
     "image": "assets/clothing/pacman_socks_1.webp",
     "images": [
       "assets/clothing/pacman_socks_1.webp"
@@ -500,7 +501,7 @@ const PRODUCTS = [
     "id": "p36",
     "name": "Custom Superhero Cartoon Crew Socks",
     "price": 3.00,
-    "category": "accessories",
+    "category": "socks",
     "image": "assets/clothing/superhero_socks_1.webp",
     "images": [
       "assets/clothing/superhero_socks_1.webp",
@@ -514,7 +515,7 @@ const PRODUCTS = [
     "id": "p37",
     "name": "Golden Helmet Superhero Crew Socks",
     "price": 3.00,
-    "category": "accessories",
+    "category": "socks",
     "image": "assets/clothing/gold_helmet_socks_1.webp",
     "images": [
       "assets/clothing/gold_helmet_socks_1.webp",
@@ -569,13 +570,13 @@ const PRODUCTS = [
   },
   {
     "id": "p41",
-    "name": "Mickey Mouse Fleece Tie Blanket",
+    "name": "Mickey Mouse Fleece Blanket",
     "price": 40.00,
     "category": "blankets",
-    "image": "assets/blankets/mickey_mouse_blanket_1.webp",
+    "image": "assets/blankets/mickey_mouse_blanket_2.webp",
     "images": [
-      "assets/blankets/mickey_mouse_blanket_1.webp",
       "assets/blankets/mickey_mouse_blanket_2.webp",
+      "assets/blankets/mickey_mouse_blanket_1.webp",
       "assets/blankets/mickey_mouse_blanket_3.webp"
     ],
     "description": "Perfect for kids and Disney lovers, this cozy handmade Mickey Mouse fleece blanket features a classic repeating pattern of Mickey Mouse faces and character outlines on a vibrant red background, completed by a double-layered hand-tied red fleece fringe border.",

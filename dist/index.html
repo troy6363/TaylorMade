@@ -17,7 +17,7 @@
   
   <!-- CSS Stylesheet -->
   
-  <link rel="stylesheet" crossorigin href="/assets/index-aaroxtz_.css">
+  <link rel="stylesheet" crossorigin href="/assets/index-Cn3bRGQE.css">
 </head>
 <body>
 
@@ -46,6 +46,8 @@
         <a href="/shop" class="nav-link" data-target="shop" data-category="tshirts">T-Shirts</a>
         <a href="/shop" class="nav-link" data-target="shop" data-category="coasters">Coasters</a>
         <a href="/shop" class="nav-link" data-target="shop" data-category="pajamas">Pajamas</a>
+        <a href="/shop" class="nav-link" data-target="shop" data-category="socks">Socks</a>
+        <a href="/shop" class="nav-link" data-target="shop" data-category="bags">Bags</a>
         <a href="/shop" class="nav-link" data-target="shop" data-category="accessories">Accessories</a>
         <a href="/about" class="nav-link" data-target="about">Our Story</a>
       </nav>
@@ -95,6 +97,8 @@
       <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="tshirts">T-Shirts</a>
       <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="coasters">Coasters</a>
       <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="pajamas">Pajamas</a>
+      <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="socks">Socks</a>
+      <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="bags">Bags</a>
       <a href="/shop" class="mobile-nav-link" data-target="shop" data-category="accessories">Accessories</a>
       <a href="/about" class="mobile-nav-link" data-target="about">Our Story</a>
     </nav>
@@ -124,6 +128,8 @@
           <a href="/shop" class="home-cat-box cat-tshirts" onclick="filterByCategory('tshirts'); event.preventDefault();">T-Shirts</a>
           <a href="/shop" class="home-cat-box cat-coasters" onclick="filterByCategory('coasters'); event.preventDefault();">Coasters</a>
           <a href="/shop" class="home-cat-box cat-pajamas" onclick="filterByCategory('pajamas'); event.preventDefault();">Pajamas</a>
+          <a href="/shop" class="home-cat-box cat-socks" onclick="filterByCategory('socks'); event.preventDefault();">Socks</a>
+          <a href="/shop" class="home-cat-box cat-bags" onclick="filterByCategory('bags'); event.preventDefault();">Bags</a>
           <a href="/shop" class="home-cat-box cat-accessories" onclick="filterByCategory('accessories'); event.preventDefault();">Accessories</a>
         </div>
       </section>
@@ -303,6 +309,61 @@
         </div>
       </section>
 
+      <!-- Custom Order Request Section -->
+      <section class="custom-order-section">
+        <div class="custom-order-container">
+          <div class="custom-order-header">
+            <h2 class="section-heading-spaced">Custom Requests</h2>
+            <p class="custom-order-subtitle">Can't find exactly what you're looking for? Let us bring your vision to life! Fill out the form below to request a custom item quote.</p>
+          </div>
+
+          <div class="custom-order-card">
+            <form class="custom-order-form" id="customOrderForm" onsubmit="handleCustomOrderSubmit(event)">
+              <div class="custom-form-grid">
+                <div class="custom-form-group">
+                  <label for="customName">Full Name</label>
+                  <input type="text" id="customName" required placeholder="Your Name">
+                </div>
+                <div class="custom-form-group">
+                  <label for="customEmail">Email Address</label>
+                  <input type="email" id="customEmail" required placeholder="your.email@example.com">
+                </div>
+                <div class="custom-form-group">
+                  <label for="customPhone">Phone Number</label>
+                  <input type="tel" id="customPhone" required placeholder="123-456-7890">
+                </div>
+                <div class="custom-form-group">
+                  <label for="customCategory">Product Category</label>
+                  <select id="customCategory" required>
+                    <option value="" disabled selected>— Select Category —</option>
+                    <option value="jewelry">Custom Jewelry / Bracelets / Waist Chains</option>
+                    <option value="blanket">Custom Fleece Blanket</option>
+                    <option value="coasters">Custom Resin Coaster Set / Catch-all Dish</option>
+                    <option value="pajamas">Custom Loungewear / Pajamas</option>
+                    <option value="tshirts">Custom Graphic T-Shirt</option>
+                    <option value="socks">Custom Socks</option>
+                    <option value="bags">Custom Crossbody Bag / Zipper Pouch</option>
+                    <option value="other">Other / Special Request</option>
+                  </select>
+                </div>
+              </div>
+              <div class="custom-form-group full-width" style="margin-top: 1rem; margin-bottom: 1.5rem;">
+                <label for="customDesc">Describe Your Vision</label>
+                <textarea id="customDesc" rows="4" required placeholder="Provide details like colors, patterns, theme, sizing, team logo requests, or messages to include..."></textarea>
+              </div>
+              <button type="submit" class="custom-submit-btn" id="customSubmitBtn">Send Custom Request</button>
+            </form>
+
+            <div class="custom-order-success-screen" id="customOrderSuccessScreen">
+              <div class="custom-success-icon">✓</div>
+              <h2>Request Submitted!</h2>
+              <p>Thank you! We have received your custom order request and we will contact you via email or phone within 24-48 hours with a custom quote.</p>
+              <button class="reset-custom-btn" onclick="resetCustomOrderForm()">Request Another Custom Item</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Hours & Info section -->
       <section class="home-info-section">
         <div class="info-section-grid">
@@ -353,6 +414,8 @@
               <button class="side-cat-btn" data-category="tshirts" onclick="selectShopCategory('tshirts')">T-Shirts</button>
               <button class="side-cat-btn" data-category="coasters" onclick="selectShopCategory('coasters')">Coasters</button>
               <button class="side-cat-btn" data-category="pajamas" onclick="selectShopCategory('pajamas')">Pajamas</button>
+              <button class="side-cat-btn" data-category="socks" onclick="selectShopCategory('socks')">Socks</button>
+              <button class="side-cat-btn" data-category="bags" onclick="selectShopCategory('bags')">Bags</button>
               <button class="side-cat-btn" data-category="accessories" onclick="selectShopCategory('accessories')">Accessories</button>
             </div>
           </div>

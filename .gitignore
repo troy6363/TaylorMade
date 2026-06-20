@@ -3,3 +3,9 @@ node_modules/
 .vscode/
 .env
 .claude/
+
+# Ignore installer and cards
+TreeSizeFreeSetup.exe
+dist/**/TreeSizeFreeSetup.exe
+*Busines Card*
+dist/**/*Busines Card*
