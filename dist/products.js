@@ -372,7 +372,7 @@ const PRODUCTS = [
   },
   {
     "id": "p27",
-    "name": "Valentine's Day 'Kiss Me' Lips Polymer Clay Bead Bracelet",
+    "name": "'Kiss Me' Lips Polymer Clay Bead Bracelet",
     "price": 7,
     "category": "jewelry",
     "image": "assets/bracelets/kiss_me_lips_bracelet_1.webp",
@@ -380,13 +380,13 @@ const PRODUCTS = [
       "assets/bracelets/kiss_me_lips_bracelet_1.webp",
       "assets/bracelets/kiss_me_lips_bracelet_2.webp"
     ],
-    "description": "Spread the love with this handcrafted Valentine's Day themed polymer clay bead bracelet. Features vibrant pink, red, orange, and white clay disc beads, gold spacers, red accent beads, white heart beads, and a dangling pink lip charm with the message 'KISS ME'.",
+    "description": "Express yourself with this handcrafted polymer clay bead bracelet. Features vibrant pink, red, orange, and white clay disc beads, gold spacers, red accent beads, white heart beads, and a dangling pink lip charm with the message 'KISS ME'.",
     "rating": 4.8,
     "reviewsCount": 14
   },
   {
     "id": "p28",
-    "name": "Christmas Holiday Present Polymer Clay Bead Bracelet",
+    "name": "'Gift Box' Present Polymer Clay Bead Bracelet",
     "price": 7,
     "category": "jewelry",
     "image": "assets/bracelets/christmas_present_bracelet_1.webp",
@@ -394,7 +394,7 @@ const PRODUCTS = [
       "assets/bracelets/christmas_present_bracelet_1.webp",
       "assets/bracelets/christmas_present_bracelet_2.webp"
     ],
-    "description": "Celebrate the season with this festive Christmas polymer clay bead bracelet. Alternating red, pink, orange, and white clay disc beads are highlighted by gold spacers, a red fruit slice wheel, white heart bead, and a cute dangling red and white polka-dot gift box charm.",
+    "description": "Add a playful touch to your accessories with this handcrafted polymer clay bead bracelet. Features alternating red, pink, orange, and white clay disc beads highlighted by gold spacers, a red fruit slice wheel, a white heart bead, and a cute dangling red and white polka-dot gift box charm.",
     "rating": 4.7,
     "reviewsCount": 11
   },
