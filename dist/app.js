@@ -7,8 +7,7 @@ let activeView = "home";
 let currentProductDetailId = null;
 let detailsSlideshowTimer = null;
 
-// GoHighLevel Webhook URL — set via Netlify environment variable GHL_WEBHOOK_URL, dispatched server-side
-const GHL_WEBHOOK_URL = "";
+// GoHighLevel Webhook URL is set securely via Netlify environment variable GHL_WEBHOOK_URL and dispatched server-side.
 
 // Initialize app when DOM loads
 document.addEventListener("DOMContentLoaded", () => {
@@ -1214,23 +1213,6 @@ function handleCheckoutSubmit(e) {
   // Log payload to developer console for easy offline testing
   console.log("🛒 checkout submit payload (for GHL Webhook):", orderPayload);
 
-  // GoHighLevel Inbound Webhook Dispatch (one-way background webhook trigger)
-  if (GHL_WEBHOOK_URL) {
-    fetch(GHL_WEBHOOK_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(orderPayload)
-    })
-    .then(response => {
-      console.log("Successfully forwarded checkout to GoHighLevel:", response);
-    })
-    .catch(err => {
-      console.error("GHL integration dispatch error:", err);
-    });
-  }
-
   // Synchronous redirect flow via Netlify Functions
   fetch("/.netlify/functions/create-checkout", {
     method: "POST",
@@ -1348,21 +1330,16 @@ function handleCustomOrderSubmit(e) {
 
   console.log("🎨 Custom order request submitted payload:", payload);
 
-  // If GHL Webhook is configured, forward custom order request
-  const ghlPromise = (typeof GHL_WEBHOOK_URL !== "undefined" && GHL_WEBHOOK_URL)
-    ? fetch(GHL_WEBHOOK_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          type: "custom_order_request",
-          ...payload
-        })
-      })
-      .then(res => console.log("GHL custom order forward success:", res))
-      .catch(err => console.error("GHL custom order forward error:", err))
-    : Promise.resolve();
+  // Forward custom order request to GoHighLevel via Netlify function (server-side webhook dispatch)
+  const ghlPromise = fetch("/.netlify/functions/submit-custom-request", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(res => console.log("GHL custom order forward success:", res))
+  .catch(err => console.error("GHL custom order forward error:", err));
 
   // Submit to Netlify forms
   const formData = new FormData(form);
