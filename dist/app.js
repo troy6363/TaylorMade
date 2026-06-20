@@ -214,7 +214,7 @@ function renderHomeBestsellers() {
 
     item.innerHTML = `
       <div class="bestseller-img-wrap">
-        <img src="${p.image}" alt="${p.name}" class="${p.category === 'pajamas' || ['p1', 'p18'].includes(p.id) ? 'object-contain' : ''}">
+        <img src="${p.image}" alt="${p.name}" class="${p.category === 'pajamas' || ['p1', 'p18', 'p24', 'p27', 'p28', 'p30', 'p38', 'p40'].includes(p.id) ? 'object-contain' : ''}">
       </div>
       <h3 class="bestseller-title">${p.name}</h3>
       <p class="bestseller-price">$${p.price.toFixed(2)}</p>
@@ -267,7 +267,7 @@ function renderShopProducts(filterCategory = "all", query = "") {
     
     card.innerHTML = `
       <div class="catalog-img-wrap" onclick="openProductDetails('${p.id}')">
-        <img src="${p.image}" alt="${p.name}" class="catalog-img ${p.category === 'pajamas' || ['p1', 'p13', 'p14', 'p18'].includes(p.id) ? 'object-contain' : ''}">
+        <img src="${p.image}" alt="${p.name}" class="catalog-img ${p.category === 'pajamas' || ['p1', 'p13', 'p14', 'p18', 'p24', 'p27', 'p28', 'p30', 'p38', 'p40'].includes(p.id) ? 'object-contain' : ''}">
         <div class="catalog-hover-overlay">
           <button class="catalog-view-btn">View Details</button>
         </div>
