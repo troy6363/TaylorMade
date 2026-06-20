@@ -1299,14 +1299,27 @@ function handleContactSubmit(e) {
     submit.textContent = "Submitting...";
   }
 
-  setTimeout(() => {
+  const formData = new FormData(form);
+
+  fetch("/", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(formData).toString()
+  })
+  .then(res => {
+    console.log("Netlify contact form submission success:", res);
+  })
+  .catch(err => {
+    console.error("Netlify contact form submission error:", err);
+  })
+  .finally(() => {
     form.reset();
     successScreen.classList.add("active");
     if (submit) {
       submit.disabled = false;
       submit.textContent = "Submit";
     }
-  }, 1000);
+  });
 }
 
 function resetContactForm() {
@@ -1336,29 +1349,39 @@ function handleCustomOrderSubmit(e) {
   console.log("🎨 Custom order request submitted payload:", payload);
 
   // If GHL Webhook is configured, forward custom order request
-  if (typeof GHL_WEBHOOK_URL !== "undefined" && GHL_WEBHOOK_URL) {
-    fetch(GHL_WEBHOOK_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        type: "custom_order_request",
-        ...payload
+  const ghlPromise = (typeof GHL_WEBHOOK_URL !== "undefined" && GHL_WEBHOOK_URL)
+    ? fetch(GHL_WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          type: "custom_order_request",
+          ...payload
+        })
       })
-    })
-    .then(res => console.log("GHL custom order forward success:", res))
-    .catch(err => console.error("GHL custom order forward error:", err));
-  }
+      .then(res => console.log("GHL custom order forward success:", res))
+      .catch(err => console.error("GHL custom order forward error:", err))
+    : Promise.resolve();
 
-  setTimeout(() => {
+  // Submit to Netlify forms
+  const formData = new FormData(form);
+  const netlifyPromise = fetch("/", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(formData).toString()
+  })
+  .then(res => console.log("Netlify custom order submission success:", res))
+  .catch(err => console.error("Netlify custom order submission error:", err));
+
+  Promise.allSettled([ghlPromise, netlifyPromise]).then(() => {
     form.reset();
     successScreen.classList.add("active");
     if (submit) {
       submit.disabled = false;
       submit.textContent = "Send Custom Request";
     }
-  }, 1200);
+  });
 }
 
 function resetCustomOrderForm() {

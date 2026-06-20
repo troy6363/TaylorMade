@@ -9,3 +9,6 @@ TreeSizeFreeSetup.exe
 dist/**/TreeSizeFreeSetup.exe
 *Busines Card*
 dist/**/*Busines Card*
+
+# Local Netlify folder
+.netlify
