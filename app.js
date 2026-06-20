@@ -7,7 +7,8 @@ let activeView = "home";
 let currentProductDetailId = null;
 let detailsSlideshowTimer = null;
 
-// GoHighLevel Webhook URL is set securely via Netlify environment variable GHL_WEBHOOK_URL and dispatched server-side.
+// GoHighLevel Webhook URL — set via Netlify environment variable GHL_WEBHOOK_URL, dispatched server-side
+const GHL_WEBHOOK_URL = "";
 
 // Initialize app when DOM loads
 document.addEventListener("DOMContentLoaded", () => {
@@ -200,7 +201,7 @@ function renderHomeBestsellers() {
   if (!grid) return;
 
   grid.innerHTML = "";
-  
+
   // Best sellers: pick 6 representative products across all categories
   const list = PRODUCTS.filter(p => ["p1", "p6", "p9", "p18", "p21", "p23"].includes(p.id));
 
@@ -231,7 +232,7 @@ function renderShopProducts(filterCategory = "all", query = "") {
   if (!grid) return;
 
   grid.innerHTML = "";
-  
+
   let list = [...PRODUCTS];
 
   // Category filter
@@ -242,8 +243,8 @@ function renderShopProducts(filterCategory = "all", query = "") {
   // Search keyword filter
   if (query.trim() !== "") {
     const search = query.toLowerCase();
-    list = list.filter(p => 
-      p.name.toLowerCase().includes(search) || 
+    list = list.filter(p =>
+      p.name.toLowerCase().includes(search) ||
       p.description.toLowerCase().includes(search)
     );
   }
@@ -265,7 +266,7 @@ function renderShopProducts(filterCategory = "all", query = "") {
   list.forEach(p => {
     const card = document.createElement("div");
     card.className = "catalog-product-card";
-    
+
     card.innerHTML = `
       <div class="catalog-img-wrap" onclick="openProductDetails('${p.id}')">
         <img src="${p.image}" alt="${p.name}" class="catalog-img ${p.category === 'pajamas' || ['p1', 'p13', 'p14', 'p18', 'p24', 'p26', 'p27', 'p28', 'p30', 'p38', 'p40'].includes(p.id) ? 'object-contain' : ''}">
@@ -574,7 +575,7 @@ function swapDetailsImage(btn, imgSrc) {
   if (main) {
     main.src = imgSrc;
   }
-  
+
   // Highlight border
   const thumbs = document.querySelectorAll(".thumb-btn");
   thumbs.forEach(t => t.classList.remove("selected"));
@@ -793,10 +794,10 @@ function getCartShippingDetails() {
   cart.forEach(item => {
     let weight = 0.5; // default weight in lbs
     let dims = { l: 6, w: 6, h: 2 }; // default dimensions in inches
-    
+
     const cat = (item.product.category || "").toLowerCase();
     const name = (item.product.name || "").toLowerCase();
-    
+
     if (cat === "accessories") {
       if (name.includes("glass") || name.includes("plaque")) {
         weight = 1.5;
@@ -821,11 +822,11 @@ function getCartShippingDetails() {
       weight = 0.8;
       dims = { l: 10, w: 8, h: 2 };
     }
-    
+
     const qty = item.quantity;
     totalWeight += weight * qty;
     totalItems += qty;
-    
+
     // Stack heights, keep max width and length
     maxDimLength = Math.max(maxDimLength, dims.l);
     maxDimWidth = Math.max(maxDimWidth, dims.w);
@@ -846,12 +847,12 @@ function getCartShippingDetails() {
 // Calculates distance surcharge based on Customer Zip Code (Shipping origin: Memphis, TN - Zone 3)
 function getDistanceSurcharge(zip) {
   if (!zip || typeof zip !== "string") return 1.50; // default standard zone surcharge
-  
+
   const cleanZip = zip.trim();
   if (cleanZip.length === 0) return 1.50;
-  
+
   const firstDigit = cleanZip.charAt(0);
-  
+
   // Memphis, TN is in Zone 3 (zip starts with 3)
   if (firstDigit === '3') {
     // Local / Regional (TN, MS, AL, GA, FL, etc.)
@@ -866,19 +867,19 @@ function getDistanceSurcharge(zip) {
     // Very Long Distance (West Coast, Rockies, Northwest, HI, AK)
     return 4.00;
   }
-  
+
   return 1.50; // Default standard zone surcharge
 }
 
 // Calculates dynamic shipping cost for USPS, UPS, or FedEx based on weight, size, and destination zip code
 function getShippingRate(carrier) {
   if (selectedDeliveryMethod !== "shipping") return 0;
-  
+
   const pkg = getCartShippingDetails();
   const zipInput = document.getElementById("checkoutZip");
   const zipValue = zipInput ? zipInput.value : "";
   const distanceSurcharge = getDistanceSurcharge(zipValue);
-  
+
   let rate = 0;
 
   // Compute a scaling volume surcharge
@@ -920,25 +921,25 @@ function getShippingRate(carrier) {
     // FedEx Base rate: $11.99 + $2.25 per lb + scaled distance surcharge + weight/volume surcharges
     rate = 11.99 + (pkg.weight * 2.25) + (distanceSurcharge * 1.5) + weightSurcharge + volumeSurcharge;
   }
-  
+
   return parseFloat(rate.toFixed(2));
 }
 
 // Triggered dynamically as the user types/updates their Zip Code in the checkout form
 function updateShippingRatesOnZipChange() {
   if (selectedDeliveryMethod !== "shipping") return;
-  
+
   const carrierSelect = document.getElementById("checkoutCarrier");
   if (carrierSelect) {
     const uspsRate = getShippingRate("usps");
     const upsRate = getShippingRate("ups");
     const fedexRate = getShippingRate("fedex");
-    
+
     carrierSelect.options[0].textContent = `USPS (Fast & Affordable) - $${uspsRate.toFixed(2)}`;
     carrierSelect.options[1].textContent = `UPS (Reliable Ground) - $${upsRate.toFixed(2)}`;
     carrierSelect.options[2].textContent = `FedEx (Express) - $${fedexRate.toFixed(2)}`;
   }
-  
+
   // Update currently displayed shipping totals
   updateCarrierSelection(selectedCarrier);
 }
@@ -951,19 +952,19 @@ function refreshCheckoutInvoice() {
   const list = document.getElementById("checkoutInvoiceItems");
   const subDisplay = document.getElementById("checkoutSubtotal");
   const grandDisplay = document.getElementById("checkoutGrandTotal");
-  
+
   if (!list || !subDisplay) return;
-  
+
   // Load summary list
   list.innerHTML = "";
   cart.forEach((item, index) => {
     const row = document.createElement("div");
     row.className = "checkout-item-row";
     row.style.cssText = "display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; position: relative;";
-    
+
     const sizeText = item.size ? `<span style="font-size: 10px; color: var(--primary); font-weight: 600;">Size: ${item.size}</span>` : '';
     const teamText = item.team ? `<span style="font-size: 10px; color: var(--primary); font-weight: 600;">Team: ${item.team}</span>` : '';
-    
+
     row.innerHTML = `
       <img src="${item.product.image}" style="width: 48px; height: 48px; border-radius: var(--radius-md); object-fit: cover; background-color: var(--muted);">
       <div style="flex: 1; display: flex; flex-direction: column; gap: 2px;">
@@ -990,19 +991,19 @@ function refreshCheckoutInvoice() {
 
   const subtotal = getCartSubtotal();
   subDisplay.textContent = `$${subtotal.toFixed(2)}`;
-  
+
   // Calculate carrier rates dynamically and populate select options
   const carrierSelect = document.getElementById("checkoutCarrier");
   if (carrierSelect) {
     const uspsRate = getShippingRate("usps");
     const upsRate = getShippingRate("ups");
     const fedexRate = getShippingRate("fedex");
-    
+
     carrierSelect.options[0].textContent = `USPS (Fast & Affordable) - $${uspsRate.toFixed(2)}`;
     carrierSelect.options[1].textContent = `UPS (Reliable Ground) - $${upsRate.toFixed(2)}`;
     carrierSelect.options[2].textContent = `FedEx (Express) - $${fedexRate.toFixed(2)}`;
   }
-  
+
   // Re-calculate the delivery method totals
   updateDeliveryMethod(selectedDeliveryMethod);
 }
@@ -1024,7 +1025,7 @@ function removeCheckoutItem(index) {
   cart.splice(index, 1);
   saveCart();
   updateCartUI();
-  
+
   if (cart.length === 0) {
     closeModal("checkoutBackdrop");
     alert("Your cart is empty!");
@@ -1071,23 +1072,23 @@ function updateDeliveryMethod(method) {
   const pickupFields = document.getElementById("pickupFieldsGroup");
   const shippingDisplay = document.getElementById("checkoutShipping");
   const grandDisplay = document.getElementById("checkoutGrandTotal");
-  
+
   const firstInput = document.getElementById("checkoutFirst");
   const lastInput = document.getElementById("checkoutLast");
   const addressInput = document.getElementById("checkoutAddress");
   const cityInput = document.getElementById("checkoutCity");
   const stateInput = document.getElementById("checkoutState");
   const zipInput = document.getElementById("checkoutZip");
-  
+
   const pickupFirst = document.getElementById("pickupFirst");
   const pickupLast = document.getElementById("pickupLast");
-  
+
   const subtotal = getCartSubtotal();
-  
+
   if (method === "shipping") {
     if (shippingFields) shippingFields.style.display = "block";
     if (pickupFields) pickupFields.style.display = "none";
-    
+
     // Make shipping fields required
     if (firstInput) firstInput.required = true;
     if (lastInput) lastInput.required = true;
@@ -1095,18 +1096,18 @@ function updateDeliveryMethod(method) {
     if (cityInput) cityInput.required = true;
     if (stateInput) stateInput.required = true;
     if (zipInput) zipInput.required = true;
-    
+
     // Remove pickup required
     if (pickupFirst) pickupFirst.required = false;
     if (pickupLast) pickupLast.required = false;
-    
+
     const carrierRate = getShippingRate(selectedCarrier);
     if (shippingDisplay) shippingDisplay.textContent = `$${carrierRate.toFixed(2)}`;
     if (grandDisplay) grandDisplay.textContent = `$${(subtotal + carrierRate).toFixed(2)}`;
   } else {
     if (shippingFields) shippingFields.style.display = "none";
     if (pickupFields) pickupFields.style.display = "block";
-    
+
     // Remove shipping required
     if (firstInput) firstInput.required = false;
     if (lastInput) lastInput.required = false;
@@ -1114,11 +1115,11 @@ function updateDeliveryMethod(method) {
     if (cityInput) cityInput.required = false;
     if (stateInput) stateInput.required = false;
     if (zipInput) zipInput.required = false;
-    
+
     // Make pickup fields required
     if (pickupFirst) pickupFirst.required = true;
     if (pickupLast) pickupLast.required = true;
-    
+
     if (shippingDisplay) shippingDisplay.textContent = "FREE";
     if (grandDisplay) grandDisplay.textContent = `$${subtotal.toFixed(2)}`;
   }
@@ -1129,7 +1130,7 @@ function updateCarrierSelection(carrier) {
   const shippingDisplay = document.getElementById("checkoutShipping");
   const grandDisplay = document.getElementById("checkoutGrandTotal");
   const subtotal = getCartSubtotal();
-  
+
   const rate = getShippingRate(carrier);
   if (shippingDisplay) shippingDisplay.textContent = `$${rate.toFixed(2)}`;
   if (grandDisplay) grandDisplay.textContent = `$${(subtotal + rate).toFixed(2)}`;
@@ -1169,7 +1170,7 @@ function handleCheckoutSubmit(e) {
   // Populate checkout complete state
   document.getElementById("receiptOrderId").textContent = orderId;
   document.getElementById("receiptGrandTotal").textContent = `$${finalTotal.toFixed(2)}`;
-  
+
   const carrierDisplay = document.getElementById("receiptCarrier");
   if (carrierDisplay) {
     if (selectedDeliveryMethod === "shipping") {
@@ -1183,11 +1184,11 @@ function handleCheckoutSubmit(e) {
   const orderPayload = {
     orderId: orderId,
     email: document.getElementById("checkoutEmail") ? document.getElementById("checkoutEmail").value : "",
-    firstName: isPickup 
-      ? (document.getElementById("pickupFirst") ? document.getElementById("pickupFirst").value : "") 
+    firstName: isPickup
+      ? (document.getElementById("pickupFirst") ? document.getElementById("pickupFirst").value : "")
       : (document.getElementById("checkoutFirst") ? document.getElementById("checkoutFirst").value : ""),
-    lastName: isPickup 
-      ? (document.getElementById("pickupLast") ? document.getElementById("pickupLast").value : "") 
+    lastName: isPickup
+      ? (document.getElementById("pickupLast") ? document.getElementById("pickupLast").value : "")
       : (document.getElementById("checkoutLast") ? document.getElementById("checkoutLast").value : ""),
     phone: document.getElementById("checkoutPhone") ? document.getElementById("checkoutPhone").value : "",
     deliveryMethod: selectedDeliveryMethod,
@@ -1213,6 +1214,23 @@ function handleCheckoutSubmit(e) {
   // Log payload to developer console for easy offline testing
   console.log("🛒 checkout submit payload (for GHL Webhook):", orderPayload);
 
+  // GoHighLevel Inbound Webhook Dispatch (one-way background webhook trigger)
+  if (GHL_WEBHOOK_URL) {
+    fetch(GHL_WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(orderPayload)
+    })
+      .then(response => {
+        console.log("Successfully forwarded checkout to GoHighLevel:", response);
+      })
+      .catch(err => {
+        console.error("GHL integration dispatch error:", err);
+      });
+  }
+
   // Synchronous redirect flow via Netlify Functions
   fetch("/.netlify/functions/create-checkout", {
     method: "POST",
@@ -1221,43 +1239,43 @@ function handleCheckoutSubmit(e) {
     },
     body: JSON.stringify(orderPayload)
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`Netlify function returned status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (data.paymentUrl) {
-      console.log("Redirecting customer to secure payment link:", data.paymentUrl);
-      // Clean redirect immediately once Square link is generated
-      window.location.href = data.paymentUrl;
-    } else {
-      throw new Error("No paymentUrl returned from Netlify function");
-    }
-  })
-  .catch(err => {
-    console.warn("Netlify function check failed (expected in local dev/pre-deploy). Falling back to mock complete screen.", err);
-    
-    // Fallback: hide loader, show local complete modal after delay (default offline testing behavior)
-    setTimeout(() => {
-      if (loadingPane) {
-        loadingPane.classList.remove("active");
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Netlify function returned status: ${response.status}`);
       }
-      form.style.display = "none";
-      successPane.classList.add("active");
-
-      // Clear cart state
-      cart = [];
-      saveCart();
-      updateCartUI();
-
-      if (payBtn) {
-        payBtn.disabled = false;
-        payBtn.textContent = "Proceed to Payment";
+      return response.json();
+    })
+    .then(data => {
+      if (data.paymentUrl) {
+        console.log("Redirecting customer to secure payment link:", data.paymentUrl);
+        // Clean redirect immediately once Square link is generated
+        window.location.href = data.paymentUrl;
+      } else {
+        throw new Error("No paymentUrl returned from Netlify function");
       }
-    }, 1500);
-  });
+    })
+    .catch(err => {
+      console.warn("Netlify function check failed (expected in local dev/pre-deploy). Falling back to mock complete screen.", err);
+
+      // Fallback: hide loader, show local complete modal after delay (default offline testing behavior)
+      setTimeout(() => {
+        if (loadingPane) {
+          loadingPane.classList.remove("active");
+        }
+        form.style.display = "none";
+        successPane.classList.add("active");
+
+        // Clear cart state
+        cart = [];
+        saveCart();
+        updateCartUI();
+
+        if (payBtn) {
+          payBtn.disabled = false;
+          payBtn.textContent = "Proceed to Payment";
+        }
+      }, 1500);
+    });
 }
 
 function finishCheckoutFlow() {
@@ -1288,20 +1306,20 @@ function handleContactSubmit(e) {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams(formData).toString()
   })
-  .then(res => {
-    console.log("Netlify contact form submission success:", res);
-  })
-  .catch(err => {
-    console.error("Netlify contact form submission error:", err);
-  })
-  .finally(() => {
-    form.reset();
-    successScreen.classList.add("active");
-    if (submit) {
-      submit.disabled = false;
-      submit.textContent = "Submit";
-    }
-  });
+    .then(res => {
+      console.log("Netlify contact form submission success:", res);
+    })
+    .catch(err => {
+      console.error("Netlify contact form submission error:", err);
+    })
+    .finally(() => {
+      form.reset();
+      successScreen.classList.add("active");
+      if (submit) {
+        submit.disabled = false;
+        submit.textContent = "Submit";
+      }
+    });
 }
 
 function resetContactForm() {
@@ -1348,8 +1366,8 @@ function handleCustomOrderSubmit(e) {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams(formData).toString()
   })
-  .then(res => console.log("Netlify custom order submission success:", res))
-  .catch(err => console.error("Netlify custom order submission error:", err));
+    .then(res => console.log("Netlify custom order submission success:", res))
+    .catch(err => console.error("Netlify custom order submission error:", err));
 
   Promise.allSettled([ghlPromise, netlifyPromise]).then(() => {
     form.reset();
