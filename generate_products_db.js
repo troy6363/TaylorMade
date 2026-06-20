@@ -533,8 +533,7 @@ const PRODUCTS = [
     "image": "assets/accessories/pink_blue_tumbler_charm_1.webp",
     "images": [
       "assets/accessories/pink_blue_tumbler_charm_1.webp",
-      "assets/accessories/pink_blue_tumbler_charm_2.webp",
-      "assets/accessories/pink_blue_tumbler_charm_3.webp"
+      "assets/accessories/pink_blue_tumbler_charm_2.webp"
     ],
     "description": "Add a touch of sparkle to your daily hydration. This custom tumbler charm features a strong silver lobster clasp that hooks onto your tumbler's handle, dangling a row of four glittering pave rhinestone disco beads in alternating royal pink and sky blue colors.",
     "rating": 4.9,
@@ -562,7 +561,8 @@ const PRODUCTS = [
     "category": "accessories",
     "image": "assets/accessories/bronze_blue_tumbler_charm_1.webp",
     "images": [
-      "assets/accessories/bronze_blue_tumbler_charm_1.webp"
+      "assets/accessories/bronze_blue_tumbler_charm_1.webp",
+      "assets/accessories/bronze_blue_tumbler_charm_2.webp"
     ],
     "description": "Personalize your drinkware with this beautiful sparkling tumbler charm. Hand-strung with alternating bronze-orange and turquoise-blue pave rhinestone clay beads, finished with a sturdy silver clasp and a lower keyring loop.",
     "rating": 4.8,
