@@ -1,3 +1,10 @@
+function formatCategory(cat) {
+  if (!cat) return "";
+  const cleanCat = cat.trim().toLowerCase();
+  if (cleanCat === "tshirts") return "T-Shirts";
+  return cleanCat.charAt(0).toUpperCase() + cleanCat.slice(1);
+}
+
 exports.handler = async (event, context) => {
   // Only allow POST requests
   if (event.httpMethod !== 'POST') {
@@ -23,13 +30,16 @@ exports.handler = async (event, context) => {
       };
     }
 
+    const formattedCategory = formatCategory(payload.category);
+
     // Forward the custom request data to GoHighLevel
     const ghlResponse = await fetch(ghlWebhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         type: "custom_order_request",
-        ...payload
+        ...payload,
+        category: formattedCategory
       })
     });
 
