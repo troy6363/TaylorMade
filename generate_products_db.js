@@ -292,7 +292,9 @@ const PRODUCTS = [
     "image": "assets/coasters/ChatGPT Image Jun 8, 2026, 07_35_31 PM_result.webp",
     "images": [
       "assets/coasters/ChatGPT Image Jun 8, 2026, 07_35_31 PM_result.webp",
-      "assets/coasters/tn_titans_backside_result.webp"
+      "assets/coasters/tn_titans_backside_result.webp",
+      "assets/coasters/bears_cupped_hands_dish_1.webp",
+      "assets/coasters/bears_cupped_hands_dish_2.webp"
     ],
     "description": "A unique piece of sports fan décor. This glossy resin tray is hand-cast in team colors, shaped in the form of two cupped hands — with your chosen NFL team logo featured on the reverse side. Perfect as a key dish, jewelry holder, or desk organizer. Shown here in Tennessee Titans colors. ✦ Available in ALL 32 NFL teams — select your team above!",
     "rating": 5.0,
@@ -327,6 +329,258 @@ const PRODUCTS = [
     "description": "Sleep in game-day comfort with this Chicago Bears sleep set. Includes a bright orange crewneck tee with a large Bears helmet and claw graphics, paired with navy, orange, and white plaid fleece pajama pants finished with 'BEARS' lettering on the lower leg.",
     "rating": 4.8,
     "reviewsCount": 22
+  },
+  {
+    "id": "p24",
+    "name": "Multicolor Fringe Crossbody Bag",
+    "price": 10.00,
+    "category": "accessories",
+    "image": "assets/accessories/multicolor_fringe_crossbody_1.webp",
+    "images": [
+      "assets/accessories/multicolor_fringe_crossbody_1.webp",
+      "assets/accessories/multicolor_fringe_crossbody_2.webp"
+    ],
+    "description": "A beautiful handcrafted black canvas crossbody bag featuring a vibrant multicolor pink, orange, yellow, and blue fringe border. Designed with a convenient zipper pocket, detailed golden trim, and a long black cord strap.",
+    "rating": 4.8,
+    "reviewsCount": 12
+  },
+  {
+    "id": "p25",
+    "name": "Green & Gold Resin Cupped Hands Dish",
+    "price": 35.00,
+    "category": "coasters",
+    "image": "assets/coasters/green_gold_cupped_hands_1.webp",
+    "images": [
+      "assets/coasters/green_gold_cupped_hands_1.webp",
+      "assets/coasters/green_gold_cupped_hands_2.webp"
+    ],
+    "description": "A beautiful custom resin catch-all tray shaped in the form of two cupped hands. Hand-cast with a glossy marbled green and black exterior and a rich gold-pigmented interior. Perfect for holding keys, jewelry, or desk accessories.",
+    "rating": 4.9,
+    "reviewsCount": 16
+  },
+  {
+    "id": "p26",
+    "name": "San Francisco 49ers Scalloped Resin Coaster Set (4-Piece)",
+    "price": 10.00,
+    "category": "coasters",
+    "image": "assets/coasters/49ers_scalloped_coasters_1.webp",
+    "images": [
+      "assets/coasters/49ers_scalloped_coasters_1.webp",
+      "assets/coasters/49ers_scalloped_coasters_2.webp"
+    ],
+    "description": "Elevate your game day with this handcrafted 4-piece set of San Francisco 49ers coasters. Cast in glossy gold/orange resin with a rich red backing layer featuring a detailed floral pattern, finished with scalloped borders and the iconic 49ers 'SF' logo centered on each piece.",
+    "rating": 4.9,
+    "reviewsCount": 18
+  },
+  {
+    "id": "p27",
+    "name": "Valentine's Day 'Kiss Me' Lips Polymer Clay Bead Bracelet",
+    "price": 7.00,
+    "category": "jewelry",
+    "image": "assets/bracelets/kiss_me_lips_bracelet_1.webp",
+    "images": [
+      "assets/bracelets/kiss_me_lips_bracelet_1.webp",
+      "assets/bracelets/kiss_me_lips_bracelet_2.webp"
+    ],
+    "description": "Spread the love with this handcrafted Valentine's Day themed polymer clay bead bracelet. Features vibrant pink, red, orange, and white clay disc beads, gold spacers, red accent beads, white heart beads, and a dangling pink lip charm with the message 'KISS ME'.",
+    "rating": 4.8,
+    "reviewsCount": 14
+  },
+  {
+    "id": "p28",
+    "name": "Christmas Holiday Present Polymer Clay Bead Bracelet",
+    "price": 7.00,
+    "category": "jewelry",
+    "image": "assets/bracelets/christmas_present_bracelet_1.webp",
+    "images": [
+      "assets/bracelets/christmas_present_bracelet_1.webp",
+      "assets/bracelets/christmas_present_bracelet_2.webp"
+    ],
+    "description": "Celebrate the season with this festive Christmas polymer clay bead bracelet. Alternating red, pink, orange, and white clay disc beads are highlighted by gold spacers, a red fruit slice wheel, white heart bead, and a cute dangling red and white polka-dot gift box charm.",
+    "rating": 4.7,
+    "reviewsCount": 11
+  },
+  {
+    "id": "p29",
+    "name": "Breast Cancer Awareness 'Be Strong' Zipper Pouch",
+    "price": 5.00,
+    "category": "accessories",
+    "image": "assets/accessories/breast_cancer_zipper_pouch_1.webp",
+    "images": [
+      "assets/accessories/breast_cancer_zipper_pouch_1.webp",
+      "assets/accessories/breast_cancer_zipper_pouch_2.webp"
+    ],
+    "description": "Show support and carry your essentials in this breast cancer awareness themed black canvas zippered pouch. Features a vibrant print with a pink ribbon flanked by pink boxing gloves and the message 'BE STRONG AND FIGHT ON'. Perfect as a makeup bag or travel organizer.",
+    "rating": 4.9,
+    "reviewsCount": 15
+  },
+  {
+    "id": "p30",
+    "name": "Metallic Gold Scalloped Resin Coaster Set (4-Piece)",
+    "price": 10.00,
+    "category": "coasters",
+    "image": "assets/coasters/gold_scalloped_coasters_1.webp",
+    "images": [
+      "assets/coasters/gold_scalloped_coasters_1.webp",
+      "assets/coasters/gold_scalloped_coasters_2.webp"
+    ],
+    "description": "A stunning, minimalist set of 4 scalloped coasters cast in a solid shimmering metallic gold resin. Sleek, elegant, heat-resistant, and perfect for adding a touch of high-fashion glamour to any coffee table or bar setup.",
+    "rating": 4.8,
+    "reviewsCount": 13
+  },
+  {
+    "id": "p31",
+    "name": "Purple Ribbon 'Hope' Watercolor Zipper Pouch",
+    "price": 5.00,
+    "category": "accessories",
+    "image": "assets/accessories/purple_ribbon_hope_pouch_1.webp",
+    "images": [
+      "assets/accessories/purple_ribbon_hope_pouch_1.webp",
+      "assets/accessories/purple_ribbon_hope_pouch_2.webp"
+    ],
+    "description": "Raise awareness and inspire hope with this white canvas zippered cosmetic pouch. Displays a beautiful purple ribbon graphic on a soft purple watercolor splash background next to elegant 'Hope' script. Excellent for organizing makeup, pens, or daily items.",
+    "rating": 4.9,
+    "reviewsCount": 17
+  },
+  {
+    "id": "p32",
+    "name": "Purple Ribbon 'Faith Over Fear' Zipper Pouch",
+    "price": 5.00,
+    "category": "accessories",
+    "image": "assets/accessories/purple_ribbon_faith_pouch_1.webp",
+    "images": [
+      "assets/accessories/purple_ribbon_faith_pouch_1.webp",
+      "assets/accessories/purple_ribbon_faith_pouch_2.webp"
+    ],
+    "description": "Stay strong in faith with this lavender canvas zippered pouch. Features a bold purple ribbon graphic alongside the inspiring words 'FAITH over fear' set against a faded purple world map background with floating butterfly accents.",
+    "rating": 4.9,
+    "reviewsCount": 19
+  },
+  {
+    "id": "p33",
+    "name": "Breast Cancer Awareness 'Pink in October' Pajama Set",
+    "price": 35.00,
+    "category": "pajamas",
+    "image": "assets/pajamas/pink_october_pajamas_1.webp",
+    "images": [
+      "assets/pajamas/pink_october_pajamas_1.webp",
+      "assets/pajamas/pink_october_pajamas_2.webp"
+    ],
+    "description": "Support breast cancer awareness in absolute comfort with this soft two-piece pajama set. Includes a cozy black short-sleeve crewneck tee printed with 'PINK October' alongside pumpkins wearing pink ribbon decals, paired with light blue lounge pants featuring a matching black leopard and purple butterfly print with 'BREAST CANCER' text on the leg.",
+    "rating": 4.9,
+    "reviewsCount": 21
+  },
+  {
+    "id": "p34",
+    "name": "Pink Flamingo Knit Ankle Socks",
+    "price": 3.00,
+    "category": "accessories",
+    "image": "assets/clothing/flamingo_socks_1.webp",
+    "images": [
+      "assets/clothing/flamingo_socks_1.webp"
+    ],
+    "description": "Cozy, low-cut black ankle socks featuring a vibrant hot pink flamingo silhouette on the side, accented by a matching hot pink heel, toe, and ankle cuff. Soft, breathable, and perfect for daily casual wear.",
+    "rating": 4.8,
+    "reviewsCount": 9
+  },
+  {
+    "id": "p35",
+    "name": "Pac-Man Retro Arcade Knit Ankle Socks",
+    "price": 3.00,
+    "category": "accessories",
+    "image": "assets/clothing/pacman_socks_1.webp",
+    "images": [
+      "assets/clothing/pacman_socks_1.webp"
+    ],
+    "description": "Bring back the 80s with these retro Pac-Man themed black ankle socks. Knit with colorful game sprites of Pac-Man, ghosts (Blinky, Pinky, Inky, Clyde), and game dots, finished with comfortable light blue heels, toes, and ankle cuffs.",
+    "rating": 4.8,
+    "reviewsCount": 11
+  },
+  {
+    "id": "p36",
+    "name": "Custom Superhero Cartoon Crew Socks",
+    "price": 3.00,
+    "category": "accessories",
+    "image": "assets/clothing/superhero_socks_1.webp",
+    "images": [
+      "assets/clothing/superhero_socks_1.webp",
+      "assets/clothing/superhero_socks_2.webp"
+    ],
+    "description": "Stand tall with these custom-printed crew socks featuring a retro cartoon superhero in a red suit and yellow cape posing against a pink background. Fun, colorful, and comfortable for all-day wear.",
+    "rating": 4.7,
+    "reviewsCount": 8
+  },
+  {
+    "id": "p37",
+    "name": "Golden Helmet Superhero Crew Socks",
+    "price": 3.00,
+    "category": "accessories",
+    "image": "assets/clothing/gold_helmet_socks_1.webp",
+    "images": [
+      "assets/clothing/gold_helmet_socks_1.webp",
+      "assets/clothing/gold_helmet_socks_2.webp"
+    ],
+    "description": "Unleash your inner hero with these black crew socks featuring a bold comic book superhero in a blue suit, red cape, and detailed golden helmet. Sturdy, warm, and highly stylized.",
+    "rating": 4.7,
+    "reviewsCount": 6
+  },
+  {
+    "id": "p38",
+    "name": "Pink & Blue Rhinestone Clay Bead Stanley Tumbler Charm",
+    "price": 5.00,
+    "category": "accessories",
+    "image": "assets/accessories/pink_blue_tumbler_charm_1.webp",
+    "images": [
+      "assets/accessories/pink_blue_tumbler_charm_1.webp",
+      "assets/accessories/pink_blue_tumbler_charm_2.webp",
+      "assets/accessories/pink_blue_tumbler_charm_3.webp"
+    ],
+    "description": "Add a touch of sparkle to your daily hydration. This custom tumbler charm features a strong silver lobster clasp that hooks onto your tumbler's handle, dangling a row of four glittering pave rhinestone disco beads in alternating royal pink and sky blue colors.",
+    "rating": 4.9,
+    "reviewsCount": 12
+  },
+  {
+    "id": "p39",
+    "name": "Breast Cancer Awareness 'In October We Wear Pink' Pajama Set",
+    "price": 35.00,
+    "category": "pajamas",
+    "image": "assets/pajamas/october_wear_pink_pajamas_1.webp",
+    "images": [
+      "assets/pajamas/october_wear_pink_pajamas_1.webp",
+      "assets/pajamas/october_wear_pink_pajamas_2.webp",
+      "assets/pajamas/october_wear_pink_pajamas_3.webp"
+    ],
+    "description": "Sleep in comfort while supporting a great cause. This soft two-piece pajama set features a clean white t-shirt with a pink rainbow design reading 'in October we wear pink', paired with bright pink lounge pants covered in a pattern of overlapping pink ribbon silhouettes.",
+    "rating": 4.9,
+    "reviewsCount": 23
+  },
+  {
+    "id": "p40",
+    "name": "Bronze & Blue Rhinestone Clay Bead Tumbler Charm",
+    "price": 5.00,
+    "category": "accessories",
+    "image": "assets/accessories/bronze_blue_tumbler_charm_1.webp",
+    "images": [
+      "assets/accessories/bronze_blue_tumbler_charm_1.webp"
+    ],
+    "description": "Personalize your drinkware with this beautiful sparkling tumbler charm. Hand-strung with alternating bronze-orange and turquoise-blue pave rhinestone clay beads, finished with a sturdy silver clasp and a lower keyring loop.",
+    "rating": 4.8,
+    "reviewsCount": 5
+  },
+  {
+    "id": "p41",
+    "name": "Mickey Mouse Fleece Tie Blanket",
+    "price": 40.00,
+    "category": "blankets",
+    "image": "assets/blankets/mickey_mouse_blanket_1.webp",
+    "images": [
+      "assets/blankets/mickey_mouse_blanket_1.webp",
+      "assets/blankets/mickey_mouse_blanket_2.webp",
+      "assets/blankets/mickey_mouse_blanket_3.webp"
+    ],
+    "description": "Perfect for kids and Disney lovers, this cozy handmade Mickey Mouse fleece blanket features a classic repeating pattern of Mickey Mouse faces and character outlines on a vibrant red background, completed by a double-layered hand-tied red fleece fringe border.",
+    "rating": 4.9,
+    "reviewsCount": 15
   }
 ];
 
