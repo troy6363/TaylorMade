@@ -87,7 +87,7 @@ exports.handler = async (event, context) => {
         idempotency_key: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2),
         checkout_options: {
           allow_tipping: false,
-          redirect_url: `https://${event.headers.host || 'taylormade-accessories.com'}/`,
+          redirect_url: `https://${event.headers.host || 'taylormade-accessories.com'}/thanks`,
           merchant_support_email: "info@taylormade-accessories.com",
           ask_for_shipping_address: false
         },

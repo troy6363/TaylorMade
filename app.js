@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (pathname.startsWith("product-")) {
     const productId = pathname.replace("product-", "");
     openProductDetails(productId, true);
-  } else if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(pathname)) {
+  } else if (["home", "shop", "about", "contact", "terms", "privacy", "faq", "thanks"].includes(pathname)) {
     navigateToView(pathname, true);
   } else {
     navigateToView("home", true);
