@@ -75,15 +75,6 @@ exports.handler = async (event, context) => {
     }
 
     // Call Square Checkout API (v2) to generate a payment link
-    // Fire GHL webhook in the background (non-blocking)
-    const ghlWebhookUrl = (process.env.GHL_WEBHOOK_URL || '').trim();
-    if (ghlWebhookUrl) {
-      fetch(ghlWebhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).catch(err => console.error("GHL webhook dispatch error:", err.message));
-    }
 
     const squareResponse = await fetch('https://connect.squareup.com/v2/online-checkout/payment-links', {
       method: 'POST',
