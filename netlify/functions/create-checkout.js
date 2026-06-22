@@ -94,7 +94,10 @@ exports.handler = async (event, context) => {
         order: {
           location_id: locationId,
           line_items: lineItems,
-          customer_reference_id: payload.email || ""
+          customer_reference_id: payload.email || "",
+          metadata: {
+            customer_phone: formatE164(payload.phone) || ""
+          }
         },
         pre_populated_data: {
           buyer_email: payload.email,
