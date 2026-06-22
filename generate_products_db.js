@@ -105,7 +105,7 @@ const PRODUCTS = [
   {
     "id": "p8",
     "name": "Feng Shui Black Obsidian Double Pi Xiu Bracelet (Classic)",
-    "price": 7.00,
+    "price": 10.00,
     "category": "jewelry",
     "image": "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_24_17 PM_result.webp",
     "images": [
@@ -119,7 +119,7 @@ const PRODUCTS = [
   {
     "id": "p9",
     "name": "Feng Shui Black Obsidian Double Pi Xiu Bracelet (Ornate Mantra)",
-    "price": 7.00,
+    "price": 10.00,
     "category": "jewelry",
     "image": "assets/bracelets/ChatGPT Image Jun 8, 2026, 09_26_22 PM_result.webp",
     "images": [
@@ -203,7 +203,7 @@ const PRODUCTS = [
   {
     "id": "p15",
     "name": "Feng Shui Black Obsidian Single Pi Xiu Bracelet",
-    "price": 7.00,
+    "price": 10.00,
     "category": "jewelry",
     "image": "assets/bracelets/ChatGPT Image Jun 8, 2026, 10_07_44 PM_result.webp",
     "images": [
