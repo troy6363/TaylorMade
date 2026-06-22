@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (pathname.startsWith("product-")) {
     const productId = pathname.replace("product-", "");
     openProductDetails(productId, true);
-  } else if (["home", "shop", "about", "contact", "terms", "privacy", "faq"].includes(pathname)) {
+  } else if (["home", "shop", "about", "contact", "terms", "privacy", "faq", "thanks"].includes(pathname)) {
     navigateToView(pathname, true);
   } else {
     navigateToView("home", true);
@@ -109,6 +109,10 @@ function navigateToView(viewId, replace = false, productId = null) {
     targetView.classList.add("active");
   }
 
+  if (viewId === "thanks") {
+    renderThanksRecap();
+  }
+
   // Update URL path
   let path = '/';
   if (viewId === 'product-detail' && productId) {
@@ -146,6 +150,91 @@ function navigateToView(viewId, replace = false, productId = null) {
 
   // Close mobile navigation drawer if open
   closeMobileNav();
+}
+
+function renderThanksRecap() {
+  const recapContainer = document.getElementById("thanksOrderRecap");
+  if (!recapContainer) return;
+
+  // Try to read from localStorage (first landing)
+  let orderDataStr = localStorage.getItem("taylor_made_pending_order");
+  let fromPending = true;
+
+  // Fall back to sessionStorage if they refreshed the page
+  if (!orderDataStr) {
+    orderDataStr = sessionStorage.getItem("taylor_made_last_order");
+    fromPending = false;
+  }
+
+  if (!orderDataStr) {
+    recapContainer.style.display = "none";
+    return;
+  }
+
+  try {
+    const order = JSON.parse(orderDataStr);
+    
+    // Save to sessionStorage for persistency across refreshes
+    if (fromPending) {
+      sessionStorage.setItem("taylor_made_last_order", orderDataStr);
+      // Clear cart & pending order from localStorage immediately
+      localStorage.removeItem("taylor_made_pending_order");
+      cart = [];
+      saveCart();
+      updateCartUI();
+    }
+
+    // Build the recap HTML
+    let itemsHtml = "";
+    order.items.forEach(item => {
+      itemsHtml += `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px dashed var(--border); font-size: 13px;">
+          <div>
+            <span style="font-weight: 700; color: var(--foreground);">${item.name}</span>
+            ${item.size ? `<span style="font-size: 10px; color: var(--primary); font-weight: 600; margin-left: 0.5rem;">Size: ${item.size}</span>` : ""}
+          </div>
+          <span style="font-weight: 500; color: var(--muted-foreground);">Qty: ${item.quantity} &nbsp;&bull;&nbsp; $${(item.price * item.quantity).toFixed(2)}</span>
+        </div>
+      `;
+    });
+
+    const isPickup = order.deliveryMethod === "pickup";
+    const deliveryLabel = isPickup ? "Local Pickup (Memphis, TN)" : `Shipping (${order.shippingCarrier})`;
+
+    recapContainer.innerHTML = `
+      <h3 style="font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; margin-top: 0; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; color: var(--primary);">Order Details</h3>
+      <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 0.75rem;">
+        <span style="color: var(--muted-foreground); font-weight: 500;">Order Reference:</span>
+        <strong style="color: var(--foreground); font-weight: 700;">${order.orderId}</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 0.75rem;">
+        <span style="color: var(--muted-foreground); font-weight: 500;">Delivery Method:</span>
+        <span style="color: var(--foreground); font-weight: 600;">${deliveryLabel}</span>
+      </div>
+      
+      <div style="margin: 1rem 0; border-top: 1px solid var(--border); padding-top: 0.5rem;">
+        ${itemsHtml}
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 0.5rem; margin-top: 1rem;">
+        <span style="color: var(--muted-foreground); font-weight: 500;">Subtotal:</span>
+        <span style="color: var(--foreground); font-weight: 600;">$${order.subtotal.toFixed(2)}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 0.5rem;">
+        <span style="color: var(--muted-foreground); font-weight: 500;">Shipping Cost:</span>
+        <span style="color: var(--foreground); font-weight: 600;">${order.shippingCost > 0 ? `$${order.shippingCost.toFixed(2)}` : "FREE"}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.75rem; color: var(--foreground);">
+        <span>Total Paid:</span>
+        <span style="color: var(--primary);">$${order.grandTotal.toFixed(2)}</span>
+      </div>
+    `;
+
+    recapContainer.style.display = "block";
+  } catch (e) {
+    console.error("Failed to render thanks order recap", e);
+    recapContainer.style.display = "none";
+  }
 }
 
 function setupNavigation() {
@@ -875,6 +964,10 @@ function getDistanceSurcharge(zip) {
 function getShippingRate(carrier) {
   if (selectedDeliveryMethod !== "shipping") return 0;
 
+  // If the cart only contains the test item, shipping is free ($0.00)
+  const isTestOnly = cart.length > 0 && cart.every(item => item.product.id === "ptest");
+  if (isTestOnly) return 0;
+
   const pkg = getCartShippingDetails();
   const zipInput = document.getElementById("checkoutZip");
   const zipValue = zipInput ? zipInput.value : "";
@@ -1248,6 +1341,8 @@ function handleCheckoutSubmit(e) {
     .then(data => {
       if (data.paymentUrl) {
         console.log("Redirecting customer to secure payment link:", data.paymentUrl);
+        // Save pending order details in localStorage so we can display the recap on /thanks
+        localStorage.setItem("taylor_made_pending_order", JSON.stringify(orderPayload));
         // Clean redirect immediately once Square link is generated
         window.location.href = data.paymentUrl;
       } else {
@@ -1257,18 +1352,19 @@ function handleCheckoutSubmit(e) {
     .catch(err => {
       console.warn("Netlify function check failed (expected in local dev/pre-deploy). Falling back to mock complete screen.", err);
 
-      // Fallback: hide loader, show local complete modal after delay (default offline testing behavior)
+      // Fallback: hide loader, show local complete page after delay (simulating successful redirect)
       setTimeout(() => {
         if (loadingPane) {
           loadingPane.classList.remove("active");
         }
-        form.style.display = "none";
-        successPane.classList.add("active");
+        // Save pending order details in localStorage so we can display the recap on /thanks
+        localStorage.setItem("taylor_made_pending_order", JSON.stringify(orderPayload));
+        
+        // Close modal
+        closeModal("checkoutBackdrop");
 
-        // Clear cart state
-        cart = [];
-        saveCart();
-        updateCartUI();
+        // Navigate to thanks view
+        navigateToView("thanks");
 
         if (payBtn) {
           payBtn.disabled = false;
