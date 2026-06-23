@@ -964,10 +964,6 @@ function getDistanceSurcharge(zip) {
 function getShippingRate(carrier) {
   if (selectedDeliveryMethod !== "shipping") return 0;
 
-  // If the cart only contains the test item, shipping is free ($0.00)
-  const isTestOnly = cart.length > 0 && cart.every(item => item.product.id === "ptest");
-  if (isTestOnly) return 0;
-
   const pkg = getCartShippingDetails();
   const zipInput = document.getElementById("checkoutZip");
   const zipValue = zipInput ? zipInput.value : "";

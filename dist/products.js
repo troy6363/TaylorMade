@@ -1,18 +1,5 @@
 const PRODUCTS = [
   {
-    "id": "ptest",
-    "name": "Zapier Test Item",
-    "price": 1.00,
-    "category": "accessories",
-    "image": "assets/accessories/pink_blue_tumbler_charm_1.webp",
-    "images": [
-      "assets/accessories/pink_blue_tumbler_charm_1.webp"
-    ],
-    "description": "A temporary $1.00 item used for testing webhooks and automations. It will be removed after testing.",
-    "rating": 5.0,
-    "reviewsCount": 1
-  },
-  {
     "id": "p1",
     "name": "Juneteenth Beaded Crossbody",
     "price": 10,
