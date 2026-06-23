@@ -107,7 +107,8 @@ exports.handler = async (event, context) => {
             locality: payload.shippingAddress?.city || "",
             administrative_district_level_1: payload.shippingAddress?.state || "",
             postal_code: payload.shippingAddress?.zip || "",
-            country: "US"
+            country: "US",
+            phone_number: formatE164(payload.phone) || ""
           }
         }
       })
