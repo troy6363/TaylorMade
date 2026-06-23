@@ -95,6 +95,7 @@ exports.handler = async (event, context) => {
           location_id: locationId,
           line_items: lineItems,
           customer_reference_id: payload.email || "",
+          reference_id: formatE164(payload.phone) || "",
           metadata: {
             customer_phone: formatE164(payload.phone) || ""
           }
