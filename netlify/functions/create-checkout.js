@@ -16,17 +16,17 @@ function formatE164(phone) {
 exports.handler = async (event, context) => {
   // Only allow POST requests
   if (event.httpMethod !== 'POST') {
-    return { 
-      statusCode: 405, 
+    return {
+      statusCode: 405,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ error: 'Method Not Allowed' }) 
+      body: JSON.stringify({ error: 'Method Not Allowed' })
     };
   }
 
   try {
     const payload = JSON.parse(event.body);
     const accessToken = (process.env.SQUARE_ACCESS_TOKEN || '').trim();
-    
+
     // Read strictly from environment variable to satisfy Netlify scanner
     const locationId = (process.env.SQUARE_LOCATION_ID || '').trim();
 
@@ -46,10 +46,10 @@ exports.handler = async (event, context) => {
       // Apply $20 surcharge for 2XL and 3XL sizes on any clothing item
       const sizeUpper = (item.size || '').toUpperCase();
       const surcharge = (sizeUpper === '2XL' || sizeUpper === '3XL') ? 2000 : 0; // Square uses cents
-      
+
       const basePriceInCents = Math.round(Number(item.price) * 100);
       const unitPriceInCents = basePriceInCents + surcharge;
-      
+
       const itemName = item.name + (item.size ? ` (${item.size})` : '') + (item.team ? ` - ${item.team}` : '');
 
       return {
@@ -138,9 +138,9 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        error: "Failed to generate Square checkout link", 
-        details: error.message 
+      body: JSON.stringify({
+        error: "Failed to generate Square checkout link",
+        details: error.message
       })
     };
   }
