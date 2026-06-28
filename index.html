@@ -317,13 +317,14 @@
             <div class="iphone-notch"></div>
             <!-- YouTube short embed (no autoplay, lazy loaded for performance) -->
             <div class="video-wrapper">
-              <!-- Native Video Player (no captions by default, supports perfect rounded corners) -->
-              <video 
-                src="TaylorMade_Promo.mp4" 
-                controls
-                playsinline
-                preload="metadata">
-              </video>
+              <!-- YouTube short embed (cc_load_policy=3 to turn off captions by default) -->
+              <iframe 
+                src="https://www.youtube.com/embed/_zM6RqEdoOo?cc_load_policy=3&rel=0&iv_load_policy=3" 
+                title="Promo Video" 
+                loading="lazy"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
             </div>
           </div>
         </div>

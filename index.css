@@ -2704,22 +2704,22 @@ img {
 
 .iphone-notch {
   position: absolute;
-  top: 0;
+  top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  width: 120px;
-  height: 24px;
-  background-color: #1f1f1f;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  width: 76px;
+  height: 18px;
+  background-color: #1a1a1a;
+  border-radius: 10px;
   z-index: 10;
+  pointer-events: none;
 }
 
 .video-wrapper {
-  width: 279px;
-  height: calc(100% - 64px);
-  margin: 32px auto 0;
-  border-radius: 24px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 36px;
   overflow: hidden;
   position: relative;
   z-index: 1;
@@ -2728,14 +2728,13 @@ img {
   transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  /* Safari specific fix for iframe/video overflow hidden */
+  /* Safari specific fix for iframe overflow hidden */
   -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
-.iphone-mockup video {
+.iphone-mockup iframe {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   border: none;
 }
 
