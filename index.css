@@ -2717,7 +2717,8 @@ img {
 
 .iphone-mockup iframe {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 64px);
+  margin-top: 32px;
   border: none;
 }
 
