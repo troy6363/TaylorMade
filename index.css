@@ -2664,6 +2664,63 @@ img {
     text-shadow: 0 1px 2px rgba(124, 46, 189, 0.35);
   }
 }
+/* ==========================================================================
+   PROMO VIDEO SECTION
+   ========================================================================== */
+
+.promo-video-section {
+  padding: 4rem 1.5rem 0;
+  max-width: var(--layout-width);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.iphone-mockup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.iphone-mockup {
+  position: relative;
+  width: 315px;
+  height: 560px;
+  border-radius: 36px;
+  box-shadow: 0 0 0 12px #1f1f1f, 0 0 0 14px #333, 0 20px 40px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  background-color: #000;
+  margin-bottom: 2rem;
+  transform: scale(0.95);
+  transition: transform var(--transition-smooth);
+}
+
+.iphone-mockup:hover {
+  transform: scale(1);
+}
+
+.iphone-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 24px;
+  background-color: #1f1f1f;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  z-index: 10;
+}
+
+.iphone-mockup iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 
 /* Customer Reviews styling */
 .home-reviews-section {
