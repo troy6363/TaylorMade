@@ -2469,6 +2469,11 @@ img {
   animation: smartweb-pulse 2.4s ease-in-out infinite;
 }
 
+.footer-brand-credit:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
 @keyframes smartweb-pulse {
 
   0%,
