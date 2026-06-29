@@ -6,6 +6,7 @@ let activeCategory = "all";
 let activeView = "home";
 let currentProductDetailId = null;
 let detailsSlideshowTimer = null;
+let selectedPaymentMethod = "card";
 
 // GoHighLevel Webhook URL — set via Netlify environment variable GHL_WEBHOOK_URL, dispatched server-side
 const GHL_WEBHOOK_URL = "";
@@ -200,6 +201,19 @@ function renderThanksRecap() {
 
     const isPickup = order.deliveryMethod === "pickup";
     const deliveryLabel = isPickup ? "Local Pickup (Memphis, TN)" : `Shipping (${order.shippingCarrier})`;
+    const isCash = order.paymentMethod === "cash";
+    const totalLabel = isCash ? "Total (Pay on Pickup):" : "Total Paid:";
+
+    // Dynamically update headings for cash vs card
+    const thanksSub = document.getElementById("thanksSubheading");
+    const thanksMsg = document.getElementById("thanksMessage");
+    if (isCash) {
+      if (thanksSub) thanksSub.textContent = "Your cash order has been submitted!";
+      if (thanksMsg) thanksMsg.textContent = "Thank you! We have received your cash order details. Please prepare cash for payment when you pick up your items. We'll contact you as soon as they are ready!";
+    } else {
+      if (thanksSub) thanksSub.textContent = "Your order was placed successfully";
+      if (thanksMsg) thanksMsg.textContent = "We have received your payment and order details. A confirmation email and text message have been sent to you. We'll start processing your order right away!";
+    }
 
     recapContainer.innerHTML = `
       <h3 style="font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; margin-top: 0; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; color: var(--primary);">Order Details</h3>
@@ -225,7 +239,7 @@ function renderThanksRecap() {
         <span style="color: var(--foreground); font-weight: 600;">${order.shippingCost > 0 ? `$${order.shippingCost.toFixed(2)}` : "FREE"}</span>
       </div>
       <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.75rem; color: var(--foreground);">
-        <span>Total Paid:</span>
+        <span>${totalLabel}</span>
         <span style="color: var(--primary);">$${order.grandTotal.toFixed(2)}</span>
       </div>
     `;
@@ -1137,6 +1151,7 @@ function openCheckoutModal() {
   // Reset default selection states
   selectedDeliveryMethod = "shipping";
   selectedCarrier = "usps";
+  selectedPaymentMethod = "card";
 
   const carrierSelect = document.getElementById("checkoutCarrier");
   if (carrierSelect) {
@@ -1147,6 +1162,18 @@ function openCheckoutModal() {
   if (shippingRadio) {
     shippingRadio.checked = true;
   }
+
+  const cardRadio = document.querySelector('input[name="paymentMethod"][value="card"]');
+  if (cardRadio) {
+    cardRadio.checked = true;
+  }
+
+  const paymentGroup = document.getElementById("paymentMethodGroup");
+  if (paymentGroup) {
+    paymentGroup.style.display = "none";
+  }
+
+  updatePaymentMethod("card");
 
   // Load summary list and calculate initial totals
   refreshCheckoutInvoice();
@@ -1190,6 +1217,18 @@ function updateDeliveryMethod(method) {
     if (pickupFirst) pickupFirst.required = false;
     if (pickupLast) pickupLast.required = false;
 
+    // Reset payment selection back to card
+    selectedPaymentMethod = "card";
+    const cardRadio = document.querySelector('input[name="paymentMethod"][value="card"]');
+    if (cardRadio) {
+      cardRadio.checked = true;
+    }
+    const paymentGroup = document.getElementById("paymentMethodGroup");
+    if (paymentGroup) {
+      paymentGroup.style.display = "none";
+    }
+    updatePaymentMethod("card");
+
     const carrierRate = getShippingRate(selectedCarrier);
     if (shippingDisplay) shippingDisplay.textContent = `$${carrierRate.toFixed(2)}`;
     if (grandDisplay) grandDisplay.textContent = `$${(subtotal + carrierRate).toFixed(2)}`;
@@ -1209,6 +1248,12 @@ function updateDeliveryMethod(method) {
     if (pickupFirst) pickupFirst.required = true;
     if (pickupLast) pickupLast.required = true;
 
+    // Show payment toggles
+    const paymentGroup = document.getElementById("paymentMethodGroup");
+    if (paymentGroup) {
+      paymentGroup.style.display = "block";
+    }
+
     if (shippingDisplay) shippingDisplay.textContent = "FREE";
     if (grandDisplay) grandDisplay.textContent = `$${subtotal.toFixed(2)}`;
   }
@@ -1223,6 +1268,18 @@ function updateCarrierSelection(carrier) {
   const rate = getShippingRate(carrier);
   if (shippingDisplay) shippingDisplay.textContent = `$${rate.toFixed(2)}`;
   if (grandDisplay) grandDisplay.textContent = `$${(subtotal + rate).toFixed(2)}`;
+}
+
+function updatePaymentMethod(method) {
+  selectedPaymentMethod = method;
+  const payBtn = document.getElementById("payNowBtn");
+  if (payBtn) {
+    if (method === "cash") {
+      payBtn.textContent = "Place Order (Pay with Cash)";
+    } else {
+      payBtn.textContent = "Proceed to Payment";
+    }
+  }
 }
 
 function closeModal(modalId) {
@@ -1243,11 +1300,24 @@ function handleCheckoutSubmit(e) {
 
   if (payBtn) {
     payBtn.disabled = true;
-    payBtn.textContent = "Redirecting to secure payment...";
+    if (selectedPaymentMethod === "cash") {
+      payBtn.textContent = "Submitting Order...";
+    } else {
+      payBtn.textContent = "Redirecting to secure payment...";
+    }
   }
 
   // Show the loader overlay
   if (loadingPane) {
+    const spinnerTitle = loadingPane.querySelector("h2");
+    const spinnerDesc = loadingPane.querySelector("p");
+    if (selectedPaymentMethod === "cash") {
+      if (spinnerTitle) spinnerTitle.textContent = "Submitting Order";
+      if (spinnerDesc) spinnerDesc.textContent = "Please wait while we register your cash order details.";
+    } else {
+      if (spinnerTitle) spinnerTitle.textContent = "Preparing Secure Checkout";
+      if (spinnerDesc) spinnerDesc.textContent = "Please wait while we set up your Square checkout session. You will be redirected to the secure payment page shortly.";
+    }
     loadingPane.classList.add("active");
   }
 
@@ -1285,6 +1355,7 @@ function handleCheckoutSubmit(e) {
     shippingCost: shippingCost,
     subtotal: subtotal,
     grandTotal: finalTotal,
+    paymentMethod: selectedPaymentMethod,
     shippingAddress: isPickup ? {} : {
       address: document.getElementById("checkoutAddress") ? document.getElementById("checkoutAddress").value : "",
       city: document.getElementById("checkoutCity") ? document.getElementById("checkoutCity").value : "",
@@ -1320,54 +1391,109 @@ function handleCheckoutSubmit(e) {
       });
   }
 
-  // Synchronous redirect flow via Netlify Functions
-  fetch("/.netlify/functions/create-checkout", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(orderPayload)
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Netlify function returned status: ${response.status}`);
-      }
-      return response.json();
+  if (selectedPaymentMethod === "cash") {
+    // Submit to Netlify forms
+    const netlifyFormData = new URLSearchParams();
+    netlifyFormData.append("form-name", "cash-order");
+    netlifyFormData.append("orderId", orderPayload.orderId);
+    netlifyFormData.append("email", orderPayload.email);
+    netlifyFormData.append("phone", orderPayload.phone);
+    netlifyFormData.append("firstName", orderPayload.firstName);
+    netlifyFormData.append("lastName", orderPayload.lastName);
+    netlifyFormData.append("deliveryMethod", orderPayload.deliveryMethod);
+    netlifyFormData.append("shippingCarrier", orderPayload.shippingCarrier);
+    netlifyFormData.append("shippingCost", `$${orderPayload.shippingCost.toFixed(2)}`);
+    netlifyFormData.append("subtotal", `$${orderPayload.subtotal.toFixed(2)}`);
+    netlifyFormData.append("grandTotal", `$${orderPayload.grandTotal.toFixed(2)}`);
+    netlifyFormData.append("address", "N/A (Local Pickup)");
+    netlifyFormData.append("city", "");
+    netlifyFormData.append("state", "");
+    netlifyFormData.append("zip", "");
+
+    const itemsString = orderPayload.items.map(item => `${item.name} (Qty: ${item.quantity}${item.size ? `, Size: ${item.size}` : ''}) - $${(item.price * item.quantity).toFixed(2)}`).join("; ");
+    netlifyFormData.append("items", itemsString);
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: netlifyFormData.toString()
     })
-    .then(data => {
-      if (data.paymentUrl) {
-        console.log("Redirecting customer to secure payment link:", data.paymentUrl);
+      .then(res => {
+        console.log("Netlify cash order form submission success:", res);
+      })
+      .catch(err => {
+        console.error("Netlify cash order form submission error:", err);
+      })
+      .finally(() => {
         // Save pending order details in localStorage so we can display the recap on /thanks
         localStorage.setItem("taylor_made_pending_order", JSON.stringify(orderPayload));
-        // Clean redirect immediately once Square link is generated
-        window.location.href = data.paymentUrl;
-      } else {
-        throw new Error("No paymentUrl returned from Netlify function");
-      }
+
+        setTimeout(() => {
+          if (loadingPane) {
+            loadingPane.classList.remove("active");
+          }
+          // Close modal
+          closeModal("checkoutBackdrop");
+
+          // Navigate to thanks view
+          navigateToView("thanks");
+
+          if (payBtn) {
+            payBtn.disabled = false;
+            payBtn.textContent = "Place Order (Pay with Cash)";
+          }
+        }, 1500);
+      });
+  } else {
+    // Synchronous redirect flow via Netlify Functions
+    fetch("/.netlify/functions/create-checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(orderPayload)
     })
-    .catch(err => {
-      console.warn("Netlify function check failed (expected in local dev/pre-deploy). Falling back to mock complete screen.", err);
-
-      // Fallback: hide loader, show local complete page after delay (simulating successful redirect)
-      setTimeout(() => {
-        if (loadingPane) {
-          loadingPane.classList.remove("active");
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Netlify function returned status: ${response.status}`);
         }
-        // Save pending order details in localStorage so we can display the recap on /thanks
-        localStorage.setItem("taylor_made_pending_order", JSON.stringify(orderPayload));
-        
-        // Close modal
-        closeModal("checkoutBackdrop");
-
-        // Navigate to thanks view
-        navigateToView("thanks");
-
-        if (payBtn) {
-          payBtn.disabled = false;
-          payBtn.textContent = "Proceed to Payment";
+        return response.json();
+      })
+      .then(data => {
+        if (data.paymentUrl) {
+          console.log("Redirecting customer to secure payment link:", data.paymentUrl);
+          // Save pending order details in localStorage so we can display the recap on /thanks
+          localStorage.setItem("taylor_made_pending_order", JSON.stringify(orderPayload));
+          // Clean redirect immediately once Square link is generated
+          window.location.href = data.paymentUrl;
+        } else {
+          throw new Error("No paymentUrl returned from Netlify function");
         }
-      }, 1500);
-    });
+      })
+      .catch(err => {
+        console.warn("Netlify function check failed (expected in local dev/pre-deploy). Falling back to mock complete screen.", err);
+
+        // Fallback: hide loader, show local complete page after delay (simulating successful redirect)
+        setTimeout(() => {
+          if (loadingPane) {
+            loadingPane.classList.remove("active");
+          }
+          // Save pending order details in localStorage so we can display the recap on /thanks
+          localStorage.setItem("taylor_made_pending_order", JSON.stringify(orderPayload));
+          
+          // Close modal
+          closeModal("checkoutBackdrop");
+
+          // Navigate to thanks view
+          navigateToView("thanks");
+
+          if (payBtn) {
+            payBtn.disabled = false;
+            payBtn.textContent = "Proceed to Payment";
+          }
+        }, 1500);
+      });
+  }
 }
 
 function finishCheckoutFlow() {
